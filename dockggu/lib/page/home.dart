@@ -1,3 +1,4 @@
+import 'package:dockggu/component/category_widget.dart';
 import 'package:dockggu/component/group_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -132,24 +133,7 @@ class _HomeState extends State<Home> {
             spacing: 8, // 좌우 간격
             runSpacing: 10, // 상하 간격
             children: List.generate(items.length, (index) {
-              return Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Color(0xffCBC6C6))),
-                height: 30,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        items[index],
-                        style: TextStyle(fontSize: 15, height: 1.0),
-                      ),
-                    ],
-                  ),
-                ), // 각 아이템에 다른 텍스트 설정
-              );
+              return CategoryWidget(categoryName: items[index]);
             }),
           ),
         ],
