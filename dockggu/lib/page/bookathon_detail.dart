@@ -1,3 +1,4 @@
+import 'package:dockggu/page/group_home.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -66,19 +67,8 @@ class BookathonDetail extends StatelessWidget {
                   ]),
               Expanded(
                   child: TabBarView(children: [
-                Container(
-                  width: 10,
-                  color: Color(0xffFFFFFF),
-                  child: Center(
-                    child: Text(
-                      'Box',
-                      style: TextStyle(
-                          color: Color(0xff000000),
-                          fontSize: 56,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
+                    // 모임 홈 자리
+                GroupHome(),
                 ListView.separated(
                   key: PageStorageKey('PageStorage'),
                   itemCount: 3,

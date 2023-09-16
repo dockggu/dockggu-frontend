@@ -1,3 +1,4 @@
+import 'package:dockggu/page/login_main.dart';
 import 'package:dockggu/page/tabview.dart';
 import 'package:dockggu/page/test.dart';
 import 'package:dockggu/page/test2.dart';
@@ -14,7 +15,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: TabView()
+      home: LoginMain()
     );
   }
 }
