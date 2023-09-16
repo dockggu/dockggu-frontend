@@ -1,3 +1,4 @@
+import 'package:dockggu/component/group_widget.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -32,66 +33,73 @@ class _HomeState extends State<Home> {
   ];
 
   Widget _banner() {
-    return Container(
-      color: const Color(0xffFFF5DA),
-      height: 110,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(
-            width: 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        const SizedBox(
+          height: 70,
+        ),
+        Container(
+          color: const Color(0xffFFF5DA),
+          height: 110,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 20,
+                width: 20,
               ),
-              const Text(
-                '이닛 님의 취향에 맞는 책 추천해드려요',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text("AI 기반으로 찾아드려요"),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    width: 170,
+                    height: 20,
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: 110,
-                    height: 30,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xffFFD66C)),
-                    child: const Text(
-                      '책 추천 받기 >',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  const Text(
+                    '이닛 님의 취향에 맞는 책 추천해드려요',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text("AI 기반으로 찾아드려요"),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 170,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: 110,
+                        height: 30,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xffFFD66C)),
+                        child: const Text(
+                          '책 추천 받기 >',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
+              ),
+              const SizedBox(
+                width: 25,
+              ),
+              const Text(
+                '📚',
+                style: TextStyle(fontSize: 45),
               )
             ],
           ),
-          const SizedBox(
-            width: 25,
-          ),
-          const Text(
-            '📚',
-            style: TextStyle(fontSize: 45),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Widget _bookathon_title() {
+  Widget _bookathonTitle() {
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
       child: Column(
@@ -109,7 +117,10 @@ class _HomeState extends State<Home> {
               SizedBox(
                 width: 10,
               ),
-              Text('완독을 목표로 함께 달려봐요'),
+              Text(
+                '완독을 목표로 함께 달려봐요',
+                style: TextStyle(color: Colors.black, fontSize: 12),
+              ),
             ],
           ),
           const SizedBox(
@@ -128,9 +139,14 @@ class _HomeState extends State<Home> {
                 height: 30,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    items[index],
-                    style: TextStyle(fontSize: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        items[index],
+                        style: TextStyle(fontSize: 15, height: 1.0),
+                      ),
+                    ],
                   ),
                 ), // 각 아이템에 다른 텍스트 설정
               );
@@ -141,17 +157,42 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget _groupList() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 15,
+        ),
+        ...List.generate(4, (index) => GroupList())
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        const SizedBox(
-          height: 70,
+        body: Stack(children: [
+      SingleChildScrollView(
+        child: Column(
+          children: [_banner(), _bookathonTitle(), _groupList()],
         ),
-        _banner(),
-        _bookathon_title(),
-      ],
-    ));
+      ),
+      Positioned(
+        bottom: 20,
+        right: 20,
+        child: Container(
+          alignment: Alignment.center,
+          decoration:
+              BoxDecoration(color: Color(0xffFFD66C), shape: BoxShape.circle),
+          width: 45,
+          height: 45,
+          child: Text(
+            '+',
+            style: TextStyle(
+                color: Colors.white,  fontSize: 25),
+          ),
+        ),
+      )
+    ]));
   }
 }

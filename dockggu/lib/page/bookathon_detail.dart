@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'home.dart';
+
 void main() {
   runApp(BookathonDetail());
 }
@@ -44,7 +46,10 @@ class BookathonDetail extends StatelessWidget {
                 color: Color(0xff000000),
                 size: 16.0,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => Home()));
+              },
             ),
             title: Align(
               alignment: Alignment(-1.2, 0),
