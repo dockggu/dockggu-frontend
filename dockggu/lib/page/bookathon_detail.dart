@@ -13,28 +13,6 @@ class BookathonDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget ProgressBar() {
-      double percent = 0.8;
-      return Column(
-        children: [
-          Container(
-            alignment: FractionalOffset(percent, 1 - percent),
-            child: FractionallySizedBox(
-                child: SvgPicture.asset('assets/google_login.svg',
-                    width: 30, height: 30, fit: BoxFit.cover)),
-          ),
-          LinearPercentIndicator(
-            padding: EdgeInsets.zero,
-            percent: percent,
-            lineHeight: 10,
-            backgroundColor: Colors.black38,
-            progressColor: Colors.indigo.shade900,
-            width: MediaQuery.of(context).size.width,
-          )
-        ],
-      );
-    }
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -106,13 +84,102 @@ class BookathonDetail extends StatelessWidget {
                   itemCount: 3,
                   itemBuilder: (BuildContext ctx, int idx) {
                     if (idx == 0) return HeaderTile();
-                    return Container(
-                        child: ProgressBar()
-                        );
+                    double percent = 0.4;
+                    return Column(
+                      children: [
+                        Container(
+                          height: 150,
+                          child: Row(
+                            children: [
+                              Container(
+                                child: Image.asset('assets/book.png'),
+                                width: MediaQuery.of(context).size.width * 0.3,
+                              ),
+                              Container(
+                                padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      child: FractionallySizedBox(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              '명탐정 코난',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Color(0xff000000),
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Image.asset(
+                                                'assets/profile_image.png',
+                                                width: 50,
+                                                height: 50,
+                                                fit: BoxFit.cover),
+                                          ],
+                                        ),
+                                      ),
+                                      alignment:
+                                          FractionalOffset(percent, 1 - percent),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      child: LinearPercentIndicator(
+                                        padding: EdgeInsets.zero,
+                                        percent: percent,
+                                        lineHeight: 10,
+                                        backgroundColor: Color(0xffBBBBBB),
+                                        progressColor: Color(0xffFFC100),
+                                        barRadius: Radius.circular(5),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.55,
+                              ),
+                              Container(
+                                height: 150,
+                                padding: EdgeInsets.fromLTRB(0, 98, 10, 0),
+                                child: Text(
+                                  '90%',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0xff000000),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.15,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 5),
+                          child: Container(
+                            alignment: FractionalOffset(0, 0),
+                            child: Text('눈에 갇힌 외딴 산장에서',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                            ),
+                            ),
+                        ),
+                      ],
+                    );
                   },
                   separatorBuilder: (BuildContext ctx, int idx) {
                     if (idx == 0) return Divider(color: Colors.transparent);
-                    return Divider();
+                    return Divider(
+                      color: Color(0xffFFD66C),
+                      indent: 20,
+                      endIndent: 20,
+                    );
                   },
                 )
               ]))
@@ -126,12 +193,12 @@ class HeaderTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(30, 10, 0, 0),
       child: Container(
         child: Text(
           '다함께 완독해요! 📖',
           style: TextStyle(
-            fontSize: 26,
+            fontSize: 24,
             color: Color(0xff000000),
             fontWeight: FontWeight.bold,
           ),
