@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'bookathon_detail.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'bookathon_detail.dart';
 
 void main() {
   runApp(TabView());
@@ -78,8 +78,86 @@ class _TabViewState extends State<TabView> {
                 ),
                 ListView.builder(
                     key: PageStorageKey('PageStorage'),
-                    itemCount: 1,
-                    itemBuilder: (context, index) {
+                    itemCount: 2,
+                    itemBuilder: (context, idx) {
+                      if (idx == 1) return Container(
+                          margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 16),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                            Text(
+                                              '8/23 (수)',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color(0xff000000),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          '날짜 : 9/16 ~ 9/23 (1주)',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xff000000),
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text('독서 진행률: 90%',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xff000000),
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 80,
+                                    ),
+                                    Container(
+                                      width: 80,
+                                      height: 40,
+                                      child: Center(
+                                        child: Text(
+                                          '참여완료',
+                                          style: TextStyle(
+                                              color: Color(0xff999999),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
                       return GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(
@@ -150,13 +228,12 @@ class _TabViewState extends State<TabView> {
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Text(
-                                          '전체 독서 진행률',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff000000),
-                                            fontWeight: FontWeight.normal,
-                                          ),
+                                        Text('독서 진행률: 90%',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xff000000),
+                                          fontWeight: FontWeight.normal,
+                                        ),
                                         ),
                                       ],
                                     ),
@@ -178,34 +255,6 @@ class _TabViewState extends State<TabView> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: Color(0xffFFD66C),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    StepProgressIndicator(
-                                      totalSteps: 100,
-                                      currentStep: 90,
-                                      size: 8,
-                                      fallbackLength: 240,
-                                      padding: 0,
-                                      selectedColor: Color(0xffFFC100),
-                                      unselectedColor: Color(0xffBBBBBB),
-                                      roundedEdges: Radius.circular(5),
-                                    ),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    Text(
-                                      '90 %',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Color(0xff000000),
-                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ],
