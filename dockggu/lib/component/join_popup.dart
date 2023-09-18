@@ -1,4 +1,5 @@
 import 'package:dockggu/component/join_success_popup.dart';
+import 'package:dockggu/component/yellow_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -61,33 +62,19 @@ class JoinPopup extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
+                    
                     Align(
                       alignment: Alignment.center,
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 120,
-                        height: 40,
-                        child: GestureDetector(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) => JoinSuccess(
-                                      groupName: '기술경영',
-                                    ));
-                          },
-                          child: Text(
-                            '가입하기',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Color(0xffFFD66C),
-                        ),
-                      ),
+                      child: YellowButton(
+                        ontap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => JoinSuccess(
+                                    groupName: '기술경영',
+                                  ));
+                        },
+                        buttonText: '가입하기',
+                        buttonWidth: 120),
                     ),
                     SizedBox(
                       height: 20,
