@@ -1,6 +1,8 @@
 import 'package:dockggu/component/category_widget.dart';
+import 'package:dockggu/component/join_popup.dart';
 import 'package:dockggu/component/profile_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class GroupHome extends StatefulWidget {
   const GroupHome({super.key});
@@ -173,6 +175,29 @@ class _GroupHomeState extends State<GroupHome> {
           height: 30,
         ),
         _memberList()
+        ,
+        SizedBox(height: 30,)
+        ,GestureDetector(
+          onTap: (){
+            showDialog(
+          context: context,
+          builder: (context) => JoinPopup(
+                groupName: '기술경영',
+              ));
+
+          },
+          child: Container(
+            alignment: Alignment.center,
+            width: 120,
+            height: 40,
+            child: Text('참여하기',style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.bold),),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Color(0xffFFD66C),
+        
+            ),
+          ),
+        )
       ]),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:dockggu/page/login_main.dart';
 import 'package:dockggu/page/tabview.dart';
-import 'package:dockggu/page/test.dart';
-import 'package:dockggu/page/test2.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
