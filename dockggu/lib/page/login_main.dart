@@ -1,4 +1,5 @@
 import 'package:dockggu/app.dart';
+import 'package:dockggu/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -85,7 +86,7 @@ class _LoginMainState extends State<LoginMain> {
               GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => App()));
+                      context, MaterialPageRoute(builder: (_) => SignUp()));
                 },
                 child: SvgPicture.asset(
                   'assets/apple_login.svg',
