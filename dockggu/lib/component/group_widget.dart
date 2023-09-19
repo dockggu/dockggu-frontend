@@ -1,6 +1,7 @@
 import 'package:dockggu/component/category_widget.dart';
 import 'package:dockggu/component/profile_widget.dart';
 import 'package:dockggu/page/bookathon_detail.dart';
+import 'package:dockggu/page/tabview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -28,7 +29,7 @@ class GroupList extends StatelessWidget {
                 GestureDetector(
                   onTap: (){
                     Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => BookathonDetail()));
+                      context, MaterialPageRoute(builder: (_) => TabView()));
                   },
                   child: Text('베이커가 221B번지',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
                 Text('추리소설 좋아하는 사람 모여라!',style: TextStyle(fontSize:12 ),),
