@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
   String categoryName;
+  double? fontsize;
+  double? height;
 
-  CategoryWidget({super.key, required this.categoryName});
+  CategoryWidget({super.key, required this.categoryName,this.fontsize =15, this.height=30});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class CategoryWidget extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(color: Color(0xffCBC6C6))),
-      height: 30,
+      height: height,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
@@ -19,7 +21,7 @@ class CategoryWidget extends StatelessWidget {
           children: [
             Text(
               categoryName,
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: fontsize),
             ),
           ],
         ),

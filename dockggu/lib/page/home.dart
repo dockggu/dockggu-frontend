@@ -1,5 +1,6 @@
 import 'package:dockggu/component/category_widget.dart';
 import 'package:dockggu/component/group_widget.dart';
+import 'package:dockggu/page/addgroup.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -170,11 +171,10 @@ class _HomeState extends State<Home> {
               BoxDecoration(color: Color(0xffFFD66C), shape: BoxShape.circle),
           width: 45,
           height: 45,
-          child: Text(
-            '+',
-            style: TextStyle(
-                color: Colors.white,  fontSize: 25),
-          ),
+          child: TextButton(onPressed: (){
+            Navigator.push(context,MaterialPageRoute(builder: (_)=>AddGroup()));
+          }, child: Text('+',style: TextStyle(color: Colors.white,fontSize: 20),),)
+    
         ),
       )
     ]));
