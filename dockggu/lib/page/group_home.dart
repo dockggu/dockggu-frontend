@@ -2,6 +2,7 @@ import 'package:dockggu/component/category_widget.dart';
 import 'package:dockggu/component/join_popup.dart';
 import 'package:dockggu/component/profile_widget.dart';
 import 'package:dockggu/component/yellow_button.dart';
+import 'package:dockggu/page/add_schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -159,34 +160,42 @@ class _GroupHomeState extends State<GroupHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        _groupInf(),
-        const SizedBox(
-          height: 20,
-        ),
-        const Divider(
-          color: Color(0xffEBEBEB),
-          thickness: 17,
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        _groupSchedule(),
-        const SizedBox(
-          height: 30,
-        ),
-        _memberList()
-        ,
-        SizedBox(height: 30,)
-        ,YellowButton(ontap: (){
-          showDialog(
-        context: context,
-        builder: (context) => JoinPopup(
-              groupName: '기술경영',
-            ));
-
-        }, buttonText: '가입하기', buttonWidth: 120)
-      ]),
+      body: SingleChildScrollView(
+        child: Column(children: [
+          _groupInf(),
+          const SizedBox(
+            height: 20,
+          ),
+          const Divider(
+            color: Color(0xffEBEBEB),
+            thickness: 17,
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          _groupSchedule(),
+          const SizedBox(
+            height: 15,
+          ),
+          YellowButton(ontap: (){
+            Navigator.push(context,MaterialPageRoute(builder: (_)=> AddScadule()));
+          }, buttonText: "일정 만들기", buttonWidth: MediaQuery.of(context).size.width*0.6),
+          const SizedBox(
+            height: 30,
+          ),
+          _memberList()
+          ,
+          SizedBox(height: 30,)
+          ,YellowButton(ontap: (){
+            showDialog(
+          context: context,
+          builder: (context) => JoinPopup(
+                groupName: '기술경영',
+              ));
+      
+          }, buttonText: '가입하기', buttonWidth: 120)
+        ]),
+      ),
     );
   }
 }

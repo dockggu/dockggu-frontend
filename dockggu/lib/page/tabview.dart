@@ -1,3 +1,4 @@
+import 'package:dockggu/app.dart';
 import 'package:flutter/material.dart';
 import 'bookathon_detail.dart';
 import 'home.dart';
@@ -32,8 +33,8 @@ class _TabViewState extends State<TabView> {
                 size: 16.0,
               ),
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => Home()));
+                Navigator.pop(context);
+
               },
             ),
             title: Align(

@@ -29,8 +29,7 @@ class BookathonDetail extends StatelessWidget {
               size: 16.0,
             ),
             onPressed: () {
-              Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => TabView()));
+              Navigator.pop(context);
             },
           ),
           title: Align(
@@ -107,4 +106,3 @@ class BookathonDetail extends StatelessWidget {
     );
   }
 }
-

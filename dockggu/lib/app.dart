@@ -1,5 +1,6 @@
 import 'package:dockggu/page/mypage_1.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
 import 'binding/init_binding.dart';
@@ -16,15 +17,19 @@ class App extends GetView<BottomNavController> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ko', 'KR'),
+      ],
       initialBinding: InitBining(),
       home: Obx(() => Scaffold(
-            
             body: IndexedStack(
                 index: controller.pageIndex.value,
-                children: const [
-                  Home(),
-                  Mypage1()
-                ]),
+                children: const [Home(), Mypage1()]),
             bottomNavigationBar: BottomNavigationBar(
                 onTap: controller.changeBottomNav,
                 // // 라벨 없이 아이콘만 들어가도록
@@ -36,14 +41,15 @@ class App extends GetView<BottomNavController> {
                 currentIndex: controller.pageIndex.value,
                 items: const [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home,),
+                      icon: Icon(
+                        Icons.home,
+                      ),
                       activeIcon: Icon(Icons.home),
                       label: 'Home'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.account_circle),
                       activeIcon: Icon(Icons.home),
                       label: 'My page'),
-              
                 ]),
           )),
     );
