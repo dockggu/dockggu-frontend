@@ -42,7 +42,7 @@ class GroupList extends StatelessWidget {
                   CategoryWidget(categoryName: '🕵🏻‍♂️ 소설')
                 ],)
               ],),
-              SizedBox(width: 30,),
+              SizedBox(width: 28,),
               SvgPicture.asset("assets/heart.svg")
               ],
           ),
