@@ -1,3 +1,4 @@
+import 'package:dockggu/page/mygroup.dart';
 import 'package:dockggu/page/mypage_1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -29,7 +30,7 @@ class App extends GetView<BottomNavController> {
       home: Obx(() => Scaffold(
             body: IndexedStack(
                 index: controller.pageIndex.value,
-                children: const [Home(), Mypage1()]),
+                children: const [Home(), MyGroup() ,Mypage1()]),
             bottomNavigationBar: BottomNavigationBar(
                 onTap: controller.changeBottomNav,
                 // // 라벨 없이 아이콘만 들어가도록
@@ -47,8 +48,12 @@ class App extends GetView<BottomNavController> {
                       activeIcon: Icon(Icons.home),
                       label: 'Home'),
                   BottomNavigationBarItem(
+                      icon: Icon(Icons.collections_bookmark),
+                      activeIcon: Icon(Icons.collections_bookmark),
+                      label: 'My group'),
+                  BottomNavigationBarItem(
                       icon: Icon(Icons.account_circle),
-                      activeIcon: Icon(Icons.home),
+                      activeIcon: Icon(Icons.account_circle),
                       label: 'My page'),
                 ]),
           )),

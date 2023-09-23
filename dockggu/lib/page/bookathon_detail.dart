@@ -1,107 +1,92 @@
-import 'package:dockggu/component/bookathon_popup.dart';
+import 'package:dockggu/component/appbar_widget.dart';
 import 'package:flutter/material.dart';
-import 'tabview.dart';
-import 'home.dart';
-import 'package:dockggu/page/group_home.dart';
-import 'package:dockggu/component/bookathon_banner.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-void main() {
-  runApp(BookathonDetail());
-}
+import '../component/bottomsheet_widget.dart';
+import '../component/profile_widget.dart';
+import '../component/bookathon_detail_widget.dart';
 
-class BookathonDetail extends StatelessWidget {
-  const BookathonDetail({super.key});
+class BookatghonDetail extends StatelessWidget {
+  const BookatghonDetail({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Color(0xffFFFFFF),
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Color(0xff000000),
-              size: 16.0,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Align(
-            alignment: Alignment(-1.2, 0),
-            child: Text(
-              '베이커가 221B번지', //DB에서 불러오기
-              style: TextStyle(
-                color: Color(0xff000000),
-                fontSize: 20.0,
-              ),
-            ),
-          ),
-          backgroundColor: Color(0xffFFFFFF),
-          elevation: 0.0,
+  Widget _header() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Text(
+        '다함께 완독해요! 📖',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
         ),
-        body: Stack(
+      ),
+    );
+  }
+
+  Widget _progressList() {
+    return Column(
+      children: List.generate(
+        50,
+        (index) => Column(
           children: [
-            Column(
-              children: [
-                Expanded(
-                    child: ListView.separated(
-                  key: PageStorageKey('PageStorage'),
-                  itemCount: 3,
-                  itemBuilder: (BuildContext ctx, int idx) {
-                    if (idx == 0) return HeaderTile();
-                    return ProgressBanner();
-                  },
-                  separatorBuilder: (BuildContext ctx, int idx) {
-                    if (idx == 0) return Divider(color: Colors.transparent);
-                    return Divider(
-                      color: Color(0xffFFD66C),
-                      indent: 20,
-                      endIndent: 20,
-                    );
-                  },
-                )),
-              ],
+            Row(
+              children: [BookWidget(), ProgressWidget(), PercentWidget()],
             ),
-            Positioned(
-              bottom: 90.0,
-              right: 10.0,
-              child: ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return PageInputPopup();
-                    },
-                    backgroundColor: Colors.transparent,
-                  );
-                },
-                child: Text(
-                  '📝',
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    Color(0xffFFD66C),
-                  ),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                    CircleBorder(),
-                  ),
-                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    EdgeInsets.all(16.0),
-                  ),
-                ),
-              ),
+            TitleWidget(),
+            Divider(
+              indent: 20,
+              endIndent: 20,
+              color: Color(0xffFFD66C),
+              thickness: 1,
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBarWidget(appBar: AppBar(), title: '베이커가 221B번지'),
+      body: Stack(
+        children: [
+          ListView(
+            children: [_header(), _progressList()],
+          ),
+          Positioned(
+            right: 10,
+            bottom: 100,
+            child: ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return PageInput();
+                  },
+                  backgroundColor: Colors.transparent,
+                );
+              },
+              child: Text(
+                '📝',
+                style: TextStyle(
+                  fontSize: 25,
+                ),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Color(0xffFFD66C),
+                ),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  CircleBorder(),
+                ),
+                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                  EdgeInsets.all(16.0),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
