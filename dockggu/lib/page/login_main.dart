@@ -94,10 +94,16 @@ class _LoginMainState extends State<LoginMain> {
                   // height: 200,
                 ),
               ),
-              SvgPicture.asset(
-                'assets/kakao_login.svg',
-                // width: 200,
-                // height: 200,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => SignUp()));
+                },
+                child: SvgPicture.asset(
+                  'assets/kakao_login.svg',
+                  // width: 200,
+                  // height: 200,
+                ),
               ),
               SvgPicture.asset(
                 'assets/google_login.svg',
