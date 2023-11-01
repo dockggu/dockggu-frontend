@@ -56,38 +56,55 @@ class PartyInfoItem {
 
 // 마이페이지 정보 조회, 요청은 null
 
-class UserProfileResponseDto {
+class ApiResponse {
+  final bool result;
+  final String message;
+  final Data data;
+
+  ApiResponse({required this.result, required this.message, required this.data});
+
+  factory ApiResponse.fromJson(Map<String, dynamic> json) {
+    return ApiResponse(
+      result: json['result'],
+      message: json['message'],
+      data: Data.fromJson(json['data']),
+    );
+  }
+}
+
+class Data {
   final UserDto userDto;
-  final List<MybookDto> mybookDtoList;
+  final dynamic awardDto;
+  final List<dynamic> mybookDtoList;
 
-  UserProfileResponseDto({required this.userDto, required this.mybookDtoList});
+  Data({required this.userDto, required this.awardDto, required this.mybookDtoList});
 
-  factory UserProfileResponseDto.fromJson(Map<String, dynamic> json) {
-    final userDto = UserDto.fromJson(json['userDto']);
-    final mybookDtoList = (json['mybookDtoList'] as List)
-        .map((item) => MybookDto.fromJson(item))
-        .toList();
-    return UserProfileResponseDto(userDto: userDto, mybookDtoList: mybookDtoList);
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      userDto: UserDto.fromJson(json['userDto']),
+      awardDto: json['awardDto'],
+      mybookDtoList: json['mybookDtoList'],
+    );
   }
 }
 
 class UserDto {
   final int userId;
-  final String userEmail;
-  final String userKakaoEmail;
+  final String? userEmail;
+  final String? userKakaoEmail;
   final String userNickname;
-  final String userAward;
-  final String userProfileImgName;
-  final String userProfileImgPath;
+  final int userAward;
+  final String? userProfileImgName;
+  final String? userProfileImgPath;
 
   UserDto({
     required this.userId,
-    required this.userEmail,
-    required this.userKakaoEmail,
+    this.userEmail,
+    this.userKakaoEmail,
     required this.userNickname,
     required this.userAward,
-    required this.userProfileImgName,
-    required this.userProfileImgPath,
+    this.userProfileImgName,
+    this.userProfileImgPath,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) {
@@ -103,44 +120,93 @@ class UserDto {
   }
 }
 
-class MybookDto {
-  final int bookId;
-  final int userId;
-  final String bookName;
-  final String bookAuthor;
-  final String bookPublisher;
-  final String bookImgPath;
 
-  MybookDto({
-    required this.bookId,
-    required this.userId,
-    required this.bookName,
-    required this.bookAuthor,
-    required this.bookPublisher,
-    required this.bookImgPath,
-  });
 
-  factory MybookDto.fromJson(Map<String, dynamic> json) {
-    return MybookDto(
-      bookId: json['bookId'],
-      userId: json['userId'],
-      bookName: json['bookName'],
-      bookAuthor: json['bookAuthor'],
-      bookPublisher: json['bookPublisher'],
-      bookImgPath: json['bookImgPath'],
-    );
-  }
-}
+// class UserProfileResponseDto {
+//   final UserDto userDto;
+//   final List<MybookDto> mybookDtoList;
 
-// 메달 증가 요청
-class UptoMedal {
-  final List<String> userIdList;
+//   UserProfileResponseDto({required this.userDto, required this.mybookDtoList});
 
-  UptoMedal({required this.userIdList});
+//   factory UserProfileResponseDto.fromJson(Map<String, dynamic> json) {
+//     final userDto = UserDto.fromJson(json['userDto']);
+//     final mybookDtoList = (json['mybookDtoList'] as List)
+//         .map((item) => MybookDto.fromJson(item))
+//         .toList();
+//     return UserProfileResponseDto(userDto: userDto, mybookDtoList: mybookDtoList);
+//   }
+// }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'userIdList': userIdList,
-    };
-  }
-}
+// class UserDto {
+//   final int userId;
+//   final String userEmail;
+//   final String userKakaoEmail;
+//   final String userNickname;
+//   final String userAward;
+//   final String userProfileImgName;
+//   final String userProfileImgPath;
+
+//   UserDto({
+//     required this.userId,
+//     required this.userEmail,
+//     required this.userKakaoEmail,
+//     required this.userNickname,
+//     required this.userAward,
+//     required this.userProfileImgName,
+//     required this.userProfileImgPath,
+//   });
+
+//   factory UserDto.fromJson(Map<String, dynamic> json) {
+//     return UserDto(
+//       userId: json['userId'],
+//       userEmail: json['userEmail'],
+//       userKakaoEmail: json['userKakaoEmail'],
+//       userNickname: json['userNickname'],
+//       userAward: json['userAward'],
+//       userProfileImgName: json['userProfileImgName'],
+//       userProfileImgPath: json['userProfileImgPath'],
+//     );
+//   }
+// }
+
+// class MybookDto {
+//   final int bookId;
+//   final int userId;
+//   final String bookName;
+//   final String bookAuthor;
+//   final String bookPublisher;
+//   final String bookImgPath;
+
+//   MybookDto({
+//     required this.bookId,
+//     required this.userId,
+//     required this.bookName,
+//     required this.bookAuthor,
+//     required this.bookPublisher,
+//     required this.bookImgPath,
+//   });
+
+//   factory MybookDto.fromJson(Map<String, dynamic> json) {
+//     return MybookDto(
+//       bookId: json['bookId'],
+//       userId: json['userId'],
+//       bookName: json['bookName'],
+//       bookAuthor: json['bookAuthor'],
+//       bookPublisher: json['bookPublisher'],
+//       bookImgPath: json['bookImgPath'],
+//     );
+//   }
+// }
+
+// // 메달 증가 요청
+// class UptoMedal {
+//   final List<String> userIdList;
+
+//   UptoMedal({required this.userIdList});
+
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'userIdList': userIdList,
+//     };
+//   }
+// }
