@@ -1,39 +1,16 @@
 import 'package:dockggu/component/category_widget.dart';
 import 'package:dockggu/component/group_widget.dart';
+import 'package:dockggu/component/main_category.dart';
+import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/page/addgroup.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Home extends GetView<HomeContoller> {
+  Home({super.key});
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  final List<String> items = [
-    '📚 전체',
-    '🕵🏻‍♂️ 소설',
-    '📕 에세이',
-    '🗺 여행',
-    '👤 인문학',
-    '🎨 디자인',
-    '🧐 철학',
-    '🗿 역사',
-    '🎫 예술/문화',
-    '📈 경제/경영',
-    '👩🏻‍⚖️ 사회/정치',
-    '✍🏻 시',
-    '🛍 라이프스타일',
-    '🏗 건축',
-    '🧬 과학',
-    '🖥 컴퓨터/IT',
-    '💪 건강/운동',
-    '👨🏻‍💻 자기계발',
-    '💵 재테크',
-    '📱 마케팅'
-  ];
-
+  var controller = Get.put(HomeContoller());
   Widget _banner() {
     return Column(
       children: [
@@ -128,17 +105,53 @@ class _HomeState extends State<Home> {
           const SizedBox(
             height: 15,
           ),
-          Wrap(
-            direction: Axis.horizontal, // 나열 방향
-            alignment: WrapAlignment.start, // 정렬 방식
-            spacing: 8, // 좌우 간격
-            runSpacing: 10, // 상하 간격
-            children: List.generate(items.length, (index) {
-              return CategoryWidget(categoryName: items[index]);
-            }),
-          ),
         ],
       ),
+    );
+  }
+
+  Widget _category() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Obx(() => Wrap(
+            direction: Axis.horizontal,
+            alignment: WrapAlignment.start,
+            spacing: 8, // 좌우 간격
+            runSpacing: 10, // 상하 간격
+            children: List.generate(controller.itemsmap.values.toList().length,
+                (index) {
+              return GestureDetector(
+                  onTap: () {
+                    if (controller.clickedlist[index] == "") {
+                      controller.clickedlist[index] =
+                          controller.itemsmap.keys.toList()[index];
+                      // controller.changedCategory();
+                      print(controller.clickedlist);
+                    } else {
+                      controller.clickedlist[index] = '';
+                      // controller.changedCategory();
+
+                      print(controller.clickedlist);
+                    }
+                  },
+                  child: Column(
+                    children: <Widget>[
+                      if (controller.clickedlist[index] != "")
+                        MainCategory(
+                          categoryName:
+                              controller.itemsmap.values.toList()[index],
+                          type: CategoryType.CLICKED,
+                        )
+                      else
+                        MainCategory(
+                          categoryName:
+                              controller.itemsmap.values.toList()[index],
+                          type: CategoryType.UNCLICKED,
+                        )
+                    ],
+                  ));
+            }),
+          )),
     );
   }
 
@@ -159,23 +172,28 @@ class _HomeState extends State<Home> {
         body: Stack(children: [
       SingleChildScrollView(
         child: Column(
-          children: [_banner(), _bookathonTitle(), _groupList()],
+          children: [_banner(), _bookathonTitle(), _category(), _groupList()],
         ),
       ),
       Positioned(
         bottom: 20,
         right: 20,
         child: Container(
-          alignment: Alignment.center,
-          decoration:
-              BoxDecoration(color: Color(0xffFFD66C), shape: BoxShape.circle),
-          width: 45,
-          height: 45,
-          child: TextButton(onPressed: (){
-            Navigator.push(context,MaterialPageRoute(builder: (_)=>AddGroup()));
-          }, child: Text('+',style: TextStyle(color: Colors.white,fontSize: 20),),)
-    
-        ),
+            alignment: Alignment.center,
+            decoration:
+                BoxDecoration(color: Color(0xffFFD66C), shape: BoxShape.circle),
+            width: 45,
+            height: 45,
+            child: TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => AddGroup()));
+              },
+              child: Text(
+                '+',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            )),
       )
     ]));
   }

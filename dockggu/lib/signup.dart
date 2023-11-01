@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:dockggu/component/yellow_button.dart';
 import 'package:dockggu/email_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'app.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
+
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -13,6 +16,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  WebViewController? _webViewController;
+
   Widget _header() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -180,33 +185,40 @@ class _SignUpState extends State<SignUp> {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-// Future<Info> fetchInfo() async {
-// var url = 'https://api.mockaroo.com/api/5ee43e50?count=1&key=6213f2b0';
-// final response = await http.get(Uri.parse(url));
+  Future<void> getUserInf() async {
+    // 헤더에 로그인 토큰 주고 데이터 불러오기 샘플
 
-// if (response.statusCode == 200) {
-//   //만약 서버가 ok응답을 반환하면, json을 파싱합니다
-//   print('응답했다');
-//   print(json.decode(response.body));
-//   return Info.fromJson(json.decode(response.body));
-// } else {
-//   //만약 응답이 ok가 아니면 에러를 던집니다.
-//   throw Exception('계좌정보를 불러오는데 실패했습니다');
-// }
-// }
-
-  Future<void> fetchData() async {
-    final response = await http.get(Uri.parse(
-        'https://kauth.kakao.com/oauth/authorize?client_id=155bd25b5b420714ad17441b610b274e&redirect_uri=http://ec2-16-16-217-214.eu-north-1.compute.amazonaws.com:8080/api/oauth/kakao&response_type=code'));
-
-    if (response.statusCode == 200) {
-      // HTTP 요청이 성공한 경우
-      print('Response data: ${response.body}');
-    } else {
-      // HTTP 요청이 실패한 경우
-      print('Failed to load data');
-    }
+    const token =
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNjk4NjQzOTMwLCJleHAiOjE2OTg2NDc1MzB9.XslVzLWQ_nFQa7_YmgPt7zK4BfqH1IzIcjpaJLo6lvAdj5_GugE9fxXqJtvqC7otTr83L1ZTj8mQDJ0quwNRRg';
+    const path = 'api/mypage/user';
+    final response = await http.get(
+      Uri.parse(
+          'http://ec2-16-16-217-214.eu-north-1.compute.amazonaws.com:8080/$path'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
+    print(responseJson);
   }
+
+  // Future<void> initiateKakaoSignUp() async {
+  //   // 카카오 로그인
+  //   final clientId = '155bd25b5b420714ad17441b610b274e';
+  //   final redirectUri = 'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/api/oauth/kakao';
+
+  //   final url = Uri.https(
+  //     'kauth.kakao.com',
+  //     '/oauth/authorize',
+  //     {
+  //       'client_id': clientId,
+  //       'redirect_uri': redirectUri,
+  //       'response_type': 'code',
+  //     },
+  //   );
+
+  //   launchUrl(Uri.parse(url.toString()));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +235,7 @@ class _SignUpState extends State<SignUp> {
             SizedBox(
               height: 40,
             ),
-            // _inputList(),
+            _inputList(),
             SizedBox(
               height: 35,
             ),
@@ -231,7 +243,9 @@ class _SignUpState extends State<SignUp> {
                 alignment: Alignment.center,
                 child: YellowButton(
                     ontap: () {
-                      fetchData();
+                      // fetchData();
+                      // getUserInf();
+                      // initiateKakaoSignUp();
 
                       // Navigator.push(
                       //         context, MaterialPageRoute(builder: (_) => App()));
@@ -241,12 +255,10 @@ class _SignUpState extends State<SignUp> {
             SizedBox(
               height: 40,
             ),
-            // _loginselect()
+            _loginselect()
           ],
         ),
       ),
     );
   }
 }
-
-

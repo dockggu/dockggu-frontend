@@ -30,7 +30,7 @@ class App extends GetView<BottomNavController> {
       home: Obx(() => Scaffold(
             body: IndexedStack(
                 index: controller.pageIndex.value,
-                children: const [Home(), MyGroup() ,Mypage1()]),
+                children:  [Home(), MyGroup() ,Mypage1()]),
             bottomNavigationBar: BottomNavigationBar(
                 onTap: controller.changeBottomNav,
                 // // 라벨 없이 아이콘만 들어가도록
