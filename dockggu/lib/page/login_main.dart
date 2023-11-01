@@ -3,6 +3,8 @@ import 'package:dockggu/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'home.dart';
+
 class LoginMain extends StatefulWidget {
   const LoginMain({super.key});
 
@@ -116,10 +118,15 @@ class _LoginMainState extends State<LoginMain> {
         const SizedBox(
           height: 30,
         ),
-        const Text(
-          '이메일로 가입하기',
-          style: TextStyle(
-              color: Color(0xff9D9D9D), decoration: TextDecoration.underline),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => App()));
+          },
+          child: Text(
+            '이메일로 가입하기',
+            style: TextStyle(
+                color: Color(0xff9D9D9D), decoration: TextDecoration.underline),
+          ),
         )
       ],
     );
