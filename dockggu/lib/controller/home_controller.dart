@@ -1,33 +1,39 @@
 import 'dart:convert';
 
+import 'package:dockggu/model/partyinfoDTO.dart';
+import 'package:dockggu/repogistory/main_repo.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class HomeContoller extends GetxController {
+import '../model/mypageDTO.dart';
 
-final RxMap<String, String> itemsmap = {
-    'bc0001': '📚 전체',
-    'bc0002': '🕵🏻‍♂️ 소설',
-    'bc0003': '📕 에세이',
-    'bc0004': '🗺 여행',
-    'bc0005': '👤 인문학',
-    'bc0006': '🎨 디자인',
-    'bc0007': '🧐 철학',
-    'bc0008': '🗿 역사',
-    'bc0009': '🎫 예술/문화',
-    'bc0010': '📈 경제/경영',
-    'bc0011': '👩🏻‍⚖️ 사회/정치',
-    'bc0012': '✍🏻 시',
-    'bc0013': '🛍 라이프스타일',
-    'bc0014': '🏗 건축',
-    'bc0015': '🧬 과학',
-    'bc0016': '🖥 컴퓨터/IT',
-    'bc0017': '💪 건강/운동',
-    'bc0018': '👨🏻‍💻 자기계발',
-    'bc0019': '💵 재테크',
-    'bc0020': '📱 마케팅'
+class HomeContoller extends GetxController {
+  var categoryopen = true.obs;
+  var currentUser = UserDto().obs;
+  final RxMap<String, String> itemsmap = {
+    'bc0000': '📚 전체',
+    'bc0001': '🕵🏻‍♂️ 소설',
+    'bc0002': '📕 에세이',
+    'bc0003': '🗺 여행',
+    'bc0004': '👤 인문학',
+    'bc0005': '🎨 디자인',
+    'bc0006': '🧐 철학',
+    'bc0007': '🗿 역사',
+    'bc0008': '🎫 예술/문화',
+    'bc0009': '📈 경제/경영',
+    'bc0010': '👩🏻‍⚖️ 사회/정치',
+    'bc0011': '✍🏻 시',
+    'bc0012': '🛍 라이프스타일',
+    'bc0013': '🏗 건축',
+    'bc0014': '🧬 과학',
+    'bc0015': '🖥 컴퓨터/IT',
+    'bc0016': '💪 건강/운동',
+    'bc0017': '👨🏻‍💻 자기계발',
+    'bc0018': '💵 재테크',
+    'bc0019': '📱 마케팅'
   }.obs;
-  RxList<String> clickedlist = [
+
+  RxList<String> initList = [
     "",
     "",
     "",
@@ -50,20 +56,97 @@ final RxMap<String, String> itemsmap = {
     "",
   ].obs;
 
-  Future<void> changedCategory() async {
+  RxList<String> clickedlist = [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ].obs;
+  RxList<PartyResponseDto> paryList = RxList();
+  void onInit() async {
+    currentUser.value = await MainRepo.getCurrentUser();
+
+    initCategory();
+    super.onInit();
+  }
+
+  Future<void> initCategory() async {
+    initList.value = itemsmap.keys.toList();
+
+    QueryData searchTeam =
+        QueryData(categories: initList, partyName: "", page: "0");
+    paryList.clear();
+    print(json.encode(searchTeam.toMap()));
+
     const token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNjk4NjQzOTMwLCJleHAiOjE2OTg2NDc1MzB9.XslVzLWQ_nFQa7_YmgPt7zK4BfqH1IzIcjpaJLo6lvAdj5_GugE9fxXqJtvqC7otTr83L1ZTj8mQDJ0quwNRRg';
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNjk4NzYzOTM3LCJleHAiOjE2OTkxMjM5Mzd9.EcSP0CkJ9YlnOrsQu6bmLWpVswQ_OnaVclxMq02bSnVSmbidaFWWy29F5MBB9EvgeZrk_-h0MQq9ont48vtIdg';
     const path = 'api/party/search';
     final response = await http.post(
       Uri.parse(
-          'http://ec2-16-16-217-214.eu-north-1.compute.amazonaws.com:8080/$path'),
-          body: {},
+          'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/$path'),
+      body: json.encode(searchTeam.toMap()),
       headers: {
+        'Content-Type': 'application/json; charset=utf-8',
         'Authorization': 'Bearer $token',
+        'Accept-Charset': 'utf-8',
       },
     );
-    final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
-    print(responseJson);
+    final responseJson =
+        jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+// jsonDecode(source)
 
+    if (responseJson['data'].length > 0) {
+      for (int i = 0; i < responseJson['data'].length; i++) {
+        paryList.add(PartyResponseDto.fromJson(responseJson['data'][i]));
+      }
+      print(paryList);
+    } else {}
+  }
+
+  Future<void> changedCategory() async {
+    QueryData searchTeam =
+        QueryData(categories: clickedlist, partyName: "", page: "0");
+    paryList.clear();
+    print(json.encode(searchTeam.toMap()));
+
+    const token =
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNjk4NzYzOTM3LCJleHAiOjE2OTkxMjM5Mzd9.EcSP0CkJ9YlnOrsQu6bmLWpVswQ_OnaVclxMq02bSnVSmbidaFWWy29F5MBB9EvgeZrk_-h0MQq9ont48vtIdg';
+    const path = 'api/party/search';
+    final response = await http.post(
+      Uri.parse(
+          'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/$path'),
+      body: json.encode(searchTeam.toMap()),
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': 'Bearer $token',
+        'Accept-Charset': 'utf-8',
+      },
+    );
+    final responseJson =
+        jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+// jsonDecode(source)
+
+    if (responseJson['data'].length > 0) {
+      for (int i = 0; i < responseJson['data'].length; i++) {
+        paryList.add(PartyResponseDto.fromJson(responseJson['data'][i]));
+      }
+      print(paryList);
+    } else {}
   }
 }

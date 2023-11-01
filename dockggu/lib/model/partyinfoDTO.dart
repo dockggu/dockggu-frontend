@@ -27,6 +27,40 @@ class PartyIdRequest {
   }
 }
 
+
+// 검색 
+
+class QueryData {
+  final List<String> categories;
+  final String partyName;
+  final String page;
+
+  QueryData({
+    required this.categories,
+    required this.partyName,
+    required this.page,
+  });
+
+  factory QueryData.fromJson(Map<String, dynamic> json) {
+    final List<String> categories = List<String>.from(json['categories']);
+    final String partyName = json['partyName'];
+    final String page = json['page'];
+
+    return QueryData(
+      categories: categories,
+      partyName: partyName,
+      page: page,
+    );
+  }
+  Map<String, dynamic> toMap() {
+    return {
+      'categories': categories,
+      'partyName': partyName,
+      'page': page,
+    };
+  }
+}
+
 //파티 정보 요청 응답 끝까지
 class PartyResponseDto {
   final int partyId;
@@ -34,10 +68,10 @@ class PartyResponseDto {
   final String partyIntro;
   final int partyMaster;
   final String partyCategory;
-  final String partyUserNum;
-  final String partyUserMaxnum;
+  final int partyUserNum;
+  final int partyUserMaxnum;
   final String partyCreationDate;
-  final String partyLink;
+  final String? partyLink;
   final String partyProfileImgName;
   final String partyProfileImgPath;
 

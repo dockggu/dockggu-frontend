@@ -89,20 +89,20 @@ class Data {
 }
 
 class UserDto {
-  final int userId;
+  final int? userId;
   final String? userEmail;
   final String? userKakaoEmail;
-  final String userNickname;
-  final int userAward;
+  final String? userNickname;
+  final int? userAward;
   final String? userProfileImgName;
   final String? userProfileImgPath;
 
   UserDto({
-    required this.userId,
+     this.userId,
     this.userEmail,
     this.userKakaoEmail,
-    required this.userNickname,
-    required this.userAward,
+     this.userNickname,
+     this.userAward,
     this.userProfileImgName,
     this.userProfileImgPath,
   });

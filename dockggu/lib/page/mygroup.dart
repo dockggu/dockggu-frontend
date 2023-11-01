@@ -18,16 +18,16 @@ class MyGroup extends StatelessWidget {
     );
   }
 
-  Widget _groupList() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 15,
-        ),
-        ...List.generate(4, (index) => GroupList())
-      ],
-    );
-  }
+  // Widget _groupList() {
+  //   return Column(
+  //     children: [
+  //       SizedBox(
+  //         height: 15,
+  //       ),
+  //       ...List.generate(4, (index) => GroupList())
+  //     ],
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,9 @@ class MyGroup extends StatelessWidget {
         elevation: 0,
       ),
       body: ListView(
-        children: [_header(), _groupList()],
+        children: [_header(),
+        //  _groupList()
+         ],
       ),
     );
   }

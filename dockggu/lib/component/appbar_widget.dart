@@ -31,7 +31,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               color: Colors.black,
             ),
             onTap: () {
-              Get.back();
+              // Get.back();
             },
           ),
           elevation: 0,

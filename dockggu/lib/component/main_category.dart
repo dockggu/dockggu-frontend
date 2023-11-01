@@ -42,6 +42,8 @@ class MainCategory extends StatelessWidget {
       decoration: BoxDecoration(
           color: Color(0xffFFC100),
           borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: Color(0xffFFC100))
+
           ),
       height: height,
       child: Padding(

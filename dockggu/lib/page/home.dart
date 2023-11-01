@@ -32,13 +32,13 @@ class Home extends GetView<HomeContoller> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text(
-                    '이닛 님의 취향에 맞는 책 추천해드려요',
+                   Obx(()=>Text(
+                    '${controller.currentUser.value.userNickname} 님의 취향에 맞는 책 추천해드려요',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold),
-                  ),
+                  )),
                   const SizedBox(
                     height: 10,
                   ),
@@ -83,7 +83,7 @@ class Home extends GetView<HomeContoller> {
       padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
       child: Column(
         children: [
-          const Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
@@ -100,6 +100,16 @@ class Home extends GetView<HomeContoller> {
                 '완독을 목표로 함께 달려봐요',
                 style: TextStyle(color: Colors.black, fontSize: 12),
               ),
+              SizedBox(width: 60,),
+              GestureDetector(
+                  onTap: () {
+                    if (controller.categoryopen.value) {
+                      controller.categoryopen.value = false;
+                    } else {
+                      controller.categoryopen.value = true;
+                    }
+                  },
+                  child: Text("+",style: TextStyle(fontSize: 20),)),
             ],
           ),
           const SizedBox(
@@ -122,16 +132,51 @@ class Home extends GetView<HomeContoller> {
                 (index) {
               return GestureDetector(
                   onTap: () {
-                    if (controller.clickedlist[index] == "") {
-                      controller.clickedlist[index] =
-                          controller.itemsmap.keys.toList()[index];
-                      // controller.changedCategory();
-                      print(controller.clickedlist);
-                    } else {
-                      controller.clickedlist[index] = '';
-                      // controller.changedCategory();
 
-                      print(controller.clickedlist);
+                    if (controller.clickedlist[index] == "") {
+                      if (controller.itemsmap.keys.toList()[index] ==
+                          "bc0000") {
+                        controller.clickedlist.value =
+                            controller.itemsmap.keys.toList();
+                        controller.changedCategory();
+                      } else {
+                        controller.clickedlist[index] =
+                            controller.itemsmap.keys.toList()[index];
+                        controller.changedCategory();
+                      }
+                    } else {
+                      if (controller.itemsmap.keys.toList()[index] ==
+                          "bc0000") {
+                        controller.clickedlist.value = [
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                          "",
+                        ];
+
+                        controller.changedCategory();
+                      } else {
+                        controller.clickedlist[0] = "";
+
+                        controller.clickedlist[index] = '';
+                        controller.changedCategory();
+                      }
                     }
                   },
                   child: Column(
@@ -156,45 +201,60 @@ class Home extends GetView<HomeContoller> {
   }
 
   Widget _groupList() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 15,
-        ),
-        ...List.generate(4, (index) => GroupList())
-      ],
-    );
+    return Obx(() => Column(
+          children: [
+            SizedBox(
+              height: 15,
+            ),
+            ...List.generate(
+                controller.paryList.length,
+                (index) => GroupList(
+                    teamName: controller.paryList[index].partyName,
+                    teaminfo: controller.paryList[index].partyIntro,
+                    maxnum: controller.paryList[index].partyUserMaxnum,
+                    currentNum: controller.paryList[index].partyUserNum,
+                    category: controller.paryList[index].partyCategory))
+          ],
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: [
-      SingleChildScrollView(
-        child: Column(
-          children: [_banner(), _bookathonTitle(), _category(), _groupList()],
+        body: Container(
+      height: Get.height,
+      child: Stack(children: [
+        SingleChildScrollView(
+          child: Obx(() => Column(
+                children: [
+                  _banner(),
+                  _bookathonTitle(),
+                  if (controller.categoryopen.value) _category(),
+                  _groupList()
+                ],
+              )),
         ),
-      ),
-      Positioned(
-        bottom: 20,
-        right: 20,
-        child: Container(
-            alignment: Alignment.center,
-            decoration:
-                BoxDecoration(color: Color(0xffFFD66C), shape: BoxShape.circle),
-            width: 45,
-            height: 45,
-            child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => AddGroup()));
-              },
-              child: Text(
-                '+',
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            )),
-      )
-    ]));
+        Positioned(
+          bottom: 20,
+          right: 20,
+          child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: Color(0xffFFD66C), shape: BoxShape.circle),
+              width: 45,
+              height: 45,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => AddGroup()));
+                },
+                child: Text(
+                  '+',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              )),
+        )
+      ]),
+    ));
   }
 }
