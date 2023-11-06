@@ -20,7 +20,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           title: Text( '$title' ,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 20,
+              fontSize: 18,
             ),
           ),
           centerTitle: center,
@@ -31,7 +31,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               color: Colors.black,
             ),
             onTap: () {
-              // Get.back();
+              Get.back();
             },
           ),
           elevation: 0,

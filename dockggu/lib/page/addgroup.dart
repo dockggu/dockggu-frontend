@@ -1,7 +1,15 @@
+import 'dart:io';
+
 import 'package:dockggu/component/input_widget.dart';
 import 'package:dockggu/component/select_category.dart';
 import 'package:dockggu/component/yellow_button.dart';
+import 'package:dockggu/controller/makeParty_controller.dart';
+import 'package:dockggu/repogistory/main_repo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class AddGroup extends StatefulWidget {
   const AddGroup({super.key});
@@ -10,7 +18,27 @@ class AddGroup extends StatefulWidget {
   State<AddGroup> createState() => _AddGroupState();
 }
 
+final picker = ImagePicker();
+
 class _AddGroupState extends State<AddGroup> {
+  var controller = Get.put(MakePartyController());
+
+  Future getImage(ImageSource imageSource) async {
+    final image = await picker.pickImage(source: imageSource);
+
+    setState(() {
+      if (image != null) {
+        controller.image.value = File(image.path); // 가져온 이미지를 _image에 저장
+        print(controller.image.value);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('사진을 선택해주세요 !'),
+          duration: Duration(seconds: 2),
+        ));
+      }
+    });
+  }
+
   Widget _groupName() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +62,7 @@ class _AddGroupState extends State<AddGroup> {
                 offset: Offset(0, 1), // changes position of shadow
               ),
             ], borderRadius: BorderRadius.circular(5), color: Colors.white),
-            child: Padding(
+            child: const Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: TextField(
                 // controller: textEditingController, // 나중에 주석 풀기
@@ -75,16 +103,24 @@ class _AddGroupState extends State<AddGroup> {
                 offset: Offset(0, 1), // changes position of shadow
               ),
             ], borderRadius: BorderRadius.circular(5), color: Colors.white),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: TextField(
-                // controller: textEditingController, // 나중에 주석 풀기
-                decoration: InputDecoration(
-                    disabledBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.zero),
-              ),
+            child: GestureDetector(
+              onTap: () async {
+                await getImage(ImageSource.gallery);
+              },
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (controller.image.value == null)
+                      Padding(
+                        padding: const EdgeInsets.all(30),
+                        child: SvgPicture.asset('assets/camera-photo.svg'),
+                      )
+                    else
+                      Image.file(
+                        File(controller.image.value!.path),
+                        height: 110,
+                      )
+                  ]),
             )),
         SizedBox(
           height: 20,
@@ -106,23 +142,30 @@ class _AddGroupState extends State<AddGroup> {
         ),
         GestureDetector(
           onTap: () {
-            showDialog(context: context, builder: (context) {
-              return SelectCategory();
-            },);
+            showDialog(
+              context: context,
+              builder: (context) {
+                return SelectCategory();
+              },
+            );
           },
           child: Container(
-              alignment: Alignment.center,
-              height: 45,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.9),
-                  spreadRadius: 0,
-                  blurRadius: 2.0,
-                  offset: Offset(0, 1), // changes position of shadow
-                ),
-              ], borderRadius: BorderRadius.circular(5), color: Colors.white),
+            child: Obx(() => Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(controller.category.value),
+                )),
+            alignment: Alignment.centerLeft,
+            height: 45,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.9),
+                spreadRadius: 0,
+                blurRadius: 2.0,
+                offset: Offset(0, 1), // changes position of shadow
               ),
+            ], borderRadius: BorderRadius.circular(5), color: Colors.white),
+          ),
         ),
         SizedBox(
           height: 20,
@@ -276,10 +319,16 @@ class _AddGroupState extends State<AddGroup> {
                       height: 50,
                     ),
                     YellowButton(
-                        ontap: () {
+                        ontap: () async {
+                          if(controller.image.value != null){
+                          controller.makeParty();
+
                           Navigator.pop(context);
 
-                        }, buttonText: '만들기', buttonWidth: 100)
+                          }
+                        },
+                        buttonText: '만들기',
+                        buttonWidth: 100)
                   ],
                 ),
               ),

@@ -16,7 +16,7 @@ class TabView extends StatelessWidget {
       ),
       indicatorPadding: EdgeInsets.symmetric(horizontal: 56.0, vertical: 8.0),
       labelColor: Color(0xff000000),
-      labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      labelStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
       tabs: [
         Tab(
           text: '홈',

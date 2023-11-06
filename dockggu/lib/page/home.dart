@@ -2,10 +2,13 @@ import 'package:dockggu/component/category_widget.dart';
 import 'package:dockggu/component/group_widget.dart';
 import 'package:dockggu/component/main_category.dart';
 import 'package:dockggu/controller/home_controller.dart';
+import 'package:dockggu/controller/team_controller.dart';
 import 'package:dockggu/page/addgroup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+
+import 'tabview.dart';
 
 class Home extends GetView<HomeContoller> {
   Home({super.key});
@@ -32,13 +35,13 @@ class Home extends GetView<HomeContoller> {
                   const SizedBox(
                     height: 20,
                   ),
-                   Obx(()=>Text(
-                    '${controller.currentUser.value.userNickname} 님의 취향에 맞는 책 추천해드려요',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  )),
+                  Obx(() => Text(
+                        '${controller.currentUser.value.userNickname} 님의 취향에 맞는 책 추천해드려요',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      )),
                   const SizedBox(
                     height: 10,
                   ),
@@ -100,7 +103,9 @@ class Home extends GetView<HomeContoller> {
                 '완독을 목표로 함께 달려봐요',
                 style: TextStyle(color: Colors.black, fontSize: 12),
               ),
-              SizedBox(width: 60,),
+              SizedBox(
+                width: 60,
+              ),
               GestureDetector(
                   onTap: () {
                     if (controller.categoryopen.value) {
@@ -109,7 +114,10 @@ class Home extends GetView<HomeContoller> {
                       controller.categoryopen.value = true;
                     }
                   },
-                  child: Text("+",style: TextStyle(fontSize: 20),)),
+                  child: Text(
+                    "+",
+                    style: TextStyle(fontSize: 20),
+                  )),
             ],
           ),
           const SizedBox(
@@ -132,7 +140,6 @@ class Home extends GetView<HomeContoller> {
                 (index) {
               return GestureDetector(
                   onTap: () {
-
                     if (controller.clickedlist[index] == "") {
                       if (controller.itemsmap.keys.toList()[index] ==
                           "bc0000") {
@@ -208,12 +215,23 @@ class Home extends GetView<HomeContoller> {
             ),
             ...List.generate(
                 controller.paryList.length,
-                (index) => GroupList(
-                    teamName: controller.paryList[index].partyName,
-                    teaminfo: controller.paryList[index].partyIntro,
-                    maxnum: controller.paryList[index].partyUserMaxnum,
-                    currentNum: controller.paryList[index].partyUserNum,
-                    category: controller.paryList[index].partyCategory))
+                (index) => GestureDetector(
+                      onTap: () {
+                        Get.put(TeamController());
+                        Get.find<TeamController>().currentTeam.value =
+                            controller.paryList[index];
+                        Get.find<TeamController>().getPartyMember();
+                        Get.find<TeamController>().getBookathonList();
+
+                        Get.to(TabView());
+                      },
+                      child: GroupList(
+                          teamName: controller.paryList[index].partyName!,
+                          teaminfo: controller.paryList[index].partyIntro!,
+                          maxnum: controller.paryList[index].partyUserMaxnum!,
+                          currentNum: controller.paryList[index].partyUserNum!,
+                          category: controller.paryList[index].partyCategory!),
+                    ))
           ],
         ));
   }

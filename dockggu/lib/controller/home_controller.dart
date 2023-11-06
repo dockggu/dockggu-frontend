@@ -10,6 +10,7 @@ import '../model/mypageDTO.dart';
 class HomeContoller extends GetxController {
   var categoryopen = true.obs;
   var currentUser = UserDto().obs;
+  RxList<int> medalList = [0,0,0].obs;
   final RxMap<String, String> itemsmap = {
     'bc0000': '📚 전체',
     'bc0001': '🕵🏻‍♂️ 소설',
@@ -81,7 +82,23 @@ class HomeContoller extends GetxController {
   RxList<PartyResponseDto> paryList = RxList();
   void onInit() async {
     currentUser.value = await MainRepo.getCurrentUser();
-
+    // print(currentUser.value.userAward);
+    if (currentUser.value.userAward! > 0 &&
+        currentUser.value.userAward != null) {
+      medalList.value = [
+        currentUser.value.userAward!,
+        if (currentUser.value.userAward! > 5)
+          (currentUser.value.userAward! / 5).toInt()
+        else
+          0,
+        if (currentUser.value.userAward! > 10)
+          (currentUser.value.userAward! / 10).toInt()
+        else
+          0
+      ];
+    } else {
+      medalList.value = [0, 0, 0];
+    }
     initCategory();
     super.onInit();
   }
@@ -94,8 +111,6 @@ class HomeContoller extends GetxController {
     paryList.clear();
     print(json.encode(searchTeam.toMap()));
 
-    const token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNjk4NzYzOTM3LCJleHAiOjE2OTkxMjM5Mzd9.EcSP0CkJ9YlnOrsQu6bmLWpVswQ_OnaVclxMq02bSnVSmbidaFWWy29F5MBB9EvgeZrk_-h0MQq9ont48vtIdg';
     const path = 'api/party/search';
     final response = await http.post(
       Uri.parse(
@@ -125,8 +140,6 @@ class HomeContoller extends GetxController {
     paryList.clear();
     print(json.encode(searchTeam.toMap()));
 
-    const token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNjk4NzYzOTM3LCJleHAiOjE2OTkxMjM5Mzd9.EcSP0CkJ9YlnOrsQu6bmLWpVswQ_OnaVclxMq02bSnVSmbidaFWWy29F5MBB9EvgeZrk_-h0MQq9ont48vtIdg';
     const path = 'api/party/search';
     final response = await http.post(
       Uri.parse(

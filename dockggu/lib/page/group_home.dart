@@ -2,28 +2,32 @@ import 'package:dockggu/component/category_widget.dart';
 import 'package:dockggu/component/join_popup.dart';
 import 'package:dockggu/component/profile_widget.dart';
 import 'package:dockggu/component/yellow_button.dart';
+import 'package:dockggu/controller/addThon_controller.dart';
+import 'package:dockggu/controller/home_controller.dart';
+import 'package:dockggu/model/partyinfoDTO.dart';
 import 'package:dockggu/page/add_schedule.dart';
+import 'package:dockggu/repogistory/main_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class GroupHome extends StatefulWidget {
-  const GroupHome({super.key});
+import '../component/participate_thon.dart';
+import '../controller/team_controller.dart';
 
-  @override
-  State<GroupHome> createState() => _GroupHomeState();
-}
+class GroupHome extends GetView<TeamController> {
+  GroupHome({super.key});
+  var controller = Get.put(TeamController());
 
-class _GroupHomeState extends State<GroupHome> {
   Widget _groupInf() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
             height: 170,
-            width: MediaQuery.of(context).size.width,
+            width: Get.width,
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
+                  // 이미지 경로 백앤드 상의
                   'https://cdn.sisamagazine.co.kr/news/photo/202206/449057_455011_3458.jpg',
                   fit: BoxFit.cover,
                 ))),
@@ -40,19 +44,21 @@ class _GroupHomeState extends State<GroupHome> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '베이커가 221B번지',
+                    controller.currentTeam.value.partyName!,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    '추리소설 좋아하는 사람 모여라!',
+                    controller.currentTeam.value.partyIntro!,
                     style: TextStyle(fontSize: 12),
                   ),
                 ],
               ),
-              CategoryWidget(categoryName: '🕵🏻‍♂️ 소설')
+              CategoryWidget(
+                  categoryName:
+                      categoryMap![controller.currentTeam.value.partyCategory]!)
             ],
           ),
         )
@@ -60,75 +66,88 @@ class _GroupHomeState extends State<GroupHome> {
     );
   }
 
-  Widget _groupSchedule() {
+  Widget _groupSchedule(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 23),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '📆 일정',
-            style: TextStyle(fontSize: 18, color: Colors.black),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+      child: Obx(() => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '📆 일정',
+                style: TextStyle(fontSize: 18, color: Colors.black),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    mainAxisSize:MainAxisSize.max ,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '9/16 (토)',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        'D-5',
-                        style: TextStyle(color: Colors.red, fontSize: 16),
-                      )
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                controller.ongoingthonList.value
+                                        .bookertonStartDate ??
+                                    "0/0",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              // Text(
+                              //   'D-5',
+                              //   style: TextStyle(color: Colors.red, fontSize: 16),
+                              // )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                              '날짜 : ${controller.ongoingthonList.value.bookertonStartDate ?? "0/0"} ~ ${controller.ongoingthonList.value.bookertonEndDate ?? "0/0"}'),
+                          Text(
+                              '참여 인원 : ${controller.ongoingthonList.value.bookertonUserNum ?? 0} / ${controller.ongoingthonList.value.bookertonUserMaxnum ?? 0}')
+                        ],
+                      ),YellowButton(ontap: (){
+                        showModalBottomSheet(context: context, builder: (BuildContext context) => ParticipateThon());
+
+                      }, buttonText: '참가', buttonWidth: 60,buttonHeight: 30,)
                     ],
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text('날짜 : 9/16 ~ 9/23 (1주일)'),
-                  Text('참여 인원 : 15 / 30')
-                ],
-              ),
-            ),
-            height: 100,
-            decoration: BoxDecoration(
-              // border: const Border(
-              //   left: BorderSide(
-              //     color: Color(0xffFFC727),
-              //     width: 1.0,
-              //   ),
-              // ),
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.4),
-                  spreadRadius: 0,
-                  blurRadius: 1.0,
-                  offset: Offset(0, 5), // changes position of shadow
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
+                height: 100,
+                decoration: BoxDecoration(
+                  // border: const Border(
+                  //   left: BorderSide(
+                  //     color: Color(0xffFFC727),
+                  //     width: 1.0,
+                  //   ),
+                  // ),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 0,
+                      blurRadius: 1.0,
+                      offset: Offset(0, 5), // changes position of shadow
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )),
     );
   }
 
@@ -136,20 +155,32 @@ class _GroupHomeState extends State<GroupHome> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 23),
       child: Container(
+        alignment: Alignment.centerLeft,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '👥 모임 멤버 (15)',
+              '👥 모임 멤버 (${controller.partyMembers.length})',
               style: TextStyle(fontSize: 18, color: Colors.black),
             ),
-            SizedBox(height: 14,),
+            SizedBox(
+              height: 14,
+            ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(children: [
-              ...List.generate(10, (index) => ProfileWidget(thumbPath: 'https://images.mypetlife.co.kr/content/uploads/2023/01/03112035/bay._.curry_thumnail.png',size: 50,type: ProfileType.TYPE2,nickname: "kancho",))
-            
-              ],),
+              child: Row(
+                children: [
+                  ...List.generate(
+                      controller.partyMembers.length,
+                      (index) => ProfileWidget(
+                            thumbPath:
+                                'https://images.mypetlife.co.kr/content/uploads/2023/01/03112035/bay._.curry_thumnail.png',
+                            size: 50,
+                            type: ProfileType.TYPE2,
+                            nickname:
+                                controller.partyMembers[index].userNickname,
+                          ))
+                ],
+              ),
             )
           ],
         ),
@@ -173,27 +204,44 @@ class _GroupHomeState extends State<GroupHome> {
           const SizedBox(
             height: 15,
           ),
-          _groupSchedule(),
+          _groupSchedule(context),
           const SizedBox(
             height: 15,
           ),
-          YellowButton(ontap: (){
-            Navigator.push(context,MaterialPageRoute(builder: (_)=> AddScadule()));
-          }, buttonText: "일정 만들기", buttonWidth: MediaQuery.of(context).size.width*0.6),
+          YellowButton(
+              ontap: () {
+                Get.put(AddThonController());
+                Get.find<AddThonController>().currentTeam.value =
+                    controller.currentTeam.value;
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => AddScadule()));
+              },
+              buttonText: "일정 만들기",
+              buttonWidth: MediaQuery.of(context).size.width * 0.6),
           const SizedBox(
             height: 30,
           ),
-          _memberList()
-          ,
-          SizedBox(height: 30,)
-          ,YellowButton(ontap: (){
-            showDialog(
-          context: context,
-          builder: (context) => JoinPopup(
-                groupName: '기술경영',
-              ));
-      
-          }, buttonText: '가입하기', buttonWidth: 120)
+          _memberList(),
+          SizedBox(
+            height: 30,
+          ),
+          YellowButton(
+              ontap: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => JoinPopup(
+                          okbtn: () {
+                            MainRepo.registerParty(
+                                controller.currentTeam.value.partyId!);
+                          },
+                          groupName: controller.currentTeam.value.partyName!,
+                        ));
+              },
+              buttonText: '가입하기',
+              buttonWidth: 120),
+          SizedBox(
+            height: 100,
+          )
         ]),
       ),
     );

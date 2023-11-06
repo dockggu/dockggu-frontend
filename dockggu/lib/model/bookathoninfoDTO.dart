@@ -17,31 +17,31 @@ class PartyBookertonRequest {
 }
 // 해당 파티에서 진행한 모든 북커톤 가져오기 응답
 
-class BookertonDto {
-  final int partyId;
-  final int userId;
-  final String bookertonName;
-  final String bookertonStartDate;
-  final String bookertonEndDate;
-  final int bookertonUserNum;
-  final int bookertonUserMaxnum;
-  final String bookertonStatus;
-  final String bookertonCreationTime;
+class BookathonDTO {
+  final int? partyId;
+  final int? userId;
+  final String? bookertonName;
+  final String? bookertonStartDate;
+  final String? bookertonEndDate;
+  final int? bookertonUserNum;
+  final int? bookertonUserMaxnum;
+  final String? bookertonStatus;
+  final String? bookertonCreationTime;
 
-  BookertonDto({
-    required this.partyId,
-    required this.userId,
-    required this.bookertonName,
-    required this.bookertonStartDate,
-    required this.bookertonEndDate,
-    required this.bookertonUserNum,
-    required this.bookertonUserMaxnum,
-    required this.bookertonStatus,
-    required this.bookertonCreationTime,
+  BookathonDTO({
+     this.partyId,
+     this.userId,
+     this.bookertonName,
+     this.bookertonStartDate,
+     this.bookertonEndDate,
+     this.bookertonUserNum,
+     this.bookertonUserMaxnum,
+     this.bookertonStatus,
+     this.bookertonCreationTime,
   });
 
-  factory BookertonDto.fromJson(Map<String, dynamic> json) {
-    return BookertonDto(
+  factory BookathonDTO.fromJson(Map<String, dynamic> json) {
+    return BookathonDTO(
       partyId: json['partyId'],
       userId: json['userId'],
       bookertonName: json['bookertonName'],
@@ -74,23 +74,23 @@ class BookertonDetailRequest {
 
 // 북커톤 참여자 리스트 응답
 
-class UserDto {
-  final int userId;
-  final String userEmail;
-  final String userKakaoEmail;
-  final String userNickname;
-  final String userProfileImgName;
-  final String userProfileImgPath;
+// class UserDto {
+//   final int userId;
+//   final String userEmail;
+//   final String userKakaoEmail;
+//   final String userNickname;
+//   final String userProfileImgName;
+//   final String userProfileImgPath;
 
-  UserDto({
-    required this.userId,
-    required this.userEmail,
-    required this.userKakaoEmail,
-    required this.userNickname,
-    required this.userProfileImgName,
-    required this.userProfileImgPath,
-  });
-}
+//   UserDto({
+//     required this.userId,
+//     required this.userEmail,
+//     required this.userKakaoEmail,
+//     required this.userNickname,
+//     required this.userProfileImgName,
+//     required this.userProfileImgPath,
+//   });
+// }
 
 class MybookDto {
   final int bookId;
@@ -134,5 +134,36 @@ class UpdateBookReadPageRequest {
       'bookId': bookId,
       'bookReadPage': bookReadPage,
     };
+  }
+}
+class Book {
+  final String? title;
+  final String? author;
+  final String? pubDate;
+  final String? cover;
+  final int? categoryId;
+  final String? categoryName;
+  final String? publisher;
+
+  Book({
+     this.title,
+     this.author,
+     this.pubDate,
+     this.cover,
+     this.categoryId,
+     this.categoryName,
+     this.publisher,
+  });
+
+  factory Book.fromJson(Map<String, dynamic> json) {
+    return Book(
+      title: json['title'] ?? '',
+      author: json['author'] ?? '',
+      pubDate: json['pubDate'] ?? '',
+      cover: json['cover'] ?? '',
+      categoryId: json['categoryId'] ?? 0,
+      categoryName: json['categoryName'] ?? '',
+      publisher: json['publisher'] ?? '',
+    );
   }
 }

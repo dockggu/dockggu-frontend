@@ -60,33 +60,55 @@ class QueryData {
     };
   }
 }
+final Map<String, String>? categoryMap = {
+    'bc0000': '📚 전체',
+    'bc0001': '🕵🏻‍♂️ 소설',
+    'bc0002': '📕 에세이',
+    'bc0003': '🗺 여행',
+    'bc0004': '👤 인문학',
+    'bc0005': '🎨 디자인',
+    'bc0006': '🧐 철학',
+    'bc0007': '🗿 역사',
+    'bc0008': '🎫 예술/문화',
+    'bc0009': '📈 경제/경영',
+    'bc0010': '👩🏻‍⚖️ 사회/정치',
+    'bc0011': '✍🏻 시',
+    'bc0012': '🛍 라이프스타일',
+    'bc0013': '🏗 건축',
+    'bc0014': '🧬 과학',
+    'bc0015': '🖥 컴퓨터/IT',
+    'bc0016': '💪 건강/운동',
+    'bc0017': '👨🏻‍💻 자기계발',
+    'bc0018': '💵 재테크',
+    'bc0019': '📱 마케팅'
+  };
 
 //파티 정보 요청 응답 끝까지
 class PartyResponseDto {
-  final int partyId;
-  final String partyName;
-  final String partyIntro;
-  final int partyMaster;
-  final String partyCategory;
-  final int partyUserNum;
-  final int partyUserMaxnum;
-  final String partyCreationDate;
+  final int? partyId;
+  final String? partyName;
+  final String? partyIntro;
+  final int? partyMaster;
+  final String? partyCategory;
+  final int? partyUserNum;
+  final int? partyUserMaxnum;
+  final String? partyCreationDate;
   final String? partyLink;
-  final String partyProfileImgName;
-  final String partyProfileImgPath;
+  final String? partyProfileImgName;
+  final String? partyProfileImgPath;
 
   PartyResponseDto({
-    required this.partyId,
-    required this.partyName,
-    required this.partyIntro,
-    required this.partyMaster,
-    required this.partyCategory,
-    required this.partyUserNum,
-    required this.partyUserMaxnum,
-    required this.partyCreationDate,
-    required this.partyLink,
-    required this.partyProfileImgName,
-    required this.partyProfileImgPath,
+     this.partyId,
+     this.partyName,
+     this.partyIntro,
+     this.partyMaster,
+     this.partyCategory,
+     this.partyUserNum,
+     this.partyUserMaxnum,
+     this.partyCreationDate,
+     this.partyLink,
+     this.partyProfileImgName,
+     this.partyProfileImgPath,
   });
 
   factory PartyResponseDto.fromJson(Map<String, dynamic> json) {
@@ -144,21 +166,21 @@ class BookertonResponseDto {
   }
 }
 
-class PartyUserListResponseDto {
-  final int userId;
-  final String userNickname;
-  final String fileName;
-  final String fileUrl;
+class PartyMembersDTO {
+  final int? userId;
+  final String? userNickname;
+  final String? fileName;
+  final String? fileUrl;
 
-  PartyUserListResponseDto({
-    required this.userId,
-    required this.userNickname,
-    required this.fileName,
-    required this.fileUrl,
+  PartyMembersDTO({
+     this.userId,
+     this.userNickname,
+     this.fileName,
+     this.fileUrl,
   });
 
-  factory PartyUserListResponseDto.fromJson(Map<String, dynamic> json) {
-    return PartyUserListResponseDto(
+  factory PartyMembersDTO.fromJson(Map<String, dynamic> json) {
+    return PartyMembersDTO(
       userId: json['userId'],
       userNickname: json['userNickname'],
       fileName: json['fileName'],

@@ -12,7 +12,7 @@ class MyGroup extends StatelessWidget {
         '내 모임',
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 28,
+          fontSize: 23,
         ),
       ),
     );
