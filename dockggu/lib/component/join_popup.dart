@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 
 class JoinPopup extends StatelessWidget {
   String groupName;
+    final Function()? okbtn;
 
-  JoinPopup({super.key, required this.groupName});
+  JoinPopup({super.key, required this.groupName,required this.okbtn});
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,7 @@ class JoinPopup extends StatelessWidget {
                       alignment: Alignment.center,
                       child: YellowButton(
                         ontap: () {
+                          okbtn!();
                           showDialog(
                               context: context,
                               builder: (context) => JoinSuccess(

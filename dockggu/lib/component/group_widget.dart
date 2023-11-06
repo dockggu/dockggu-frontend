@@ -53,16 +53,11 @@ class GroupList extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => TabView()));
-                        },
-                        child: Text(
-                          teamName,
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )),
+                    Text(
+                      teamName,
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                     Text(
                       teaminfo,
                       style: TextStyle(fontSize: 12),

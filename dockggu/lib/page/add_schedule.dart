@@ -1,6 +1,8 @@
 import 'package:dockggu/component/yellow_button.dart';
+import 'package:dockggu/controller/addThon_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class AddScadule extends StatefulWidget {
   const AddScadule({super.key});
@@ -10,6 +12,9 @@ class AddScadule extends StatefulWidget {
 }
 
 class _AddScaduleState extends State<AddScadule> {
+
+    var controller = Get.put(AddThonController());
+
   DateTimeRange _range = DateTimeRange(
     start: DateTime.now(),
     end: DateTime.now().add(Duration(days: 7)),
@@ -23,7 +28,7 @@ class _AddScaduleState extends State<AddScadule> {
         locale: const Locale('ko', 'KR'));
 
     setState(() {
-      _range = range!;
+      controller.dateRange.value = range!;
     });
   }
 
@@ -53,7 +58,7 @@ class _AddScaduleState extends State<AddScadule> {
             child: Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: TextField(
-                // controller: textEditingController, // 나중에 주석 풀기
+                controller: controller.inputThonName, // 나중에 주석 풀기
                 decoration: InputDecoration(
                     disabledBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
@@ -147,7 +152,7 @@ class _AddScaduleState extends State<AddScadule> {
                 children: [
                   Expanded(
                     child: TextField(
-                      // controller: textEditingController, // 나중에 주석 풀기
+                      controller: controller.inputMaxMembers, // 나중에 주석 풀기
                       decoration: InputDecoration(
                           disabledBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -217,8 +222,9 @@ class _AddScaduleState extends State<AddScadule> {
                     _maxCount(),
                     SizedBox(height: 60),
                     YellowButton(
-                        ontap: () {
-                          Navigator.pop(context);
+                        ontap: () async{
+                          await controller.addThon();
+                          // Navigator.pop(context);
                         },
                         buttonText: '일정 추가',
                         buttonWidth: 100)
