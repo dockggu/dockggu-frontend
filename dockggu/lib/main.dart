@@ -1,9 +1,13 @@
-import 'package:dockggu/page/login_main.dart';
+import 'package:dockggu/login_main.dart';
 import 'package:dockggu/page/tabview.dart';
 
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+
 
 void main() {
+  KakaoSdk.init(nativeAppKey: '8f3c9a694dd2313de3a8e13522fa6d08'); // 이 줄을 runApp 위에 추가한다.
+
   runApp(const MainApp());
 }
 

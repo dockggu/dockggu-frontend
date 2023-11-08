@@ -16,7 +16,9 @@ class MakePartyController extends GetxController {
   TextEditingController inputMaxMembers = TextEditingController();
 
   Future<void> makeParty() async {
-
+    print(image.value);
+    print(categorycode.value);
+    
     await MainRepo.makeParty(image.value!, inputPartyName.text,
         inputPartyInfo.text, categorycode.value, int.parse(inputMaxMembers.text));
   }

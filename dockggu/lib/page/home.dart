@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 
+import '../repogistory/main_repo.dart';
 import 'tabview.dart';
 
 class Home extends GetView<HomeContoller> {
@@ -15,6 +16,7 @@ class Home extends GetView<HomeContoller> {
 
   var controller = Get.put(HomeContoller());
   Widget _banner() {
+
     return Column(
       children: [
         const SizedBox(
@@ -222,6 +224,7 @@ class Home extends GetView<HomeContoller> {
                             controller.paryList[index];
                         Get.find<TeamController>().getPartyMember();
                         Get.find<TeamController>().getBookathonList();
+                        Get.find<TeamController>().isMembers();
 
                         Get.to(TabView());
                       },

@@ -192,7 +192,7 @@ class GroupHome extends GetView<TeamController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(children: [
+        child: Obx(()=>Column(children: [
           _groupInf(),
           const SizedBox(
             height: 20,
@@ -225,6 +225,7 @@ class GroupHome extends GetView<TeamController> {
           SizedBox(
             height: 30,
           ),
+          if(controller.isRegister.value==false)
           YellowButton(
               ontap: () {
                 showDialog(
@@ -241,8 +242,11 @@ class GroupHome extends GetView<TeamController> {
               buttonWidth: 120),
           SizedBox(
             height: 100,
-          )
-        ]),
+          ),
+          // Image.network(
+          //   ''
+          // ),
+        ])),
       ),
     );
   }

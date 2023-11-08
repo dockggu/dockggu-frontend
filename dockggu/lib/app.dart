@@ -33,9 +33,7 @@ class App extends GetView<BottomNavController> {
                 children:  [Home(), MyGroup() ,Mypage1()]),
             bottomNavigationBar: BottomNavigationBar(
                 onTap: controller.changeBottomNav,
-                // // 라벨 없이 아이콘만 들어가도록
-                // showSelectedLabels: false,
-                // showUnselectedLabels: false,
+         
                 elevation: 3,
                 type:
                     BottomNavigationBarType.fixed, // 버튼이 활성화 되었을 때 위로 안올라가게 고정
