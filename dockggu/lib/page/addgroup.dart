@@ -62,10 +62,10 @@ class _AddGroupState extends State<AddGroup> {
                 offset: Offset(0, 1), // changes position of shadow
               ),
             ], borderRadius: BorderRadius.circular(5), color: Colors.white),
-            child: const Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+            child:  Padding(
+              padding:  EdgeInsets.only(left: 10.0),
               child: TextField(
-                // controller: textEditingController, // 나중에 주석 풀기
+                controller: controller.inputPartyName, // 나중에 주석 풀기
                 decoration: InputDecoration(
                     disabledBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
@@ -200,7 +200,7 @@ class _AddGroupState extends State<AddGroup> {
             child: Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: TextField(
-                // controller: textEditingController, // 나중에 주석 풀기
+                controller: controller.inputPartyInfo, // 나중에 주석 풀기
                 decoration: InputDecoration(
                   disabledBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -245,7 +245,7 @@ class _AddGroupState extends State<AddGroup> {
                 children: [
                   Expanded(
                     child: TextField(
-                      // controller: textEditingController, // 나중에 주석 풀기
+                      controller: controller.inputMaxMembers, // 나중에 주석 풀기
                       decoration: InputDecoration(
                           disabledBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,

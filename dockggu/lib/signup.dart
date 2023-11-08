@@ -4,12 +4,15 @@ import 'package:dockggu/component/yellow_button.dart';
 import 'package:dockggu/email_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
+import 'controller/signup_controller.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+  SignUp({super.key});
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -17,6 +20,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   WebViewController? _webViewController;
+  var controller = Get.put(SignUpController());
 
   Widget _header() {
     return Row(
@@ -67,6 +71,7 @@ class _SignUpState extends State<SignUp> {
             width: 100,
             height: 40,
             child: TextField(
+              controller: controller.inputName,
               decoration: InputDecoration(
                   hintText: '이름입력', contentPadding: EdgeInsets.zero),
             ),
@@ -78,6 +83,7 @@ class _SignUpState extends State<SignUp> {
             width: 250,
             height: 40,
             child: TextField(
+              controller: controller.inputEmail,
               decoration: InputDecoration(
                   hintText: 'Email', contentPadding: EdgeInsets.zero),
             ),
@@ -89,6 +95,7 @@ class _SignUpState extends State<SignUp> {
             width: 250,
             height: 40,
             child: TextField(
+              controller: controller.inputPw,
               decoration: InputDecoration(
                   hintText: '비밀번호', contentPadding: EdgeInsets.zero),
             ),
@@ -100,6 +107,7 @@ class _SignUpState extends State<SignUp> {
             width: 250,
             height: 40,
             child: TextField(
+              controller: controller.inputRePw,
               decoration: InputDecoration(
                   hintText: '비밀번호 확인', contentPadding: EdgeInsets.zero),
             ),
@@ -202,24 +210,6 @@ class _SignUpState extends State<SignUp> {
     print(responseJson);
   }
 
-  // Future<void> initiateKakaoSignUp() async {
-  //   // 카카오 로그인
-  //   final clientId = '155bd25b5b420714ad17441b610b274e';
-  //   final redirectUri = 'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/api/oauth/kakao';
-
-  //   final url = Uri.https(
-  //     'kauth.kakao.com',
-  //     '/oauth/authorize',
-  //     {
-  //       'client_id': clientId,
-  //       'redirect_uri': redirectUri,
-  //       'response_type': 'code',
-  //     },
-  //   );
-
-  //   launchUrl(Uri.parse(url.toString()));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -243,6 +233,7 @@ class _SignUpState extends State<SignUp> {
                 alignment: Alignment.center,
                 child: YellowButton(
                     ontap: () {
+                      controller.signUp();
                       // fetchData();
                       // getUserInf();
                       // initiateKakaoSignUp();
@@ -250,12 +241,12 @@ class _SignUpState extends State<SignUp> {
                       // Navigator.push(
                       //         context, MaterialPageRoute(builder: (_) => App()));
                     },
-                    buttonText: '카카오 가입하기',
+                    buttonText: '가입하기',
                     buttonWidth: 300)),
             SizedBox(
               height: 40,
             ),
-            _loginselect()
+            // _loginselect()
           ],
         ),
       ),

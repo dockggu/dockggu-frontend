@@ -210,3 +210,59 @@ class UserDto {
 //     };
 //   }
 // }
+
+//회원가입
+class SignUpDTO {
+  final String userEmail;
+  final String userPassword;
+  final String userPasswordCheck;
+  final String userNickname;
+
+  SignUpDTO({
+    required this.userEmail,
+    required this.userPassword,
+    required this.userPasswordCheck,
+    required this.userNickname,
+  });
+
+  factory SignUpDTO.fromJson(Map<String, dynamic> json) {
+    return SignUpDTO(
+      userEmail: json['userEmail'],
+      userPassword: json['userPassword'],
+      userPasswordCheck: json['userPasswordCheck'],
+      userNickname: json['userNickname'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userEmail': userEmail,
+      'userPassword': userPassword,
+      'userPasswordCheck': userPasswordCheck,
+      'userNickname': userNickname,
+    };
+  }
+}
+class LoginDTO {
+  final String userEmail;
+  final String userPassword;
+
+  LoginDTO({
+    required this.userEmail,
+    required this.userPassword,
+  });
+
+  factory LoginDTO.fromJson(Map<String, dynamic> json) {
+    return LoginDTO(
+      userEmail: json['userEmail'],
+      userPassword: json['userPassword'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userEmail': userEmail,
+      'userPassword': userPassword,
+    };
+  }
+}

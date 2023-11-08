@@ -1,16 +1,19 @@
 import 'package:dockggu/component/yellow_button.dart';
+import 'package:dockggu/controller/signup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart';
 
 import 'app.dart';
 
 class EmailLogin extends StatelessWidget {
-  const EmailLogin({super.key});
+   EmailLogin({super.key});
 
 void unfocusKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
-
+var controller = Get.put(SignUpController());
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -42,6 +45,7 @@ void unfocusKeyboard() {
                           Text(
                             '📧 이메일로 로그인하기',
                             style: TextStyle(
+                              
                                 fontSize: 21, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -51,6 +55,8 @@ void unfocusKeyboard() {
                             width: 230,
                             height: 40,
                             child: TextField(
+                              controller: controller.loginEmail,
+                            
                               decoration: InputDecoration(
                                   hintText: 'Email',
                                   contentPadding: EdgeInsets.zero),
@@ -63,6 +69,7 @@ void unfocusKeyboard() {
                             width: 230,
                             height: 40,
                             child: TextField(
+                              controller: controller.loginPw,
                               decoration: InputDecoration(
                                   hintText: '비밀번호',
                                   contentPadding: EdgeInsets.zero),
@@ -75,6 +82,7 @@ void unfocusKeyboard() {
                               alignment: Alignment.center,
                               child: YellowButton(
                                   ontap: () {
+                                    controller.login();
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (_) => App()));
                                   },

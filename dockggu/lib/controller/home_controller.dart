@@ -81,8 +81,29 @@ class HomeContoller extends GetxController {
   ].obs;
   RxList<PartyResponseDto> paryList = RxList();
   void onInit() async {
-    currentUser.value = await MainRepo.getCurrentUser();
+    // currentUser.value = await MainRepo.getCurrentUser();
     // print(currentUser.value.userAward);
+    // if (currentUser.value.userAward! > 0 &&
+    //     currentUser.value.userAward != null) {
+    //   medalList.value = [
+    //     currentUser.value.userAward!,
+    //     if (currentUser.value.userAward! > 5)
+    //       (currentUser.value.userAward! / 5).toInt()
+    //     else
+    //       0,
+    //     if (currentUser.value.userAward! > 10)
+    //       (currentUser.value.userAward! / 10).toInt()
+    //     else
+    //       0
+    //   ];
+    // } else {
+    //   medalList.value = [0, 0, 0];
+    // }
+    // initCategory();
+    super.onInit();
+  }
+
+  Future<void> medalFunc()async{
     if (currentUser.value.userAward! > 0 &&
         currentUser.value.userAward != null) {
       medalList.value = [
@@ -99,10 +120,8 @@ class HomeContoller extends GetxController {
     } else {
       medalList.value = [0, 0, 0];
     }
-    initCategory();
-    super.onInit();
   }
-
+  
   Future<void> initCategory() async {
     initList.value = itemsmap.keys.toList();
 
