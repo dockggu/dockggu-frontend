@@ -1,9 +1,24 @@
+import 'package:dockggu/controller/party_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../component/group_widget.dart';
 
-class MyGroup extends StatelessWidget {
+class MyGroup extends StatefulWidget {
   const MyGroup({super.key});
+
+  @override
+  State<MyGroup> createState() => _MyGroupState();
+}
+
+class _MyGroupState extends State<MyGroup> {
+  final PartyController partyController = Get.put(PartyController());
+
+  @override
+  void initState() {
+    super.initState();
+    partyController.fetchPartyList();
+  }
 
   Widget _header() {
     return Padding(
@@ -18,16 +33,34 @@ class MyGroup extends StatelessWidget {
     );
   }
 
-  // Widget _groupList() {
-  //   return Column(
-  //     children: [
-  //       SizedBox(
-  //         height: 15,
-  //       ),
-  //       ...List.generate(4, (index) => GroupList())
-  //     ],
-  //   );
-  // }
+  Widget _groupList() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 15,
+        ),
+        ...List.generate(
+            partyController.partyList.length,
+            (index) => GroupList2(
+                  partyId: partyController.partyList[index].partyId,
+                  partyName: partyController.partyList[index].partyName,
+                  partyIntro: partyController.partyList[index].partyIntro,
+                  partyMaster: partyController.partyList[index].partyMaster,
+                  partyCategory: partyController.partyList[index].partyCategory,
+                  partyUserNum: partyController.partyList[index].partyUserNum,
+                  partyUserMaxnum:
+                      partyController.partyList[index].partyUserMaxnum,
+                  partyCreationDate:
+                      partyController.partyList[index].partyCreationDate,
+                  partyLink: partyController.partyList[index].partyLink,
+                  partyProfileImgName:
+                      partyController.partyList[index].partyProfileImgName,
+                  partyProfileImgPath:
+                      partyController.partyList[index].partyProfileImgPath,
+                ))
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +71,7 @@ class MyGroup extends StatelessWidget {
         elevation: 0,
       ),
       body: ListView(
-        children: [_header(),
-        //  _groupList()
-         ],
+        children: [_header(), _groupList()],
       ),
     );
   }

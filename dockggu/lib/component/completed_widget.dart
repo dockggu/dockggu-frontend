@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
 
 class CompletedWidget extends StatelessWidget {
-  String date;
-  String duration;
-  String progress;
+  final int? partyId;
+  final int? userId;
+  final String? bookertonName;
+  final String? bookertonStartDate;
+  final String? bookertonEndDate;
+  final int? bookertonUserNum;
+  final int? bookertonUserMaxnum;
+  final String? bookertonStatus;
+  final String? bookertonCreationTime;
+  // final int? bookTotalPage;
+  // final int? bookReadPage;
 
-  CompletedWidget({
-    super.key,
-    this.date = '9/16 (토)',
-    this.duration = '날짜 : 9/16 ~ 9/23 (1주)',
-    this.progress = '독서 진행률: 90%',
-  });
+  CompletedWidget(
+      {super.key,
+      this.partyId,
+      this.userId,
+      this.bookertonName,
+      this.bookertonStartDate,
+      this.bookertonEndDate,
+      this.bookertonUserNum,
+      this.bookertonUserMaxnum,
+      this.bookertonStatus,
+      this.bookertonCreationTime,
+      // this.bookReadPage,
+      // this.bookTotalPage
+      });
 
   Widget _header() {
     return Text(
-      '$date',
+      'date',
       style: TextStyle(
           fontSize: 16, color: Color(0xff000000), fontWeight: FontWeight.bold),
     );
@@ -22,7 +38,7 @@ class CompletedWidget extends StatelessWidget {
 
   Widget _duration() {
     return Text(
-      '$duration',
+      'duration',
       style: TextStyle(
         fontSize: 14,
         color: Color(0xff000000),
@@ -33,7 +49,7 @@ class CompletedWidget extends StatelessWidget {
 
   Widget _progress() {
     return Text(
-      '$progress',
+      'progress',
       style: TextStyle(
         fontSize: 14,
         color: Color(0xff000000),
@@ -63,7 +79,7 @@ class CompletedWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:() {
+      onTap: () {
         print('Gesture Successfully Detected!');
       },
       child: Container(
