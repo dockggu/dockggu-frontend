@@ -25,7 +25,7 @@ class _TabViewState extends State<TabView> {
   @override
   void initState() {
     super.initState();
-    bookertonController.fetchBookertonData(1, 1);
+    // bookertonController.fetchBookertonData(1, 1);
   }
 
   Widget _tabbarWidget() {
@@ -57,7 +57,7 @@ class _TabViewState extends State<TabView> {
   }
 
   Widget _bookathonList() {
-    return ListView.builder(
+    return Obx(()=>ListView.builder(
         key: PageStorageKey('PageStorage'),
         itemCount: bookertonController.bookertonList.length,
         itemBuilder: (context, index) {
@@ -102,7 +102,7 @@ class _TabViewState extends State<TabView> {
             // bookTotalPage: myBookController.myBookList[index].bookTotalPage,
             // bookReadPage: myBookController.myBookList[index].bookReadPage,
           );
-        });
+        }));
   }
 
   @override

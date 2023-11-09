@@ -3,7 +3,6 @@ import 'package:dockggu/component/join_popup.dart';
 import 'package:dockggu/component/profile_widget.dart';
 import 'package:dockggu/component/yellow_button.dart';
 import 'package:dockggu/controller/addThon_controller.dart';
-import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/model/partyinfoDTO.dart';
 import 'package:dockggu/page/add_schedule.dart';
 import 'package:dockggu/repogistory/main_repo.dart';
@@ -83,7 +82,7 @@ class GroupHome extends GetView<TeamController> {
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
-                    mainAxisSize:MainAxisSize.max ,
+                    mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
@@ -117,10 +116,18 @@ class GroupHome extends GetView<TeamController> {
                           Text(
                               '참여 인원 : ${controller.ongoingthonList.value.bookertonUserNum ?? 0} / ${controller.ongoingthonList.value.bookertonUserMaxnum ?? 0}')
                         ],
-                      ),YellowButton(ontap: (){
-                        showModalBottomSheet(context: context, builder: (BuildContext context) => ParticipateThon());
-
-                      }, buttonText: '참가', buttonWidth: 60,buttonHeight: 30,)
+                      ),
+                      YellowButton(
+                        ontap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  ParticipateThon());
+                        },
+                        buttonText: '참가',
+                        buttonWidth: 60,
+                        buttonHeight: 30,
+                      )
                     ],
                   ),
                 ),
@@ -192,62 +199,63 @@ class GroupHome extends GetView<TeamController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Obx(()=>Column(children: [
-          _groupInf(),
-          const SizedBox(
-            height: 20,
-          ),
-          const Divider(
-            color: Color(0xffEBEBEB),
-            thickness: 17,
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          _groupSchedule(context),
-          const SizedBox(
-            height: 15,
-          ),
-          YellowButton(
-              ontap: () {
-                Get.put(AddThonController());
-                Get.find<AddThonController>().currentTeam.value =
-                    controller.currentTeam.value;
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => AddScadule()));
-              },
-              buttonText: "일정 만들기",
-              buttonWidth: MediaQuery.of(context).size.width * 0.6),
-          const SizedBox(
-            height: 30,
-          ),
-          _memberList(),
-          SizedBox(
-            height: 30,
-          ),
-          if(controller.isRegister.value==false)
-          YellowButton(
-              ontap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => JoinPopup(
-                          okbtn: () {
-                            MainRepo.registerParty(
-                                controller.currentTeam.value.partyId!);
-                                controller.getPartyMember();
-                          },
-                          groupName: controller.currentTeam.value.partyName!,
-                        ));
-              },
-              buttonText: '가입하기',
-              buttonWidth: 120),
-          SizedBox(
-            height: 100,
-          ),
-          // Image.network(
-          //   ''
-          // ),
-        ])),
+        child: Obx(() => Column(children: [
+              _groupInf(),
+              const SizedBox(
+                height: 20,
+              ),
+              const Divider(
+                color: Color(0xffEBEBEB),
+                thickness: 17,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              _groupSchedule(context),
+              const SizedBox(
+                height: 15,
+              ),
+              YellowButton(
+                  ontap: () {
+                    Get.put(AddThonController());
+                    Get.find<AddThonController>().currentTeam.value =
+                        controller.currentTeam.value;
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => AddScadule()));
+                  },
+                  buttonText: "일정 만들기",
+                  buttonWidth: MediaQuery.of(context).size.width * 0.6),
+              const SizedBox(
+                height: 30,
+              ),
+              _memberList(),
+              SizedBox(
+                height: 30,
+              ),
+              if (controller.isRegister.value == false)
+                YellowButton(
+                    ontap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => JoinPopup(
+                                okbtn: () {
+                                  MainRepo.registerParty(
+                                      controller.currentTeam.value.partyId!);
+                                  controller.getPartyMember();
+                                },
+                                groupName:
+                                    controller.currentTeam.value.partyName!,
+                              ));
+                    },
+                    buttonText: '가입하기',
+                    buttonWidth: 120),
+              SizedBox(
+                height: 100,
+              ),
+              // Image.network(
+              //   ''
+              // ),
+            ])),
       ),
     );
   }
