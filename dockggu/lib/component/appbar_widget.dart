@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controller/team_controller.dart';
+
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   const AppBarWidget({Key? key,
@@ -31,6 +33,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               color: Colors.black,
             ),
             onTap: () {
+                              // Get.delete<TeamController>();
+
+
               Get.back();
             },
           ),

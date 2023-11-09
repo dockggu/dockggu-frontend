@@ -21,5 +21,6 @@ class AddThonController extends GetxController {
         DateFormat("yyyyMMdd").format(dateRange.value.start),
         DateFormat("yyyyMMdd").format(dateRange.value.end),
         int.parse(inputMaxMembers.text));
+        Navigator.pop(Get.context!);
   }
 }

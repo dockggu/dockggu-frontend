@@ -7,9 +7,11 @@ import '../model/bookathoninfoDTO.dart';
 import '../model/makebookathonDTO.dart';
 import '../model/mypageDTO.dart';
 import '../model/partyinfoDTO.dart';
+
 var tttt = "";
-var token ="";
-    // 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTY5OTExNDA2MywiZXhwIjoxNjk5NDc0MDYzfQ.VYbYWqcNyCw39g9GEce05jNfnTvVP7ofOKH1k8I9eujCK-v7GnElhHMpm_OYTuW4KVZQuwZy2bz0U7UBLhBH3w';
+var token = "";
+
+// 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTY5OTExNDA2MywiZXhwIjoxNjk5NDc0MDYzfQ.VYbYWqcNyCw39g9GEce05jNfnTvVP7ofOKH1k8I9eujCK-v7GnElhHMpm_OYTuW4KVZQuwZy2bz0U7UBLhBH3w';
 // eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTY5OTExNDA2MywiZXhwIjoxNjk5NDc0MDYzfQ.VYbYWqcNyCw39g9GEce05jNfnTvVP7ofOKH1k8I9eujCK-v7GnElhHMpm_OYTuW4KVZQuwZy2bz0U7UBLhBH3w
 class MainRepo {
 // 본인 누군지 가져오는 함수
@@ -99,7 +101,6 @@ class MainRepo {
     );
     final responseJson =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-
     for (int i = 0; i < responseJson['data'].length; i++) {
       bookathonList.add(BookathonDTO.fromJson(responseJson['data'][i]));
     }
@@ -110,6 +111,7 @@ class MainRepo {
       String partyIntro, String partyCategory, int partyUserMaxnum) async {
     var path = '/api/party/throw';
 
+
     try {
       var request = http.MultipartRequest(
         'POST',
@@ -118,34 +120,29 @@ class MainRepo {
       );
       request.headers['Authorization'] = 'Bearer $token';
 
-      // 다른 필드 추가
       request.fields['partyName'] = partyName;
       request.fields['partyIntro'] = partyIntro;
       request.fields['partyCategory'] = partyCategory;
       request.fields['partyUserMaxnum'] = partyUserMaxnum.toString();
+      print(request.fields);
 
-      // 이미지 파일 추가
       request.files.add(
         await http.MultipartFile.fromPath(
           'imgFile',
           imageFile.path,
         ),
       );
-      // print(request.files);
 
       final response = await request.send();
 
       if (response.statusCode == 200) {
-        // 성공적으로 업로드된 경우
         print('response.statusCode = ${response.statusCode}');
 
         print('파티 생성 성공');
       } else {
-        // 업로드 실패한 경우
         print('파티 업로드 실패: ${response.reasonPhrase}');
       }
     } catch (error) {
-      // 예외 처리
       print('오류 발생: $error');
     }
   }
@@ -161,12 +158,11 @@ class MainRepo {
 
     // var party = {"partyId": thisparty};
     const path = '/api/bookerton/create';
-    
+
     final response = await http.post(
       Uri.parse(
           'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path'),
       body: json.encode(thondata),
-      
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
         'Authorization': 'Bearer $token',
@@ -176,4 +172,27 @@ class MainRepo {
     print(json.encode(thondata));
     print(response.body);
   }
+
+static Future<void> participateThon(ParicipateBookathon data) async {
+    
+
+    // var party = {"partyId": thisparty};
+    const path = '/api/bookerton/participant';
+
+    final response = await http.post(
+      Uri.parse(
+          'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path'),
+      body: json.encode(data),
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': 'Bearer $token',
+        'Accept-Charset': 'utf-8',
+      },
+    );
+    print(json.encode(data));
+    print(response.body);
+  }
+
+
+
 }
