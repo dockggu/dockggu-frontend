@@ -23,10 +23,42 @@ class BookWidget extends StatelessWidget {
 }
 
 class ProgressWidget extends StatelessWidget {
-  const ProgressWidget({super.key});
+  final int? bookId;
+  final int? userId;
+  final int? bookertonId;
+  final String? bookName;
+  final String? bookAuthor;
+  final String? bookPublisher;
+  final int? bookTotalPage;
+  final int? bookReadPage;
+  final String? bookImgName;
+  final String? bookImgPath;
+
+  const ProgressWidget({
+    super.key,
+    this.bookId,
+    this.userId,
+    this.bookertonId,
+    this.bookName,
+    this.bookAuthor,
+    this.bookPublisher,
+    this.bookTotalPage,
+    this.bookReadPage,
+    this.bookImgName,
+    this.bookImgPath,
+  });
 
   @override
   Widget build(BuildContext context) {
+    double getPagePercent(int readPage, int totalPage) {
+      if (totalPage == 0) {
+        return 0.0;
+      }
+      return (readPage / totalPage) * 100.0;
+    }
+
+    double pagePercent = getPagePercent(bookReadPage ?? 0, bookTotalPage ?? 0);
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 30),
       width: MediaQuery.of(context).size.width * 0.55,
@@ -36,13 +68,13 @@ class ProgressWidget extends StatelessWidget {
         children: [
           Container(
             child: FractionallySizedBox(
-                child: ProfileWidget(
-              thumbPath:
-                  'https://images.mypetlife.co.kr/content/uploads/2023/01/03112035/bay._.curry_thumnail.png',
-              size: 40,
-              type: ProfileType.TYPE3,
-              nickname: "Kancho",
-            ),
+              child: ProfileWidget(
+                thumbPath:
+                    'https://images.mypetlife.co.kr/content/uploads/2023/01/03112035/bay._.curry_thumnail.png',
+                size: 40,
+                type: ProfileType.TYPE3,
+                nickname: "$userId",
+              ),
             ),
             alignment: FractionalOffset(0.9, 1 - 0.9),
           ),
@@ -50,7 +82,7 @@ class ProgressWidget extends StatelessWidget {
             height: 5,
           ),
           LinearPercentIndicator(
-            percent: 0.9,
+            percent: pagePercent,
             lineHeight: 10,
             barRadius: Radius.circular(10),
             progressColor: Color(0xffFFC100),
@@ -63,27 +95,79 @@ class ProgressWidget extends StatelessWidget {
 }
 
 class PercentWidget extends StatelessWidget {
-  const PercentWidget({super.key});
+  final int? bookId;
+  final int? userId;
+  final int? bookertonId;
+  final String? bookName;
+  final String? bookAuthor;
+  final String? bookPublisher;
+  final int? bookTotalPage;
+  final int? bookReadPage;
+  final String? bookImgName;
+  final String? bookImgPath;
+
+  const PercentWidget({
+    super.key,
+    this.bookId,
+    this.userId,
+    this.bookertonId,
+    this.bookName,
+    this.bookAuthor,
+    this.bookPublisher,
+    this.bookTotalPage,
+    this.bookReadPage,
+    this.bookImgName,
+    this.bookImgPath,
+  });
 
   @override
   Widget build(BuildContext context) {
+    double getPagePercent(int readPage, int totalPage) {
+      return (readPage / totalPage) * 100.0;
+    }
+
+    double pagePercent = getPagePercent(bookReadPage ?? 0, bookTotalPage ?? 0);
+     int percenttoInt = pagePercent.toInt();
     return Container(
       padding: EdgeInsets.fromLTRB(10, 50, 0, 0),
       alignment: Alignment.centerLeft,
       width: MediaQuery.of(context).size.width * 0.15,
       margin: EdgeInsets.only(top: 20),
       height: 150,
-      child: Text('90%',
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-      ),
+      child: Text(
+        '$percenttoInt%',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
 }
 
 class TitleWidget extends StatelessWidget {
-  const TitleWidget({super.key});
+  final int? bookId;
+  final int? userId;
+  final int? bookertonId;
+  final String? bookName;
+  final String? bookAuthor;
+  final String? bookPublisher;
+  final int? bookTotalPage;
+  final int? bookReadPage;
+  final String? bookImgName;
+  final String? bookImgPath;
+  const TitleWidget({
+    super.key,
+    this.bookId,
+    this.userId,
+    this.bookertonId,
+    this.bookName,
+    this.bookAuthor,
+    this.bookPublisher,
+    this.bookTotalPage,
+    this.bookReadPage,
+    this.bookImgName,
+    this.bookImgPath,
+  });
 
   @override
   Widget build(BuildContext context) {

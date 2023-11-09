@@ -1,4 +1,6 @@
 import 'package:dockggu/component/appbar_widget.dart';
+import 'package:dockggu/controller/bookerton_controller.dart';
+import 'package:dockggu/controller/mybook_controller.dart';
 import 'package:dockggu/page/group_home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,9 +8,25 @@ import '../component/completed_widget.dart';
 import '../component/inprogress_widget.dart';
 import '../controller/team_controller.dart';
 
-class TabView extends StatelessWidget {
-  TabView({super.key});
+class TabView extends StatefulWidget {
+  const TabView({super.key});
+
+  @override
+  State<TabView> createState() => _TabViewState();
+}
+
+class _TabViewState extends State<TabView> {
+  final BookertonController bookertonController =
+      Get.put(BookertonController());
+  final MyBookController myBookController = Get.put(MyBookController());
+
   var controller = Get.put(TeamController());
+
+  @override
+  void initState() {
+    super.initState();
+    bookertonController.fetchBookertonData(1, 1);
+  }
 
   Widget _tabbarWidget() {
     return TabBar(
@@ -41,10 +59,49 @@ class TabView extends StatelessWidget {
   Widget _bookathonList() {
     return ListView.builder(
         key: PageStorageKey('PageStorage'),
-        itemCount: 4,
-        itemBuilder: (context, idx) {
-          if (idx == 0) return InProgressWidget();
-          return CompletedWidget();
+        itemCount: bookertonController.bookertonList.length,
+        itemBuilder: (context, index) {
+          if (bookertonController.bookertonList[index].bookertonStatus == 'A')
+            return InProgressWidget(
+              partyId: bookertonController.bookertonList[index].partyId,
+              userId: bookertonController.bookertonList[index].userId,
+              bookertonName:
+                  bookertonController.bookertonList[index].bookertonName,
+              bookertonStartDate:
+                  bookertonController.bookertonList[index].bookertonStartDate,
+              bookertonEndDate:
+                  bookertonController.bookertonList[index].bookertonEndDate,
+              bookertonUserNum:
+                  bookertonController.bookertonList[index].bookertonUserNum,
+              bookertonUserMaxnum:
+                  bookertonController.bookertonList[index].bookertonUserMaxnum,
+              bookertonStatus:
+                  bookertonController.bookertonList[index].bookertonStatus,
+              bookertonCreationTime: bookertonController
+                  .bookertonList[index].bookertonCreationTime,
+              // bookTotalPage: myBookController.myBookList[index].bookTotalPage,
+              // bookReadPage: myBookController.myBookList[index].bookReadPage,
+            );
+          return CompletedWidget(
+            partyId: bookertonController.bookertonList[index].partyId,
+            userId: bookertonController.bookertonList[index].userId,
+            bookertonName:
+                bookertonController.bookertonList[index].bookertonName,
+            bookertonStartDate:
+                bookertonController.bookertonList[index].bookertonStartDate,
+            bookertonEndDate:
+                bookertonController.bookertonList[index].bookertonEndDate,
+            bookertonUserNum:
+                bookertonController.bookertonList[index].bookertonUserNum,
+            bookertonUserMaxnum:
+                bookertonController.bookertonList[index].bookertonUserMaxnum,
+            bookertonStatus:
+                bookertonController.bookertonList[index].bookertonStatus,
+            bookertonCreationTime:
+                bookertonController.bookertonList[index].bookertonCreationTime,
+            // bookTotalPage: myBookController.myBookList[index].bookTotalPage,
+            // bookReadPage: myBookController.myBookList[index].bookReadPage,
+          );
         });
   }
 

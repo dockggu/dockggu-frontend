@@ -96,46 +96,62 @@ class BookertonDetailRequest {
 //   });
 // }
 
-class MybookDto {
-  final int bookId;
-  final int userId;
-  final int bookertonId;
-  final String bookName;
-  final String bookAuthor;
-  final String bookPublisher;
-  final int bookTotalPage;
-  final int bookReadPage;
-  final String bookImgName;
-  final String bookImgPath;
+class MyBookDto {
+  final int? bookId;
+  final int? userId;
+  final int? bookertonId;
+  final String? bookName;
+  final String? bookAuthor;
+  final String? bookPublisher;
+  final int? bookTotalPage;
+  final int? bookReadPage;
+  final String? bookImgName;
+  final String? bookImgPath;
 
-  MybookDto({
-    required this.bookId,
-    required this.userId,
-    required this.bookertonId,
-    required this.bookName,
-    required this.bookAuthor,
-    required this.bookPublisher,
-    required this.bookTotalPage,
-    required this.bookReadPage,
-    required this.bookImgName,
-    required this.bookImgPath,
+  MyBookDto({
+    this.bookId,
+    this.userId,
+    this.bookertonId,
+    this.bookName,
+    this.bookAuthor,
+    this.bookPublisher,
+    this.bookTotalPage,
+    this.bookReadPage,
+    this.bookImgName,
+    this.bookImgPath,
   });
+
+  factory MyBookDto.fromJson(Map<String, dynamic> json) {
+    return MyBookDto(
+      bookId: json['bookId'],
+      userId: json['userId'],
+      bookertonId: json['bookertonId'],
+      bookName: json['bookName'],
+      bookAuthor: json['bookAuthor'],
+      bookPublisher: json['bookPublisher'],
+      bookTotalPage: json['bookTotalPage'],
+      bookReadPage: json['bookReadPage'],
+      bookImgName: json['bookImgName'],
+      bookImgPath: json['bookImgPath'],
+    );
+  }
 }
+
 
 // 북커톤 책 페이지 수 업데이트하기
 
-class UpdateBookReadPageRequest {
-  final int bookId;
-  final int bookReadPage;
+class BookUpdateModel {
+  final String bookertonId;
+  final String bookReadPage;
 
-  UpdateBookReadPageRequest({
-    required this.bookId,
+  BookUpdateModel({
+    required this.bookertonId,
     required this.bookReadPage,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'bookId': bookId,
+      'bookertonId': bookertonId,
       'bookReadPage': bookReadPage,
     };
   }
