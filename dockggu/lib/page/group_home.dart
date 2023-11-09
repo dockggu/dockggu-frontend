@@ -234,6 +234,7 @@ class GroupHome extends GetView<TeamController> {
                           okbtn: () {
                             MainRepo.registerParty(
                                 controller.currentTeam.value.partyId!);
+                                controller.getPartyMember();
                           },
                           groupName: controller.currentTeam.value.partyName!,
                         ));

@@ -27,20 +27,20 @@ class CreateBookertonRequest {
 
 // 북커톤 참여하기
 class ParicipateBookathon {
-  final int bookertonId;
-  final String bookName;
-  final String bookAuthor;
-  final String bookPublisher;
-  final String bookImgPath;
-  final int bookTotalPage;
+   int? bookertonId;
+   String? bookName;
+   String? bookAuthor;
+   String? bookPublisher;
+   String? bookImgPath;
+   int? bookTotalPage;
 
   ParicipateBookathon({
-    required this.bookertonId,
-    required this.bookName,
-    required this.bookAuthor,
-    required this.bookPublisher,
-    required this.bookImgPath,
-    required this.bookTotalPage,
+   this.bookertonId,
+   this.bookName,
+   this.bookAuthor,
+   this.bookPublisher,
+   this.bookImgPath,
+   this.bookTotalPage,
   });
 
   Map<String, dynamic> toJson() {

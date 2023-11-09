@@ -18,7 +18,9 @@ class PartyBookertonRequest {
 // 해당 파티에서 진행한 모든 북커톤 가져오기 응답
 
 class BookathonDTO {
-  final int? partyId;
+    final int? partyId;
+
+  final int? bookertonId;
   final int? userId;
   final String? bookertonName;
   final String? bookertonStartDate;
@@ -29,6 +31,7 @@ class BookathonDTO {
   final String? bookertonCreationTime;
 
   BookathonDTO({
+    this.bookertonId,
      this.partyId,
      this.userId,
      this.bookertonName,
@@ -42,6 +45,7 @@ class BookathonDTO {
 
   factory BookathonDTO.fromJson(Map<String, dynamic> json) {
     return BookathonDTO(
+      bookertonId: json['bookertonId'],
       partyId: json['partyId'],
       userId: json['userId'],
       bookertonName: json['bookertonName'],

@@ -16,7 +16,6 @@ class Home extends GetView<HomeContoller> {
 
   var controller = Get.put(HomeContoller());
   Widget _banner() {
-
     return Column(
       children: [
         const SizedBox(
@@ -80,6 +79,43 @@ class Home extends GetView<HomeContoller> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _searchParty() {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Color.fromARGB(255, 219, 218, 218)),
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      width: Get.width * 0.9,
+      height: 35,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: TextField(
+              controller: controller.searchKeyword,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "모임검색",
+                  hintStyle: TextStyle(fontSize: 14)),
+            ),
+          ),
+          GestureDetector(
+              onTap: () async {
+                controller.changedCategory();
+              },
+              child: Icon(
+                Icons.search,
+                color: Color.fromARGB(255, 192, 192, 192),
+              )),
+          SizedBox(
+            width: 5,
+          )
+        ],
+      ),
     );
   }
 
@@ -218,13 +254,14 @@ class Home extends GetView<HomeContoller> {
             ...List.generate(
                 controller.paryList.length,
                 (index) => GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         Get.put(TeamController());
                         Get.find<TeamController>().currentTeam.value =
                             controller.paryList[index];
-                        Get.find<TeamController>().getPartyMember();
-                        Get.find<TeamController>().getBookathonList();
-                        Get.find<TeamController>().isMembers();
+                        await Get.find<TeamController>().getPartyMember();
+                        await Get.find<TeamController>().isMembers();
+
+                        await Get.find<TeamController>().getBookathonList();
 
                         Get.to(TabView());
                       },
@@ -251,6 +288,10 @@ class Home extends GetView<HomeContoller> {
                   _banner(),
                   _bookathonTitle(),
                   if (controller.categoryopen.value) _category(),
+                  SizedBox(
+                    height: 13,
+                  ),
+                  _searchParty(),
                   _groupList()
                 ],
               )),
