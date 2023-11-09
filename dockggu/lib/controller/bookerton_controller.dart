@@ -4,8 +4,14 @@ import 'package:http/http.dart';
 import '../model/bookathoninfoDTO.dart';
 
 class BookertonController extends GetxController {
-  final _bookertonList = <BookathonDTO>[].obs;
-  List<BookathonDTO> get bookertonList => _bookertonList;
+  // final _bookertonList = <BookathonDTO>[].obs;
+  // List<BookathonDTO> get bookertonList => _bookertonList;
+
+  RxList bookertonList = [].obs;
+
+  void onInit() async {
+    await fetchBookertonData(1, 1);
+  }
 
   Future<void> fetchBookertonData(int partyId, int page) async {
     final baseUrl =
@@ -26,10 +32,10 @@ class BookertonController extends GetxController {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
         final bookertonData = jsonData['data'];
 
-        _bookertonList.value = (bookertonData as List)
+        bookertonList.value = (bookertonData as List)
             .map((data) => BookathonDTO.fromJson(data as Map<String, dynamic>))
             .toList();
-        print(_bookertonList);
+        print(bookertonList);
 
         update();
       } else {
