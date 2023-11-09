@@ -7,7 +7,7 @@ import '../component/inprogress_widget.dart';
 import '../controller/team_controller.dart';
 
 class TabView extends StatelessWidget {
-   TabView({super.key});
+  TabView({super.key});
   var controller = Get.put(TeamController());
 
   Widget _tabbarWidget() {
@@ -54,7 +54,8 @@ class TabView extends StatelessWidget {
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBarWidget(appBar: AppBar(), title: controller.currentTeam.value.partyName!),
+        appBar: AppBarWidget(
+            appBar: AppBar(), title: controller.currentTeam.value.partyName!),
         body: Column(
           children: [
             _tabbarWidget(),

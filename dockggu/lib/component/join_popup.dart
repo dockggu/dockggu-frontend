@@ -1,13 +1,16 @@
 import 'package:dockggu/component/join_success_popup.dart';
 import 'package:dockggu/component/yellow_button.dart';
+import 'package:dockggu/controller/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controller/team_controller.dart';
+
 class JoinPopup extends StatelessWidget {
   String groupName;
-    final Function()? okbtn;
+  final Function()? okbtn;
 
-  JoinPopup({super.key, required this.groupName,required this.okbtn});
+  JoinPopup({super.key, required this.groupName, required this.okbtn});
 
   @override
   Widget build(BuildContext context) {
@@ -63,20 +66,22 @@ class JoinPopup extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    
                     Align(
                       alignment: Alignment.center,
                       child: YellowButton(
-                        ontap: () {
-                          okbtn!();
-                          showDialog(
-                              context: context,
-                              builder: (context) => JoinSuccess(
-                                    groupName: '기술경영',
-                                  ));
-                        },
-                        buttonText: '가입하기',
-                        buttonWidth: 120),
+                          ontap: () async {
+                            await Get.find<TeamController>().isMembers();
+                            await Get.find<HomeContoller>().initCategory();
+
+                            okbtn!();
+                            showDialog(
+                                context: context,
+                                builder: (context) => JoinSuccess(
+                                      groupName: groupName,
+                                    ));
+                          },
+                          buttonText: '가입하기',
+                          buttonWidth: 120),
                     ),
                     SizedBox(
                       height: 20,

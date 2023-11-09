@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dockggu/model/partyinfoDTO.dart';
 import 'package:dockggu/repogistory/main_repo.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +11,8 @@ import '../model/mypageDTO.dart';
 class HomeContoller extends GetxController {
   var categoryopen = true.obs;
   var currentUser = UserDto().obs;
+    TextEditingController searchKeyword = TextEditingController();
+
   RxList<int> medalList = [0,0,0].obs;
   final RxMap<String, String> itemsmap = {
     'bc0000': '📚 전체',
@@ -155,7 +158,7 @@ class HomeContoller extends GetxController {
 
   Future<void> changedCategory() async {
     QueryData searchTeam =
-        QueryData(categories: clickedlist, partyName: "", page: "0");
+        QueryData(categories: clickedlist, partyName: searchKeyword.text??"", page: "0");
     paryList.clear();
     print(json.encode(searchTeam.toMap()));
 
@@ -179,6 +182,7 @@ class HomeContoller extends GetxController {
         paryList.add(PartyResponseDto.fromJson(responseJson['data'][i]));
       }
       print(paryList);
+      searchKeyword.clear();
     } else {}
   }
 }
