@@ -17,11 +17,10 @@ class MakePartyController extends GetxController {
 
   Future<void> makeParty() async {
     // print(image.value);
-    print(categorycode.value);
     
     await MainRepo.makeParty(image.value!, inputPartyName.text,
         inputPartyInfo.text, categorycode.value, int.parse(inputMaxMembers.text));
 
-        
+
   }
 }

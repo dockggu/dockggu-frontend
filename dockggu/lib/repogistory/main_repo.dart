@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 import '../model/bookathoninfoDTO.dart';
 import '../model/makebookathonDTO.dart';
@@ -29,9 +31,10 @@ class MainRepo {
     );
     final responseJson =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-      print(responseJson);
+    print(responseJson);
     return UserDto.fromJson(responseJson['data']['userDto']);
   }
+
   // 내가 읽은 책 리스트
   static Future<List<MyBookDto>> getMyBook() async {
     print("여기로 가져오나 ?${token}");
@@ -48,18 +51,15 @@ class MainRepo {
     );
     final responseJson =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-      print(responseJson);
+    print(responseJson);
 
-    for (int i = 0;
-        i < responseJson['data']['mybookDtoList'].length;
-        i++) {
-      bookList.add(MyBookDto.fromJson(
-          responseJson['data']['mybookDtoList'][i]));
-          print(bookList[i].bookName);
+    for (int i = 0; i < responseJson['data']['mybookDtoList'].length; i++) {
+      bookList
+          .add(MyBookDto.fromJson(responseJson['data']['mybookDtoList'][i]));
+      print(bookList[i].bookName);
     }
 
-
-print(bookList);
+    print(bookList);
     return bookList;
   }
 
@@ -141,7 +141,6 @@ print(bookList);
       String partyIntro, String partyCategory, int partyUserMaxnum) async {
     var path = '/api/party/throw';
 
-
     try {
       var request = http.MultipartRequest(
         'POST',
@@ -154,14 +153,13 @@ print(bookList);
       request.fields['partyIntro'] = partyIntro;
       request.fields['partyCategory'] = partyCategory;
       request.fields['partyUserMaxnum'] = partyUserMaxnum.toString();
-      print(request.fields);
 
       request.files.add(
-        await http.MultipartFile.fromPath(
-          'imgFile',
-          imageFile.path,
-        ),
+        await http.MultipartFile.fromPath('imgFile', imageFile.path,
+            contentType: MediaType('image', 'jpg')),
       );
+
+      print(request.files[0].contentType);
 
       final response = await request.send();
 
@@ -203,9 +201,7 @@ print(bookList);
     print(response.body);
   }
 
-static Future<void> participateThon(ParicipateBookathon data) async {
-    
-
+  static Future<void> participateThon(ParicipateBookathon data) async {
     // var party = {"partyId": thisparty};
     const path = '/api/bookerton/participant';
 
@@ -222,7 +218,4 @@ static Future<void> participateThon(ParicipateBookathon data) async {
     print(json.encode(data));
     print(response.body);
   }
-
-
-
 }

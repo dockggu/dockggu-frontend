@@ -177,6 +177,8 @@ class HomeContoller extends GetxController {
     );
     final responseJson =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+
+        print(responseJson);
 // jsonDecode(source)
 
     if (responseJson['data'].length > 0) {
