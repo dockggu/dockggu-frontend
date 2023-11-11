@@ -89,8 +89,6 @@ class InProgressWidget extends StatelessWidget {
   }
 
   Widget _progress() {
-    int? bookReadPage = myBookController.getReadPageForUser(currentUserId?? 0);
-    int? bookTotalPage = myBookController.getTotalPageForUser(currentUserId?? 0);
     // double progressPercentage =
     //     (bookReadPage ?? 0) / (bookTotalPage ?? 1) * 100;
     return Text(

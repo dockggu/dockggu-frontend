@@ -1,5 +1,6 @@
 import 'package:dockggu/component/appbar_widget.dart';
 import 'package:dockggu/controller/bookerton_controller.dart';
+import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/controller/mybook_controller.dart';
 import 'package:dockggu/model/mypageDTO.dart';
 import 'package:dockggu/page/group_home.dart';
@@ -23,10 +24,7 @@ class _TabViewState extends State<TabView> {
   final MyBookController myBookController = Get.put(MyBookController());
 
   var controller = Get.put(TeamController());
-  var currentUser = UserDto().obs;
-  void onInit() async {
-    currentUser.value = await MainRepo.getCurrentUser();
-  }
+  var home_controller = Get.put(HomeContoller());
 
   @override
   void initState() {
@@ -64,13 +62,14 @@ class _TabViewState extends State<TabView> {
   }
 
   Widget _bookathonList() {
+    var currentUserId = home_controller.currentUser.value.userId;
     return Obx(() => ListView.builder(
         key: PageStorageKey('PageStorage'),
         itemCount: bookertonController.bookertonList.length,
         itemBuilder: (context, index) {
           if (bookertonController.bookertonList[index].bookertonStatus == 'A')
             return InProgressWidget(
-              currentUserId: currentUser.value.userId,
+              currentUserId: currentUserId,
               bookertonId: bookertonController.bookertonList[index].bookertonId,
               partyId: bookertonController.bookertonList[index].partyId,
               userId: bookertonController.bookertonList[index].userId,

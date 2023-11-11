@@ -38,24 +38,6 @@ class MyBookController extends GetxController {
       print('Error: $e');
     }
   }
-
-  int? getReadPageForUser(int userId) {
-    final myBookDto = _myBookList.firstWhere(
-      (book) => book.userId == userId,
-      orElse: () => MyBookDto(), 
-    );
-
-    return myBookDto.bookReadPage;
-  }
-
-  int? getTotalPageForUser(int userId) {
-    final myBookDto = _myBookList.firstWhere(
-      (book) => book.userId == userId,
-      orElse: () => MyBookDto(),
-    );
-
-    return myBookDto.bookTotalPage;
-  }
 }
 
 
