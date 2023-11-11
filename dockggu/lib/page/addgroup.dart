@@ -43,11 +43,11 @@ class _AddGroupState extends State<AddGroup> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '모임 이름',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Container(
@@ -59,21 +59,21 @@ class _AddGroupState extends State<AddGroup> {
                 color: Colors.grey.withOpacity(0.9),
                 spreadRadius: 0,
                 blurRadius: 2.0,
-                offset: Offset(0, 1), // changes position of shadow
+                offset: const Offset(0, 1), // changes position of shadow
               ),
             ], borderRadius: BorderRadius.circular(5), color: Colors.white),
             child:  Padding(
-              padding:  EdgeInsets.only(left: 10.0),
+              padding:  const EdgeInsets.only(left: 10.0),
               child: TextField(
                 controller: controller.inputPartyName, // 나중에 주석 풀기
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     disabledBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     contentPadding: EdgeInsets.zero),
               ),
             )),
-        SizedBox(
+        const SizedBox(
           height: 20,
         )
       ],
@@ -84,11 +84,11 @@ class _AddGroupState extends State<AddGroup> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '대표 이미지 선택',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Container(
@@ -100,7 +100,7 @@ class _AddGroupState extends State<AddGroup> {
                 color: Colors.grey.withOpacity(0.9),
                 spreadRadius: 0,
                 blurRadius: 2.0,
-                offset: Offset(0, 1), // changes position of shadow
+                offset: const Offset(0, 1), // changes position of shadow
               ),
             ], borderRadius: BorderRadius.circular(5), color: Colors.white),
             child: GestureDetector(
@@ -122,7 +122,7 @@ class _AddGroupState extends State<AddGroup> {
                       )
                   ]),
             )),
-        SizedBox(
+        const SizedBox(
           height: 20,
         )
       ],
@@ -133,11 +133,11 @@ class _AddGroupState extends State<AddGroup> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '장르 선택',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         GestureDetector(
@@ -162,12 +162,12 @@ class _AddGroupState extends State<AddGroup> {
                 color: Colors.grey.withOpacity(0.9),
                 spreadRadius: 0,
                 blurRadius: 2.0,
-                offset: Offset(0, 1), // changes position of shadow
+                offset: const Offset(0, 1), // changes position of shadow
               ),
             ], borderRadius: BorderRadius.circular(5), color: Colors.white),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         )
       ],
@@ -178,11 +178,11 @@ class _AddGroupState extends State<AddGroup> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '한 줄 소개',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Container(
@@ -194,14 +194,14 @@ class _AddGroupState extends State<AddGroup> {
                 color: Colors.grey.withOpacity(0.9),
                 spreadRadius: 0,
                 blurRadius: 2.0,
-                offset: Offset(0, 1), // changes position of shadow
+                offset: const Offset(0, 1), // changes position of shadow
               ),
             ], borderRadius: BorderRadius.circular(5), color: Colors.white),
             child: Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: TextField(
                 controller: controller.inputPartyInfo, // 나중에 주석 풀기
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   disabledBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -209,7 +209,7 @@ class _AddGroupState extends State<AddGroup> {
                 ),
               ),
             )),
-        SizedBox(
+        const SizedBox(
           height: 20,
         )
       ],
@@ -220,11 +220,11 @@ class _AddGroupState extends State<AddGroup> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '최대 인원 수',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Container(
@@ -236,7 +236,7 @@ class _AddGroupState extends State<AddGroup> {
                 color: Colors.grey.withOpacity(0.9),
                 spreadRadius: 0,
                 blurRadius: 2.0,
-                offset: Offset(0, 1), // changes position of shadow
+                offset: const Offset(0, 1), // changes position of shadow
               ),
             ], borderRadius: BorderRadius.circular(5), color: Colors.white),
             child: Padding(
@@ -246,18 +246,18 @@ class _AddGroupState extends State<AddGroup> {
                   Expanded(
                     child: TextField(
                       controller: controller.inputMaxMembers, // 나중에 주석 풀기
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           disabledBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           contentPadding: EdgeInsets.zero),
                     ),
                   ),
-                  Text(
+                  const Text(
                     '명',
                     style: TextStyle(color: Color(0xff999999)),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   )
                 ],
@@ -272,7 +272,7 @@ class _AddGroupState extends State<AddGroup> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Color(0xff000000),
             size: 16.0,
@@ -281,7 +281,7 @@ class _AddGroupState extends State<AddGroup> {
             Navigator.pop(context);
           },
         ),
-        title: Align(
+        title: const Align(
           alignment: Alignment(-1.2, 0),
           child: Text(
             '모임 만들기', //DB에서 불러오기
@@ -299,7 +299,7 @@ class _AddGroupState extends State<AddGroup> {
         child: Container(
             width: MediaQuery.of(context).size.width,
             height: 710,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 251, 232, 184),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(70),
@@ -315,7 +315,7 @@ class _AddGroupState extends State<AddGroup> {
                     _selectCategory(),
                     _introduce(),
                     _maxCount(),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     YellowButton(

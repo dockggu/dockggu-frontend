@@ -6,14 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/bookathoninfoDTO.dart';
 import '../model/mypageDTO.dart';
 
 class HomeContoller extends GetxController {
   var categoryopen = true.obs;
   var currentUser = UserDto().obs;
-    TextEditingController searchKeyword = TextEditingController();
+  // var myBookList = MybookDto().obs;
+  RxList<MyBookDto> myBookList = RxList();
+  TextEditingController searchKeyword = TextEditingController();
 
-  RxList<int> medalList = [0,0,0].obs;
+  RxList<int> medalList = [0, 0, 0].obs;
   final RxMap<String, String> itemsmap = {
     'bc0000': '📚 전체',
     'bc0001': '🕵🏻‍♂️ 소설',
@@ -106,7 +109,7 @@ class HomeContoller extends GetxController {
     super.onInit();
   }
 
-  Future<void> medalFunc()async{
+  Future<void> medalFunc() async {
     if (currentUser.value.userAward! > 0 &&
         currentUser.value.userAward != null) {
       medalList.value = [
@@ -124,14 +127,13 @@ class HomeContoller extends GetxController {
       medalList.value = [0, 0, 0];
     }
   }
-  
+
   Future<void> initCategory() async {
     initList.value = itemsmap.keys.toList();
 
     QueryData searchTeam =
         QueryData(categories: initList, partyName: "", page: "0");
     paryList.clear();
-    print(json.encode(searchTeam.toMap()));
 
     const path = 'api/party/search';
     final response = await http.post(
@@ -152,15 +154,15 @@ class HomeContoller extends GetxController {
       for (int i = 0; i < responseJson['data'].length; i++) {
         paryList.add(PartyResponseDto.fromJson(responseJson['data'][i]));
       }
-      print(paryList);
     } else {}
   }
 
   Future<void> changedCategory() async {
-    QueryData searchTeam =
-        QueryData(categories: clickedlist, partyName: searchKeyword.text??"", page: "0");
+    QueryData searchTeam = QueryData(
+        categories: clickedlist,
+        partyName: searchKeyword.text ?? "",
+        page: "0");
     paryList.clear();
-    print(json.encode(searchTeam.toMap()));
 
     const path = 'api/party/search';
     final response = await http.post(
@@ -181,7 +183,6 @@ class HomeContoller extends GetxController {
       for (int i = 0; i < responseJson['data'].length; i++) {
         paryList.add(PartyResponseDto.fromJson(responseJson['data'][i]));
       }
-      print(paryList);
       searchKeyword.clear();
     } else {}
   }

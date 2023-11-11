@@ -23,12 +23,10 @@ class _Mypage1State extends State<Mypage1> {
   ];
 
   @override
-
-
   Widget _header() {
     print(controller.medalList);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Text(
         '마이페이지',
         style: TextStyle(
@@ -42,7 +40,7 @@ class _Mypage1State extends State<Mypage1> {
   Widget _profile(BuildContext context) {
     return Container(
       height: 120,
-      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -51,7 +49,7 @@ class _Mypage1State extends State<Mypage1> {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 1,
-            offset: Offset(2, 2),
+            offset: const Offset(2, 2),
           ),
         ],
       ),
@@ -71,8 +69,8 @@ class _Mypage1State extends State<Mypage1> {
   }
 
   Widget _center() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Text(
         '📖 읽은 책들',
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -102,7 +100,7 @@ class _Mypage1State extends State<Mypage1> {
           top: 45,
           child: ElevatedButton(
             onPressed: () {},
-            child: Icon(
+            child: const Icon(
               Icons.settings,
               size: 18,
               color: Colors.black,
@@ -112,10 +110,10 @@ class _Mypage1State extends State<Mypage1> {
                 Colors.white,
               ),
               shape: MaterialStateProperty.all<OutlinedBorder>(
-                CircleBorder(),
+                const CircleBorder(),
               ),
               padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                EdgeInsets.all(5),
+                const EdgeInsets.all(5),
               ),
             ),
           ),
@@ -126,22 +124,22 @@ class _Mypage1State extends State<Mypage1> {
 
   Widget _b(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+      padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
       width: MediaQuery.of(context).size.width * 0.45,
       height: MediaQuery.of(context).size.height * 0.050,
-      child: Obx(()=>Text(
-        '${controller.currentUser.value.userNickname}님',
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
-      )),
+      child: Obx(() => Text(
+            '${controller.currentUser.value.userNickname}님',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
     );
   }
 
   Widget _c(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 5),
+      padding: const EdgeInsets.only(top: 5),
       width: MediaQuery.of(context).size.width * 0.50,
       height: MediaQuery.of(context).size.height * 0.090,
       child: _medal(),
@@ -151,10 +149,10 @@ class _Mypage1State extends State<Mypage1> {
   Widget _d(BuildContext context) {
     return Container(
       alignment: Alignment.topRight,
-      padding: EdgeInsets.fromLTRB(0, 15, 10, 0),
+      padding: const EdgeInsets.fromLTRB(0, 15, 10, 0),
       width: MediaQuery.of(context).size.width * 0.10,
       child: GestureDetector(
-        child: Icon(
+        child: const Icon(
           Icons.info,
           size: 20,
           color: Color(0xff999999),
@@ -167,102 +165,106 @@ class _Mypage1State extends State<Mypage1> {
   }
 
   Widget _gridView() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: GridView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: 4,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
+    return Obx(()=>GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: controller.myBookList.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 0.9
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        print(index);
+        return Container(
+          
             padding: const EdgeInsets.all(8),
-            color: Colors.white,
             child: Center(
               child: Column(
-                children: [
-                  Image.asset(imageList[index]),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '눈에 갇힌 외딴 산장에서',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    '히가시노 게이고',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xff9D9D9D),
+                  children: [
+                    Image.asset(imageList[index]),
+                    const SizedBox(
+                      height: 10,
                     ),
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
+                    Text(
+                      controller.myBookList[index].bookName ?? "",
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                    ),
+                    Expanded(
+                      child: Text(
+                        controller.myBookList[index].bookAuthor ?? "",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xff9D9D9D),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              
+            ));
+      },
+    ));
   }
 
   Widget _medal() {
-    return Obx(()=>Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
+    return Obx(() => Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/3rd_medal.png',
-              height: 40,
-              width: 40,
+            Column(
+              children: [
+                Image.asset(
+                  'assets/3rd_medal.png',
+                  height: 40,
+                  width: 40,
+                ),
+                Text(controller.medalList.value[0].toString()),
+              ],
             ),
-            Text(controller.medalList.value[0].toString()),
-          ],
-        ),
-        SizedBox(
-          width: 25,
-        ),
-        Column(
-          children: [
-            Image.asset(
-              'assets/2nd_medal.png',
-              height: 40,
-              width: 40,
+            const SizedBox(
+              width: 25,
             ),
-            Text(controller.medalList.value[1].toString()),
-          ],
-        ),
-        SizedBox(
-          width: 25,
-        ),
-        Column(
-          children: [
-            Image.asset(
-              'assets/1st_medal.png',
-              height: 40,
-              width: 40,
+            Column(
+              children: [
+                Image.asset(
+                  'assets/2nd_medal.png',
+                  height: 40,
+                  width: 40,
+                ),
+                Text(controller.medalList.value[1].toString()),
+              ],
             ),
-            Text(controller.medalList.value[2].toString()),
+            const SizedBox(
+              width: 25,
+            ),
+            Column(
+              children: [
+                Image.asset(
+                  'assets/1st_medal.png',
+                  height: 40,
+                  width: 40,
+                ),
+                Text(controller.medalList.value[2].toString()),
+              ],
+            ),
           ],
-        ),
-      ],
-    ));
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: ListView(
-        children: [_header(), _profile(context), _center(), _gridView()],
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0,
+      // ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [SizedBox(height: 80,),_header(), _profile(context), _center(), _gridView()],
+        ),
       ),
     );
   }

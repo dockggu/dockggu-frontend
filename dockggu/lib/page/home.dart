@@ -60,7 +60,7 @@ class Home extends GetView<HomeContoller> {
                             borderRadius: BorderRadius.circular(15),
                             color: Color(0xffFFD66C)),
                         child: const Text(
-                          '책 추천 받기 >',
+                          '준비중',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -265,12 +265,12 @@ class Home extends GetView<HomeContoller> {
 
                         Get.to(TabView());
                       },
-                      child: GroupList(
-                          teamName: controller.paryList[index].partyName!,
-                          teaminfo: controller.paryList[index].partyIntro!,
-                          maxnum: controller.paryList[index].partyUserMaxnum!,
-                          currentNum: controller.paryList[index].partyUserNum!,
-                          category: controller.paryList[index].partyCategory!),
+                      child: Obx(()=>GroupList(
+                          teamName: controller.paryList.value[index].partyName!,
+                          teaminfo: controller.paryList.value[index].partyIntro!,
+                          maxnum: controller.paryList.value[index].partyUserMaxnum!,
+                          currentNum: controller.paryList.value[index].partyUserNum!,
+                          category: controller.paryList.value[index].partyCategory!)),
                     ))
           ],
         ));

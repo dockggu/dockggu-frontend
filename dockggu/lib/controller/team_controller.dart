@@ -1,5 +1,6 @@
-
+import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/model/bookathoninfoDTO.dart';
+import 'package:dockggu/page/home.dart';
 import 'package:dockggu/repogistory/main_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,6 +46,7 @@ class TeamController extends GetxController {
     inputPage.clear();
     print(selectBook.toJson());
     await MainRepo.participateThon(selectBook.value);
+
     Get.back();
   }
 
@@ -67,5 +69,4 @@ class TeamController extends GetxController {
     }
     print(ongoingthonList);
   }
-
 }

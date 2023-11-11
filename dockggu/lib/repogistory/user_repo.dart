@@ -75,8 +75,11 @@ class UserRepo {
         final responseData = json.decode(response.body);
         token = responseData["data"]["token"];
         Get.put(HomeContoller());
+
         Get.find<HomeContoller>().currentUser.value =
             await MainRepo.getCurrentUser();
+        Get.find<HomeContoller>().myBookList.value =
+            await MainRepo.getMyBook();
 
         Get.find<HomeContoller>().initCategory();
         Get.find<HomeContoller>().medalFunc();

@@ -66,12 +66,12 @@ class _MyGroupState extends State<MyGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: ListView(
-        children: [_header(), _groupList()],
+  
+      body: SingleChildScrollView(
+        child: Column(
+
+          children: [SizedBox(height: 80,),_header(), _groupList()],
+        ),
       ),
     );
   }

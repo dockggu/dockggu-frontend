@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../component/participate_thon.dart';
+import '../controller/home_controller.dart';
 import '../controller/team_controller.dart';
 
 class GroupHome extends GetView<TeamController> {
@@ -44,14 +45,15 @@ class GroupHome extends GetView<TeamController> {
                 children: [
                   Text(
                     controller.currentTeam.value.partyName!,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   Text(
                     controller.currentTeam.value.partyIntro!,
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ],
               ),
@@ -71,14 +73,35 @@ class GroupHome extends GetView<TeamController> {
       child: Obx(() => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 '📆 일정',
                 style: TextStyle(fontSize: 18, color: Colors.black),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
+                height: 100,
+                decoration: BoxDecoration(
+                  // border: const Border(
+                  //   left: BorderSide(
+                  //     color: Color(0xffFFC727),
+                  //     width: 1.0,
+                  //   ),
+                  // ),
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 0,
+                      blurRadius: 1.0,
+                      offset: const Offset(0, 5), // changes position of shadow
+                    ),
+                  ],
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
@@ -94,12 +117,12 @@ class GroupHome extends GetView<TeamController> {
                                 controller.ongoingthonList.value
                                         .bookertonStartDate ??
                                     "0/0",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               // Text(
@@ -108,7 +131,7 @@ class GroupHome extends GetView<TeamController> {
                               // )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -117,40 +140,25 @@ class GroupHome extends GetView<TeamController> {
                               '참여 인원 : ${controller.ongoingthonList.value.bookertonUserNum ?? 0} / ${controller.ongoingthonList.value.bookertonUserMaxnum ?? 0}')
                         ],
                       ),
-                      YellowButton(
-                        ontap: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  ParticipateThon());
-                        },
-                        buttonText: '참가',
-                        buttonWidth: 60,
-                        buttonHeight: 30,
-                      )
+                      Obx(() {
+                        if (controller.isRegister.value == true) {
+                          return YellowButton(
+                            ontap: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      ParticipateThon());
+                            },
+                            buttonText: '참가',
+                            buttonWidth: 60,
+                            buttonHeight: 30,
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      }),
                     ],
                   ),
-                ),
-                height: 100,
-                decoration: BoxDecoration(
-                  // border: const Border(
-                  //   left: BorderSide(
-                  //     color: Color(0xffFFC727),
-                  //     width: 1.0,
-                  //   ),
-                  // ),
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.4),
-                      spreadRadius: 0,
-                      blurRadius: 1.0,
-                      offset: Offset(0, 5), // changes position of shadow
-                    ),
-                  ],
                 ),
               ),
             ],
@@ -165,11 +173,11 @@ class GroupHome extends GetView<TeamController> {
         alignment: Alignment.centerLeft,
         child: Column(
           children: [
-            Text(
-              '👥 모임 멤버 (${controller.partyMembers.length})',
-              style: TextStyle(fontSize: 18, color: Colors.black),
-            ),
-            SizedBox(
+            Obx(() => Text(
+                  '👥 모임 멤버 (${controller.partyMembers.length})',
+                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                )),
+            const SizedBox(
               height: 14,
             ),
             SingleChildScrollView(
@@ -221,7 +229,7 @@ class GroupHome extends GetView<TeamController> {
                     Get.find<AddThonController>().currentTeam.value =
                         controller.currentTeam.value;
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => AddScadule()));
+                        MaterialPageRoute(builder: (_) => const AddScadule()));
                   },
                   buttonText: "일정 만들기",
                   buttonWidth: MediaQuery.of(context).size.width * 0.6),
@@ -229,27 +237,36 @@ class GroupHome extends GetView<TeamController> {
                 height: 30,
               ),
               _memberList(),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
-              if (controller.isRegister.value == false)
-                YellowButton(
-                    ontap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => JoinPopup(
-                                okbtn: () {
-                                  MainRepo.registerParty(
-                                      controller.currentTeam.value.partyId!);
-                                  controller.getPartyMember();
-                                },
-                                groupName:
-                                    controller.currentTeam.value.partyName!,
-                              ));
-                    },
-                    buttonText: '가입하기',
-                    buttonWidth: 120),
-              SizedBox(
+              Obx(() {
+                if (controller.isRegister.value == false) {
+                  return YellowButton(
+                      ontap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => JoinPopup(
+                                  okbtn: () async {
+                                    MainRepo.registerParty(
+                                        controller.currentTeam.value.partyId!);
+                                    await Get.find<HomeContoller>()
+                                        .initCategory();
+
+                                    await controller.getPartyMember();
+                                    await controller.isMembers();
+                                  },
+                                  groupName:
+                                      controller.currentTeam.value.partyName!,
+                                ));
+                      },
+                      buttonText: '가입하기',
+                      buttonWidth: 120);
+                } else {
+                  return SizedBox();
+                }
+              }),
+              const SizedBox(
                 height: 100,
               ),
               // Image.network(

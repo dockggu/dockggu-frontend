@@ -169,34 +169,7 @@ class UserDto {
 //   }
 // }
 
-// class MybookDto {
-//   final int bookId;
-//   final int userId;
-//   final String bookName;
-//   final String bookAuthor;
-//   final String bookPublisher;
-//   final String bookImgPath;
 
-//   MybookDto({
-//     required this.bookId,
-//     required this.userId,
-//     required this.bookName,
-//     required this.bookAuthor,
-//     required this.bookPublisher,
-//     required this.bookImgPath,
-//   });
-
-//   factory MybookDto.fromJson(Map<String, dynamic> json) {
-//     return MybookDto(
-//       bookId: json['bookId'],
-//       userId: json['userId'],
-//       bookName: json['bookName'],
-//       bookAuthor: json['bookAuthor'],
-//       bookPublisher: json['bookPublisher'],
-//       bookImgPath: json['bookImgPath'],
-//     );
-//   }
-// }
 
 // // 메달 증가 요청
 // class UptoMedal {
