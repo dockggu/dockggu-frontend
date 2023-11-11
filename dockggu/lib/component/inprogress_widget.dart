@@ -89,11 +89,16 @@ class InProgressWidget extends StatelessWidget {
   }
 
   Widget _progress() {
-    // double progressPercentage =
-    //     (bookReadPage ?? 0) / (bookTotalPage ?? 1) * 100;
+    int? bookReadPage = myBookController.getBookReadPage(bookertonId ?? 2);
+    int? bookTotalPage = myBookController.getBookTotalPage(bookertonId ?? 1);
+
+    // double progressPercentage = bookTotalPage! > 0 ? (bookReadPage! / bookTotalPage) * 100 : 0;
+    double progressPercentage =
+        (bookReadPage ?? 0) / (bookTotalPage ?? 1) * 100;
     return Text(
       // '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
-      '독서 진행률: $currentUserId%',
+      '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
+      // '독서 진행률: $bookertonId%',
       style: TextStyle(
         fontSize: 14,
         color: Color(0xff000000),
