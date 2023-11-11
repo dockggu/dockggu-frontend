@@ -320,6 +320,7 @@ class _AddGroupState extends State<AddGroup> {
                     ),
                     YellowButton(
                         ontap: () async {
+                        
                           if(controller.image.value != null){
                           controller.makeParty();
 

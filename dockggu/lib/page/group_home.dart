@@ -116,7 +116,7 @@ class GroupHome extends GetView<TeamController> {
                               Text(
                                 controller.ongoingthonList.value
                                         .bookertonStartDate ??
-                                    "0/0",
+                                    "진행중인 북커톤이 없습니다.",
                                 style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 15,

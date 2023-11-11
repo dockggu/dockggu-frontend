@@ -263,14 +263,29 @@ class Home extends GetView<HomeContoller> {
 
                         await Get.find<TeamController>().getBookathonList();
 
+                        Get.to(TabView())?.then((result) {
+                          // 이곳에서 돌아왔을 때 처리할 로직
+                          if (result == null) {
+                            Get.delete<TeamController>();
+                            // 반환된 데이터를 사용
+                            print('ㅁㅇㄹㅁㄴ');
+                          } else {
+                            Get.delete<TeamController>();
+                          }
+                        });
+
                         Get.to(TabView());
                       },
-                      child: Obx(()=>GroupList(
+                      child: Obx(() => GroupList(
                           teamName: controller.paryList.value[index].partyName!,
-                          teaminfo: controller.paryList.value[index].partyIntro!,
-                          maxnum: controller.paryList.value[index].partyUserMaxnum!,
-                          currentNum: controller.paryList.value[index].partyUserNum!,
-                          category: controller.paryList.value[index].partyCategory!)),
+                          teaminfo:
+                              controller.paryList.value[index].partyIntro!,
+                          maxnum:
+                              controller.paryList.value[index].partyUserMaxnum!,
+                          currentNum:
+                              controller.paryList.value[index].partyUserNum!,
+                          category:
+                              controller.paryList.value[index].partyCategory!)),
                     ))
           ],
         ));
