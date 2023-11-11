@@ -29,8 +29,38 @@ class MainRepo {
     );
     final responseJson =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-
+      print(responseJson);
     return UserDto.fromJson(responseJson['data']['userDto']);
+  }
+  // 내가 읽은 책 리스트
+  static Future<List<MyBookDto>> getMyBook() async {
+    print("여기로 가져오나 ?${token}");
+    List<MyBookDto> bookList = [];
+    const path = 'api/mypage/user';
+    final response = await http.get(
+      Uri.parse(
+          'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/$path'),
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': 'Bearer $token',
+        'Accept-Charset': 'utf-8',
+      },
+    );
+    final responseJson =
+        jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      print(responseJson);
+
+    for (int i = 0;
+        i < responseJson['data']['mybookDtoList'].length;
+        i++) {
+      bookList.add(MyBookDto.fromJson(
+          responseJson['data']['mybookDtoList'][i]));
+          print(bookList[i].bookName);
+    }
+
+
+print(bookList);
+    return bookList;
   }
 
   // 파티에서 진행한 모든 북커톤 가져오기
