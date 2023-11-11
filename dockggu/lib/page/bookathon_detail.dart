@@ -1,4 +1,7 @@
 import 'package:dockggu/component/appbar_widget.dart';
+import 'package:dockggu/controller/team_controller.dart';
+import 'package:dockggu/model/mypageDTO.dart';
+import 'package:dockggu/repogistory/main_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -10,7 +13,8 @@ import '../controller/bookupdate_controller.dart';
 import '../controller/mybook_controller.dart';
 
 class BookatghonDetail extends StatefulWidget {
-  const BookatghonDetail({super.key});
+  final int? currentBookertonId;
+  const BookatghonDetail({super.key, this.currentBookertonId});
 
   @override
   State<BookatghonDetail> createState() => _BookatghonDetailState();
@@ -18,11 +22,12 @@ class BookatghonDetail extends StatefulWidget {
 
 class _BookatghonDetailState extends State<BookatghonDetail> {
   final MyBookController myBookController = Get.put(MyBookController());
+   var controller = Get.put(TeamController());
 
   @override
   void initState() {
     super.initState();
-    myBookController.fetchMyBookData(1);
+    myBookController.fetchMyBookData(widget.currentBookertonId?? 0);
   }
 
   Widget _header() {
@@ -105,12 +110,13 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBarWidget(appBar: AppBar(), title: '베이커가 221B번지'),
+      appBar: AppBarWidget(
+            appBar: AppBar(), title: controller.currentTeam.value.partyName!),
       body: GetBuilder<MyBookController>(
         builder: (myBookController) {
           if (myBookController.myBookList.isEmpty) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: Text('북커톤에 참여한 유저가 없습니다.'),
             );
           }
           return Stack(
@@ -335,7 +341,7 @@ class _CurrentProgressState extends State<CurrentProgress> {
       child: CircularPercentIndicator(
         radius: 65.0,
         lineWidth: 12.0,
-        percent: 0.90,
+        percent: percentage,
         center: Text(
           "$intPercentage%",
           style: TextStyle(

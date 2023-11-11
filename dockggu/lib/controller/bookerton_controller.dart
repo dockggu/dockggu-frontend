@@ -9,9 +9,9 @@ class BookertonController extends GetxController {
 
   RxList bookertonList = [].obs;
 
-  void onInit() async {
-    await fetchBookertonData(1, 1);
-  }
+  // void onInit() async {
+  //   await fetchBookertonData(1, 1);
+  // }
 
   Future<void> fetchBookertonData(int partyId, int page) async {
     final baseUrl =

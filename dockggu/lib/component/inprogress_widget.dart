@@ -1,9 +1,12 @@
+import 'package:dockggu/controller/mybook_controller.dart';
 import 'package:dockggu/page/bookathon_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class InProgressWidget extends StatelessWidget {
+  final int? currentUserId;
+  final int? bookertonId;
   final int? partyId;
   final int? userId;
   final String? bookertonName;
@@ -16,20 +19,23 @@ class InProgressWidget extends StatelessWidget {
   // final int? bookTotalPage;
   // final int? bookReadPage;
 
-  InProgressWidget(
-      {super.key,
-      this.partyId,
-      this.userId,
-      this.bookertonName,
-      this.bookertonStartDate,
-      this.bookertonEndDate,
-      this.bookertonUserNum,
-      this.bookertonUserMaxnum,
-      this.bookertonStatus,
-      this.bookertonCreationTime,
-      // this.bookReadPage,
-      // this.bookTotalPage
-      });
+  InProgressWidget({
+    super.key,
+    this.currentUserId,
+    this.bookertonId,
+    this.partyId,
+    this.userId,
+    this.bookertonName,
+    this.bookertonStartDate,
+    this.bookertonEndDate,
+    this.bookertonUserNum,
+    this.bookertonUserMaxnum,
+    this.bookertonStatus,
+    this.bookertonCreationTime,
+    // this.bookReadPage,
+    // this.bookTotalPage
+  });
+  final MyBookController myBookController = Get.put(MyBookController());
 
   Widget _header() {
     DateTime startDate = DateTime.parse(bookertonStartDate ?? '');
@@ -83,11 +89,13 @@ class InProgressWidget extends StatelessWidget {
   }
 
   Widget _progress() {
+    int? bookReadPage = myBookController.getReadPageForUser(currentUserId?? 0);
+    int? bookTotalPage = myBookController.getTotalPageForUser(currentUserId?? 0);
     // double progressPercentage =
     //     (bookReadPage ?? 0) / (bookTotalPage ?? 1) * 100;
     return Text(
       // '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
-      '독서 진행률: 0%',
+      '독서 진행률: $currentUserId%',
       style: TextStyle(
         fontSize: 14,
         color: Color(0xff000000),
@@ -164,7 +172,7 @@ class InProgressWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Get.to(BookatghonDetail());
+          Get.to(BookatghonDetail(currentBookertonId: bookertonId));
         },
         child: _inprogressWidget());
   }
