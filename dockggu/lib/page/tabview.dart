@@ -1,7 +1,10 @@
 import 'package:dockggu/component/appbar_widget.dart';
 import 'package:dockggu/controller/bookerton_controller.dart';
+import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/controller/mybook_controller.dart';
+import 'package:dockggu/model/mypageDTO.dart';
 import 'package:dockggu/page/group_home.dart';
+import 'package:dockggu/repogistory/main_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../component/completed_widget.dart';
@@ -21,11 +24,13 @@ class _TabViewState extends State<TabView> {
   final MyBookController myBookController = Get.put(MyBookController());
 
   var controller = Get.put(TeamController());
+  var home_controller = Get.put(HomeContoller());
 
   @override
   void initState() {
     super.initState();
-    // bookertonController.fetchBookertonData(1, 1);
+    bookertonController.fetchBookertonData(
+        controller.currentTeam.value.partyId!, 1);
   }
 
   Widget _tabbarWidget() {
@@ -57,12 +62,15 @@ class _TabViewState extends State<TabView> {
   }
 
   Widget _bookathonList() {
-    return Obx(()=>ListView.builder(
+    var currentUserId = home_controller.currentUser.value.userId;
+    return Obx(() => ListView.builder(
         key: PageStorageKey('PageStorage'),
         itemCount: bookertonController.bookertonList.length,
         itemBuilder: (context, index) {
           if (bookertonController.bookertonList[index].bookertonStatus == 'A')
             return InProgressWidget(
+              currentUserId: currentUserId,
+              bookertonId: bookertonController.bookertonList[index].bookertonId,
               partyId: bookertonController.bookertonList[index].partyId,
               userId: bookertonController.bookertonList[index].userId,
               bookertonName:

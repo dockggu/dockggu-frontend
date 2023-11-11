@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CompletedWidget extends StatelessWidget {
   final int? partyId;
@@ -13,32 +14,44 @@ class CompletedWidget extends StatelessWidget {
   // final int? bookTotalPage;
   // final int? bookReadPage;
 
-  CompletedWidget(
-      {super.key,
-      this.partyId,
-      this.userId,
-      this.bookertonName,
-      this.bookertonStartDate,
-      this.bookertonEndDate,
-      this.bookertonUserNum,
-      this.bookertonUserMaxnum,
-      this.bookertonStatus,
-      this.bookertonCreationTime,
-      // this.bookReadPage,
-      // this.bookTotalPage
-      });
+  CompletedWidget({
+    super.key,
+    this.partyId,
+    this.userId,
+    this.bookertonName,
+    this.bookertonStartDate,
+    this.bookertonEndDate,
+    this.bookertonUserNum,
+    this.bookertonUserMaxnum,
+    this.bookertonStatus,
+    this.bookertonCreationTime,
+    // this.bookReadPage,
+    // this.bookTotalPage
+  });
 
   Widget _header() {
+    DateTime startDate = DateTime.parse(bookertonStartDate ?? '');
+    DateTime endDate = DateTime.parse(bookertonEndDate ?? '');
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('MM/dd (E)', 'ko_KR').format(startDate);
     return Text(
-      'date',
+      '$formattedDate',
       style: TextStyle(
           fontSize: 16, color: Color(0xff000000), fontWeight: FontWeight.bold),
     );
   }
 
   Widget _duration() {
+    DateTime startDate = DateTime.parse(bookertonStartDate ?? '');
+    DateTime endDate = DateTime.parse(bookertonEndDate ?? '');
+    String formattedStartDate = DateFormat('MM/dd', 'ko_KR').format(startDate);
+    String formattedEndDate = DateFormat('MM/dd', 'ko_KR').format(endDate);
+
+    Duration difference = endDate.difference(startDate);
+    int weeksDifference = (difference.inDays / 7).ceil();
+
     return Text(
-      'duration',
+      '날짜: $formattedStartDate ~ $formattedEndDate ($weeksDifference주일)',
       style: TextStyle(
         fontSize: 14,
         color: Color(0xff000000),
