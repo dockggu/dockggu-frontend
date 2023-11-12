@@ -8,6 +8,7 @@ import 'package:dockggu/page/add_schedule.dart';
 import 'package:dockggu/repogistory/main_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../component/participate_thon.dart';
 import '../controller/home_controller.dart';
@@ -114,8 +115,8 @@ class GroupHome extends GetView<TeamController> {
                           Row(
                             children: [
                               Text(
-                                controller.ongoingthonList.value
-                                        .bookertonStartDate ??
+                                controller
+                                        .ongoingthonList.value.bookertonName ??
                                     "진행중인 북커톤이 없습니다.",
                                 style: const TextStyle(
                                     color: Colors.black,
@@ -134,29 +135,48 @@ class GroupHome extends GetView<TeamController> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Text(
-                              '날짜 : ${controller.ongoingthonList.value.bookertonStartDate ?? "0/0"} ~ ${controller.ongoingthonList.value.bookertonEndDate ?? "0/0"}'),
+                          if (controller
+                                  .ongoingthonList.value.bookertonStartDate ==
+                              null)
+                            Text("")
+                          else
+                            Text(
+                                '날짜 : ${DateFormat("MM / dd").format(DateTime.parse(controller.ongoingthonList.value.bookertonStartDate!))} ~ ${DateFormat("MM / dd").format(DateTime.parse(controller.ongoingthonList.value.bookertonEndDate!))}'),
                           Text(
                               '참여 인원 : ${controller.ongoingthonList.value.bookertonUserNum ?? 0} / ${controller.ongoingthonList.value.bookertonUserMaxnum ?? 0}')
                         ],
                       ),
-                      Obx(() {
-                        if (controller.isRegister.value == true) {
-                          return YellowButton(
-                            ontap: () {
-                              showModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      ParticipateThon());
-                            },
-                            buttonText: '참가',
-                            buttonWidth: 60,
-                            buttonHeight: 30,
-                          );
-                        } else {
-                          return SizedBox();
-                        }
-                      }),
+                      if (controller.ongoingthonList.value.bookertonStartDate !=
+                          null)
+                        Obx(() {
+                          if (controller.isRegister.value == true) {
+                            if (controller
+                                    .ongoingthonList.value.bookertonUserNum! >=
+                                controller.ongoingthonList.value
+                                    .bookertonUserMaxnum!) {
+                              return YellowButton(
+                                ontap: () {},
+                                buttonText: '마감',
+                                buttonWidth: 60,
+                                buttonHeight: 30,
+                              );
+                            } else {
+                              return YellowButton(
+                                ontap: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          ParticipateThon());
+                                },
+                                buttonText: '참가',
+                                buttonWidth: 60,
+                                buttonHeight: 30,
+                              );
+                            }
+                          } else {
+                            return SizedBox();
+                          }
+                        }),
                     ],
                   ),
                 ),
@@ -223,16 +243,20 @@ class GroupHome extends GetView<TeamController> {
               const SizedBox(
                 height: 15,
               ),
-              YellowButton(
-                  ontap: () {
-                    Get.put(AddThonController());
-                    Get.find<AddThonController>().currentTeam.value =
-                        controller.currentTeam.value;
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const AddScadule()));
-                  },
-                  buttonText: "일정 만들기",
-                  buttonWidth: MediaQuery.of(context).size.width * 0.6),
+              if (controller.currentTeam.value.partyMaster ==
+                  controller.currentUser.value.userId)
+                YellowButton(
+                    ontap: () {
+                      Get.put(AddThonController());
+                      Get.find<AddThonController>().currentTeam.value =
+                          controller.currentTeam.value;
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const AddScadule()));
+                    },
+                    buttonText: "일정 만들기",
+                    buttonWidth: MediaQuery.of(context).size.width * 0.6),
               const SizedBox(
                 height: 30,
               ),

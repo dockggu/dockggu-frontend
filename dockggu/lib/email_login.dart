@@ -82,9 +82,8 @@ var controller = Get.put(SignUpController());
                               alignment: Alignment.center,
                               child: YellowButton(
                                   ontap: () {
-                                    controller.login();
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (_) => App()));
+                                    controller.login(context);
+                                  
                                   },
                                   buttonText: '로그인 하기',
                                   buttonWidth: 350))

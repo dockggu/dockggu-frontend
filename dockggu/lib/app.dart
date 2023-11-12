@@ -18,10 +18,11 @@ class App extends GetView<BottomNavController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-       onWillPop: () async {
+      onWillPop: () async {
         return false;
       },
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -34,13 +35,12 @@ class App extends GetView<BottomNavController> {
         home: Obx(() => Scaffold(
               body: IndexedStack(
                   index: controller.pageIndex.value,
-                  children:  [Home(), MyGroup() ,Mypage1()]),
+                  children: [Home(), MyGroup(), Mypage1()]),
               bottomNavigationBar: BottomNavigationBar(
                   onTap: controller.changeBottomNav,
-           
                   elevation: 3,
-                  type:
-                      BottomNavigationBarType.fixed, // 버튼이 활성화 되었을 때 위로 안올라가게 고정
+                  type: BottomNavigationBarType
+                      .fixed, // 버튼이 활성화 되었을 때 위로 안올라가게 고정
                   currentIndex: controller.pageIndex.value,
                   items: const [
                     BottomNavigationBarItem(

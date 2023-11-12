@@ -49,7 +49,7 @@ class GroupList extends StatelessWidget {
               ),
               Container(
                 // color: Colors.black,
-                width: 180,
+                width: 200,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -66,14 +66,14 @@ class GroupList extends StatelessWidget {
                       height: 8,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           '$currentNum / $maxnum',
                           style: TextStyle(color: Color(0xff9D9D9D)),
                         ),
                         SizedBox(
-                          width: 40,
+                          width: 20,
                         ),
                         CategoryWidget(
                             categoryName: controller.itemsmap[category]!)
@@ -145,7 +145,7 @@ class GroupList2 extends StatelessWidget {
               ),
               Container(
                 // color: Colors.black,
-                width: 180,
+                width: 200,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -162,15 +162,15 @@ class GroupList2 extends StatelessWidget {
                       height: 8,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           '$partyUserNum / $partyUserMaxnum',
                           style: TextStyle(color: Color(0xff9D9D9D)),
                         ),
-                        SizedBox(
-                          width: 40,
-                        ),
+                        // SizedBox(
+                        //   width: 40,
+                        // ),
                         CategoryWidget(
                             categoryName: controller.itemsmap[partyCategory]!)
                       ],

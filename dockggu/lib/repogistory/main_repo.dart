@@ -13,8 +13,7 @@ import '../model/partyinfoDTO.dart';
 var tttt = "";
 var token = "";
 
-// 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTY5OTExNDA2MywiZXhwIjoxNjk5NDc0MDYzfQ.VYbYWqcNyCw39g9GEce05jNfnTvVP7ofOKH1k8I9eujCK-v7GnElhHMpm_OYTuW4KVZQuwZy2bz0U7UBLhBH3w';
-// eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTY5OTExNDA2MywiZXhwIjoxNjk5NDc0MDYzfQ.VYbYWqcNyCw39g9GEce05jNfnTvVP7ofOKH1k8I9eujCK-v7GnElhHMpm_OYTuW4KVZQuwZy2bz0U7UBLhBH3w
+
 class MainRepo {
 // 본인 누군지 가져오는 함수
   static Future<UserDto> getCurrentUser() async {

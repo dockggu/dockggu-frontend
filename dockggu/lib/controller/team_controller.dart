@@ -47,7 +47,7 @@ class TeamController extends GetxController {
     print(selectBook.toJson());
     await MainRepo.participateThon(selectBook.value);
 
-    Get.back();
+    // Get.back();
   }
 
   Future<void> getPartyMember() async {
