@@ -22,12 +22,12 @@ class BookatghonDetail extends StatefulWidget {
 
 class _BookatghonDetailState extends State<BookatghonDetail> {
   final MyBookController myBookController = Get.put(MyBookController());
-   var controller = Get.put(TeamController());
+  var controller = Get.put(TeamController());
 
   @override
   void initState() {
     super.initState();
-    myBookController.fetchMyBookData(widget.currentBookertonId?? 0);
+    myBookController.fetchMyBookData(widget.currentBookertonId ?? 0);
   }
 
   Widget _header() {
@@ -111,7 +111,7 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBarWidget(
-            appBar: AppBar(), title: controller.currentTeam.value.partyName!),
+          appBar: AppBar(), title: controller.currentTeam.value.partyName!),
       body: GetBuilder<MyBookController>(
         builder: (myBookController) {
           if (myBookController.myBookList.isEmpty) {
@@ -165,7 +165,8 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
 }
 
 class PageInput extends StatefulWidget {
-  const PageInput({Key? key}) : super(key: key);
+  final int? currentBookertonId;
+  const PageInput({Key? key, this.currentBookertonId}) : super(key: key);
 
   @override
   State<PageInput> createState() => _PageInputState();
@@ -174,6 +175,17 @@ class PageInput extends StatefulWidget {
 class _PageInputState extends State<PageInput> {
   final BookUpdateController controller = Get.put(BookUpdateController());
   final TextEditingController pageController = TextEditingController();
+
+  // Define a variable to hold the string representation of currentBookertonId
+  late String currentBookertonIdString;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Convert int? to String and assign it to the variable
+    currentBookertonIdString = widget.currentBookertonId?.toString() ?? "";
+  }
 
   Widget _header() {
     return Padding(
@@ -261,7 +273,7 @@ class _PageInputState extends State<PageInput> {
               ),
               onPressed: () {
                 String pageCount = pageController.text;
-                controller.updateBookPage('1', pageCount);
+                controller.updateBookPage(currentBookertonIdString, pageCount);
                 showModalBottomSheet(
                   context: context,
                   builder: (context) {
@@ -335,7 +347,7 @@ class _CurrentProgressState extends State<CurrentProgress> {
     int totalPage = myBookController.myBookList[0].bookTotalPage ?? 1;
 
     double percentage = (readPage / totalPage) * 100;
-    int intPercentage = percentage.toInt(); 
+    int intPercentage = percentage.toInt();
 
     return Container(
       child: CircularPercentIndicator(

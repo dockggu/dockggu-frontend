@@ -178,7 +178,7 @@ class TitleWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20),
           height: 20,
           child: Text(
-            '눈에 갇힌 외딴 산장에서',
+            '$bookName',
             style: TextStyle(
               fontSize: 14,
             ),
