@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import '../model/bookathoninfoDTO.dart';
+import '../repogistory/main_repo.dart';
 
 class BookertonController extends GetxController {
   // final _bookertonList = <BookathonDTO>[].obs;
@@ -22,7 +23,7 @@ class BookertonController extends GetxController {
 
     final headers = {
       'Authorization':
-          'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTY5OTQzNjYwNiwiZXhwIjoxNjk5Nzk2NjA2fQ.ibmLuZSETf8L_7gAbSUCi8oIMg4IfqmJExLUItF96NvpohbBu1w_eNLsQy263Mjcn6iJO5rnm1T_nJhxIuaOaA',
+          'Bearer $token',
     };
 
     try {

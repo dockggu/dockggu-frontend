@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../repogistory/main_repo.dart';
+
 class BookUpdateController extends GetxController {
   var updateSuccess = false.obs;
   // ...
@@ -12,7 +14,7 @@ class BookUpdateController extends GetxController {
     final String apiUrl = 'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/api/bookerton/updatePage'; // API 엔드포인트를 여기에 입력
     final Map<String, String> headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTY5OTQzNjYwNiwiZXhwIjoxNjk5Nzk2NjA2fQ.ibmLuZSETf8L_7gAbSUCi8oIMg4IfqmJExLUItF96NvpohbBu1w_eNLsQy263Mjcn6iJO5rnm1T_nJhxIuaOaA', // 인증 토큰을 여기에 입력
+      'Authorization': 'Bearer $token', // 인증 토큰을 여기에 입력
     };
 
     // BookUpdateModel을 사용하여 데이터 준비

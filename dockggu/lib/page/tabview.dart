@@ -126,6 +126,8 @@ class _TabViewState extends State<TabView> {
             _tabbarWidget(),
             Expanded(
               child: TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+
                 children: [
                   _groupHome(),
                   _bookathonList(),

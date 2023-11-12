@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:dockggu/component/toast_message.dart';
 import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/model/mypageDTO.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../app.dart';
 import '../controller/team_controller.dart';
 import 'main_repo.dart';
 
@@ -53,7 +56,7 @@ class UserRepo {
     }
   }
 
-  static Future<void> gologin(LoginDTO logindata) async {
+  static Future<void> gologin(LoginDTO logindata, BuildContext context) async {
     const path = '/api/auth/signIn';
 
     // print(response.body);
@@ -78,16 +81,19 @@ class UserRepo {
 
         Get.find<HomeContoller>().currentUser.value =
             await MainRepo.getCurrentUser();
-        Get.find<HomeContoller>().myBookList.value =
-            await MainRepo.getMyBook();
+        Get.find<HomeContoller>().myBookList.value = await MainRepo.getMyBook();
 
         Get.find<HomeContoller>().initCategory();
         Get.find<HomeContoller>().medalFunc();
+        // Get.to(App());
+        Navigator.push(context, MaterialPageRoute(builder: (_) => App()));
       } else {
         print("요청 실패: ${response.statusCode}");
+        ToastMessage().showToast("아이디와 비밀번호를 확인해주세요.");
       }
     } catch (e) {
       print("오류 발생: $e");
+      ToastMessage().showToast("아이디와 비밀번호를 확인해주세요.");
     }
   }
 }

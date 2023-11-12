@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:dockggu/controller/home_controller.dart';
+import 'package:dockggu/controller/team_controller.dart';
 import 'package:dockggu/model/partyinfoDTO.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,7 +22,7 @@ class MakePartyController extends GetxController {
     
     await MainRepo.makeParty(image.value!, inputPartyName.text,
         inputPartyInfo.text, categorycode.value, int.parse(inputMaxMembers.text));
-
+    Get.find<HomeContoller>().initCategory();
 
   }
 }

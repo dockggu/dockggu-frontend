@@ -183,7 +183,7 @@ class _Mypage1State extends State<Mypage1> {
             child: Center(
               child: Column(
                   children: [
-                    Image.asset(imageList[index]),
+                    // Image.asset(imageList[index]),
                     const SizedBox(
                       height: 10,
                     ),

@@ -31,8 +31,8 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
   }
 
   Widget _header() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Text(
         '다함께 완독해요 📖',
         style: TextStyle(
@@ -51,7 +51,7 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
           children: [
             Row(
               children: [
-                BookWidget(),
+                const BookWidget(),
                 ProgressWidget(
                   bookId: myBookController.myBookList[index].bookId,
                   userId: myBookController.myBookList[index].userId,
@@ -94,7 +94,7 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
               bookImgName: myBookController.myBookList[index].bookImgName,
               bookImgPath: myBookController.myBookList[index].bookImgPath,
             ),
-            Divider(
+            const Divider(
               indent: 20,
               endIndent: 20,
               color: Color(0xffFFD66C),
@@ -115,7 +115,7 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
       body: GetBuilder<MyBookController>(
         builder: (myBookController) {
           if (myBookController.myBookList.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('북커톤에 참여한 유저가 없습니다.'),
             );
           }
@@ -132,12 +132,12 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
                     showModalBottomSheet(
                       context: context,
                       builder: (context) {
-                        return PageInput();
+                        return const PageInput();
                       },
                       backgroundColor: Colors.transparent,
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     '📝',
                     style: TextStyle(
                       fontSize: 25,
@@ -145,13 +145,13 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                      Color(0xffFFD66C),
+                      const Color(0xffFFD66C),
                     ),
                     shape: MaterialStateProperty.all<OutlinedBorder>(
-                      CircleBorder(),
+                      const CircleBorder(),
                     ),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      EdgeInsets.all(16.0),
+                      const EdgeInsets.all(16.0),
                     ),
                   ),
                 ),
@@ -182,7 +182,7 @@ class _PageInputState extends State<PageInput> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               '📝 페이지 수 기록하기',
               style: TextStyle(
                 fontSize: 24,
@@ -190,8 +190,8 @@ class _PageInputState extends State<PageInput> {
               ),
             ),
             IconButton(
-              color: Color(0xff737475),
-              icon: Icon(Icons.close),
+              color: const Color(0xff737475),
+              icon: const Icon(Icons.close),
               onPressed: () {
                 Get.back();
               },
@@ -203,7 +203,7 @@ class _PageInputState extends State<PageInput> {
   }
 
   Widget _explain() {
-    return Text('몇 페이지까지 읽었는지 입력해주세요');
+    return const Text('몇 페이지까지 읽었는지 입력해주세요');
   }
 
   Widget _input() {
@@ -212,11 +212,11 @@ class _PageInputState extends State<PageInput> {
       height: 50,
       child: TextField(
         controller: pageController,
-        style: TextStyle(fontSize: 24),
+        style: const TextStyle(fontSize: 24),
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           prefixText: 'P. ',
-          prefixStyle: TextStyle(
+          prefixStyle: const TextStyle(
             fontSize: 20.0,
             color: Color(0xff000000),
           ),
@@ -234,15 +234,15 @@ class _PageInputState extends State<PageInput> {
       child: Column(
         children: [
           _header(),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           _explain(),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           _input(),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
@@ -250,7 +250,7 @@ class _PageInputState extends State<PageInput> {
             height: 45,
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(
+                backgroundColor: const MaterialStatePropertyAll(
                   Color(0xffffFFD66C),
                 ),
                 shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -265,12 +265,12 @@ class _PageInputState extends State<PageInput> {
                 showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return CurrentProgress();
+                    return const CurrentProgress();
                   },
                   backgroundColor: Colors.transparent,
                 );
               },
-              child: Text(
+              child: const Text(
                 '확인',
                 style: TextStyle(
                     color: Color(0xffFFFFFF),
@@ -310,7 +310,7 @@ class _CurrentProgressState extends State<CurrentProgress> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               '🍀 현재 독서량 (%)',
               style: TextStyle(
                 fontSize: 24,
@@ -318,8 +318,8 @@ class _CurrentProgressState extends State<CurrentProgress> {
               ),
             ),
             IconButton(
-              color: Color(0xff737475),
-              icon: Icon(Icons.close),
+              color: const Color(0xff737475),
+              icon: const Icon(Icons.close),
               onPressed: () {
                 Get.back();
               },
@@ -344,14 +344,14 @@ class _CurrentProgressState extends State<CurrentProgress> {
         percent: percentage,
         center: Text(
           "$intPercentage%",
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
             color: Color(0xff000000),
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Color(0xffBBBBBB),
-        progressColor: Color(0xffFFD66C),
+        backgroundColor: const Color(0xffBBBBBB),
+        progressColor: const Color(0xffFFD66C),
       ),
     );
   }
@@ -362,7 +362,7 @@ class _CurrentProgressState extends State<CurrentProgress> {
       child: Column(
         children: [
           _header(),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           _progressCircle()

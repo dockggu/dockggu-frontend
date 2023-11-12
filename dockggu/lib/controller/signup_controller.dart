@@ -1,3 +1,4 @@
+import 'package:dockggu/component/toast_message.dart';
 import 'package:dockggu/model/mypageDTO.dart';
 import 'package:dockggu/repogistory/user_repo.dart';
 import 'package:flutter/material.dart';
@@ -22,14 +23,14 @@ class SignUpController extends GetxController {
 
       UserRepo.signUp(signupData);
     } else {
-      print('비밀번호 확인해주세여ㅛ');
+      ToastMessage().showToast("비밀번호를 확인해주세요.");
     }
   }
 
-  Future<void> login() async {
+  Future<void> login(BuildContext context) async {
     var signupData =
         LoginDTO(userEmail: loginEmail.text, userPassword: loginPw.text);
 
-    UserRepo.gologin(signupData);
+    UserRepo.gologin(signupData,context);
   }
 }
