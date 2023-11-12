@@ -7,15 +7,22 @@ class MyBookController extends GetxController {
   final _myBookList = <MyBookDto>[].obs;
   List<MyBookDto> get myBookList => _myBookList;
 
+  final Map<int, int> _bookReadPages = {};
+  final Map<int, int> _bookTotalPages = {};
+
+  int? getBookReadPage(int bookertonId) => _bookReadPages[bookertonId];
+  int? getBookTotalPage(int bookertonId) => _bookTotalPages[bookertonId];
+
   Future<void> fetchMyBookData(int bookertonId) async {
-    final baseUrl = 'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080';
+    final baseUrl =
+        'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080';
     final path = '/api/bookerton/userList';
 
     final url = Uri.parse('$baseUrl$path?bookertonId=$bookertonId');
 
     final headers = {
       'Authorization':
-      'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTY5OTQzNjYwNiwiZXhwIjoxNjk5Nzk2NjA2fQ.ibmLuZSETf8L_7gAbSUCi8oIMg4IfqmJExLUItF96NvpohbBu1w_eNLsQy263Mjcn6iJO5rnm1T_nJhxIuaOaA', 
+          'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMyIsImlhdCI6MTY5OTQzNjYwNiwiZXhwIjoxNjk5Nzk2NjA2fQ.ibmLuZSETf8L_7gAbSUCi8oIMg4IfqmJExLUItF96NvpohbBu1w_eNLsQy263Mjcn6iJO5rnm1T_nJhxIuaOaA',
     };
 
     try {
@@ -28,7 +35,12 @@ class MyBookController extends GetxController {
         _myBookList.value = (myBookData as List)
             .map((data) => MyBookDto.fromJson(data as Map<String, dynamic>))
             .toList();
-            print(_myBookList);
+        print(_myBookList);
+
+        for (MyBookDto book in _myBookList) {
+          _bookReadPages[book.bookertonId!] = book.bookReadPage ?? 0;
+          _bookTotalPages[book.bookertonId!] = book.bookTotalPage ?? 0;
+        }
 
         update();
       } else {
@@ -39,5 +51,3 @@ class MyBookController extends GetxController {
     }
   }
 }
-
-

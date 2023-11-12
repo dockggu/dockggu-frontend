@@ -76,7 +76,7 @@ class ProgressWidget extends StatelessWidget {
                 nickname: "$userId",
               ),
             ),
-            alignment: FractionalOffset(0.9, 1 - 0.9),
+            alignment: FractionalOffset(pagePercent, 1 - pagePercent),
           ),
           SizedBox(
             height: 5,
