@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dockggu/component/yellow_button.dart';
 import 'package:dockggu/email_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -17,11 +19,26 @@ class SignUp extends StatefulWidget {
   @override
   State<SignUp> createState() => _SignUpState();
 }
+final picker = ImagePicker();
 
 class _SignUpState extends State<SignUp> {
   WebViewController? _webViewController;
   var controller = Get.put(SignUpController());
+ Future getImage(ImageSource imageSource) async {
+    final image = await picker.pickImage(source: imageSource);
 
+    setState(() {
+      if (image != null) {
+        controller.image.value = File(image.path); // 가져온 이미지를 _image에 저장
+        print(controller.image.value);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('사진을 선택해주세요 !'),
+          duration: Duration(seconds: 2),
+        ));
+      }
+    });
+  }
   Widget _header() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -111,11 +128,69 @@ class _SignUpState extends State<SignUp> {
               decoration: InputDecoration(
                   hintText: '비밀번호 확인', contentPadding: EdgeInsets.zero),
             ),
-          ),
+            
+          ),SizedBox(height: 40,),_selectImage()
         ],
       ),
     );
   }
+
+Widget _selectImage() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '프로필 사진',
+          style: TextStyle(color: Color.fromARGB(255, 112, 111, 111),fontSize: 16,fontWeight: FontWeight.w300),
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        Container(
+            alignment: Alignment.center,
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.9),
+                spreadRadius: 0,
+                blurRadius: 2.0,
+                offset: const Offset(0, 1), // changes position of shadow
+              ),
+            ], borderRadius: BorderRadius.circular(5), color: Colors.white),
+            child: GestureDetector(
+              onTap: () async {
+                await getImage(ImageSource.gallery);
+              },
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (controller.image.value == null)
+                      Padding(
+                        padding: const EdgeInsets.all(30),
+                        child: SvgPicture.asset('assets/camera-photo.svg'),
+                      )
+                    else
+                      Container(
+                        width: 100,height: 100,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
+                        child: Image.file(
+                          
+                          
+                          File(controller.image.value!.path),
+                          height: 90,
+                          fit: BoxFit.fill,
+                        ),
+                      )
+                  ]),
+            )),
+        const SizedBox(
+          height: 20,
+        )
+      ],
+    );
+  }
+
 
   Widget _loginselect() {
     return Column(
@@ -226,6 +301,7 @@ class _SignUpState extends State<SignUp> {
               height: 40,
             ),
             _inputList(),
+ 
             SizedBox(
               height: 35,
             ),
@@ -233,7 +309,7 @@ class _SignUpState extends State<SignUp> {
                 alignment: Alignment.center,
                 child: YellowButton(
                     ontap: () {
-                      controller.signUp();
+                      controller.signUp(context);
                       // fetchData();
                       // getUserInf();
                       // initiateKakaoSignUp();
