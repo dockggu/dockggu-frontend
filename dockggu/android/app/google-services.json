@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "722775158876",
+    "project_id": "dockggu-app",
+    "storage_bucket": "dockggu-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722775158876:android:45a5fab815c0da9dacf699",
+        "android_client_info": {
+          "package_name": "com.example.dockggu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcbamdHliC8vmK87wCvrWKPfOTDeas-GY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
