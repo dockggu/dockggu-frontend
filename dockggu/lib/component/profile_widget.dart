@@ -30,7 +30,9 @@ class ProfileWidget extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: thumbPath,
               fit: BoxFit.cover,
-            )),
+            )
+            
+            ),
       ),
     );
   }

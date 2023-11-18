@@ -29,7 +29,7 @@ class GroupHome extends GetView<TeamController> {
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
                   // 이미지 경로 백앤드 상의
-                  'https://cdn.sisamagazine.co.kr/news/photo/202206/449057_455011_3458.jpg',
+                  "https://${controller.currentTeam.value.partyProfileImgPath!}",
                   fit: BoxFit.cover,
                 ))),
         const SizedBox(
@@ -208,7 +208,7 @@ class GroupHome extends GetView<TeamController> {
                       controller.partyMembers.length,
                       (index) => ProfileWidget(
                             thumbPath:
-                                'https://images.mypetlife.co.kr/content/uploads/2023/01/03112035/bay._.curry_thumnail.png',
+                                controller.partyMembers[index].fileUrl!,
                             size: 50,
                             type: ProfileType.TYPE2,
                             nickname:
@@ -264,32 +264,34 @@ class GroupHome extends GetView<TeamController> {
               const SizedBox(
                 height: 30,
               ),
-              Obx(() {
-                if (controller.isRegister.value == false) {
-                  return YellowButton(
-                      ontap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => JoinPopup(
-                                  okbtn: () async {
-                                    MainRepo.registerParty(
-                                        controller.currentTeam.value.partyId!);
-                                    await Get.find<HomeContoller>()
-                                        .initCategory();
+              if (controller.currentTeam.value.partyMaster !=
+                  controller.currentUser.value.userId)
+                Obx(() {
+                  if (controller.isRegister.value == false) {
+                    return YellowButton(
+                        ontap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => JoinPopup(
+                                    okbtn: () async {
+                                      MainRepo.registerParty(controller
+                                          .currentTeam.value.partyId!);
+                                      await Get.find<HomeContoller>()
+                                          .initCategory();
 
-                                    await controller.getPartyMember();
-                                    await controller.isMembers();
-                                  },
-                                  groupName:
-                                      controller.currentTeam.value.partyName!,
-                                ));
-                      },
-                      buttonText: '가입하기',
-                      buttonWidth: 120);
-                } else {
-                  return SizedBox();
-                }
-              }),
+                                      await controller.getPartyMember();
+                                      await controller.isMembers();
+                                    },
+                                    groupName:
+                                        controller.currentTeam.value.partyName!,
+                                  ));
+                        },
+                        buttonText: '가입하기',
+                        buttonWidth: 120);
+                  } else {
+                    return SizedBox();
+                  }
+                }),
               const SizedBox(
                 height: 100,
               ),

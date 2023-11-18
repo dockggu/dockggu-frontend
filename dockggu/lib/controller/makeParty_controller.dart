@@ -23,6 +23,7 @@ class MakePartyController extends GetxController {
     await MainRepo.makeParty(image.value!, inputPartyName.text,
         inputPartyInfo.text, categorycode.value, int.parse(inputMaxMembers.text));
     Get.find<HomeContoller>().initCategory();
+    Get.find<TeamController>().isMembers();
 
   }
 }

@@ -20,7 +20,7 @@ class TeamController extends GetxController {
   var currentUser = UserDto().obs;
   var isRegister = false.obs;
   var isMaster = false.obs;
-
+  
   RxList<ParicipateBookathon> participateBook = RxList();
   var selectBook = ParicipateBookathon().obs;
 
@@ -33,7 +33,6 @@ class TeamController extends GetxController {
   Future<void> isMembers() async {
     isRegister.value = false;
     for (PartyMembersDTO i in partyMembers) {
-      print(i.userId);
       if (currentUser.value.userId == i.userId) {
         isRegister.value = true;
       } else {}

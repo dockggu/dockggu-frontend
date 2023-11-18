@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../component/twobtn_dialog.dart';
+
 class AddScadule extends StatefulWidget {
   const AddScadule({super.key});
 
@@ -12,8 +14,7 @@ class AddScadule extends StatefulWidget {
 }
 
 class _AddScaduleState extends State<AddScadule> {
-
-    var controller = Get.put(AddThonController());
+  var controller = Get.put(AddThonController());
 
   DateTimeRange _range = DateTimeRange(
     start: DateTime.now(),
@@ -59,7 +60,7 @@ class _AddScaduleState extends State<AddScadule> {
               padding: const EdgeInsets.only(left: 10.0),
               child: TextField(
                 controller: controller.inputThonName, // 나중에 주석 풀기
-                decoration:const  InputDecoration(
+                decoration: const InputDecoration(
                     disabledBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
@@ -222,9 +223,20 @@ class _AddScaduleState extends State<AddScadule> {
                     _maxCount(),
                     const SizedBox(height: 60),
                     YellowButton(
-                        ontap: () async{
-                          await controller.addThon();
-                          // Navigator.pop(context);
+                        ontap: () async {
+                          showDialog(
+                              context: context,
+                              builder: (context) => TwobtnDialog(
+                                  content: "북커톤을 생성하시겠습니까?",
+                                  yestext: "생성",
+                                  notext: "취소",
+                                  okbtn: () async {
+                                    await controller.addThon();
+                                  },
+                                  nobtn: () {
+                                    Navigator.pop(context);
+                                  }));
+
                         },
                         buttonText: '일정 추가',
                         buttonWidth: 100)

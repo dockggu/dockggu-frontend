@@ -20,65 +20,66 @@ class UserRepo {
     final url = Uri.parse(
         'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path');
 
-// try {
-//       var request = http.MultipartRequest(
-//         'POST',
-//         Uri.parse(
-//             'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path'),
-//       );
-//       request.headers['Authorization'] = 'Bearer $token';
-
-//       request.fields['userEmail'] = signupdata.userEmail;
-//       request.fields['userPassword'] = signupdata.userPassword;
-//       request.fields['userPasswordCheck'] = signupdata.userPasswordCheck;
-//       request.fields['userNickname'] = signupdata.userNickname.toString();
-
-//       request.files.add(
-//         await http.MultipartFile.fromPath('imgFile', imageFile.path, // 여기에 imgFile 변경해야함
-//             contentType: MediaType('image', 'jpg')),
-//       );
-
-//       print(request.files[0].contentType);
-
-//       final response = await request.send();
-
-//       if (response.statusCode == 200) {
-//         print('response.statusCode = ${response.statusCode}');
-
-//         print('파티 생성 성공');
-//       } else {
-//         print('파티 업로드 실패: ${response.reasonPhrase}');
-//       }
-//     } catch (error) {
-//       print('오류 발생: $error');
-//     }
-
     try {
-      final response = await http.post(
-        url,
-        body: json.encode(signupdata),
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Authorization': 'Bearer $token',
-          'Accept-Charset': 'utf-8',
-        },
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+            'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path'),
+      );
+      request.headers['Authorization'] = 'Bearer $token';
+
+      request.fields['userEmail'] = signupdata.userEmail;
+      request.fields['userPassword'] = signupdata.userPassword;
+      request.fields['userPasswordCheck'] = signupdata.userPasswordCheck;
+      request.fields['userNickname'] = signupdata.userNickname.toString();
+
+      request.files.add(
+        await http.MultipartFile.fromPath(
+            'imgFile', imageFile.path, // 여기에 imgFile 변경해야함
+            contentType: MediaType('image', 'jpg')),
       );
 
-      if (response.statusCode == 200) {
-        // 성공적인 응답 처리
-        final responseData = json.decode(response.body);
+      print(request.files[0].contentType);
 
-        // responseData를 가지고 원하는 동작 수행
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('response.statusCode = ${response.statusCode}');
+
+        print('회원가입 성공');
       } else {
-        // 서버로부터 오류 응답을 받은 경우
-        print("요청 실패: ${response.statusCode}");
-        // 오류 처리 로직을 추가할 수 있습니다.
+        print('회원가입 실패: ${response.reasonPhrase}');
       }
-    } catch (e) {
-      // 네트워크 연결 또는 다른 예외 상황 처리
-      print("오류 발생: $e");
-      // 오류 처리 로직을 추가할 수 있습니다.
+    } catch (error) {
+      print('오류 발생: $error');
     }
+
+    // try {
+    //   final response = await http.post(
+    //     url,
+    //     body: json.encode(signupdata),
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=utf-8',
+    //       'Authorization': 'Bearer $token',
+    //       'Accept-Charset': 'utf-8',
+    //     },
+    //   );
+
+    //   if (response.statusCode == 200) {
+    //     // 성공적인 응답 처리
+    //     final responseData = json.decode(response.body);
+
+    //     // responseData를 가지고 원하는 동작 수행
+    //   } else {
+    //     // 서버로부터 오류 응답을 받은 경우
+    //     print("요청 실패: ${response.statusCode}");
+    //     // 오류 처리 로직을 추가할 수 있습니다.
+    //   }
+    // } catch (e) {
+    //   // 네트워크 연결 또는 다른 예외 상황 처리
+    //   print("오류 발생: $e");
+    //   // 오류 처리 로직을 추가할 수 있습니다.
+    // }
   }
 
   static Future<void> gologin(LoginDTO logindata, BuildContext context) async {
