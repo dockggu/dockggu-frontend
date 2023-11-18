@@ -51,7 +51,7 @@ class ProfileWidget extends StatelessWidget {
                 width: size,
                 height: size,
                 child: CachedNetworkImage(
-                  imageUrl: thumbPath,
+                  imageUrl: "https://$thumbPath",
                   fit: BoxFit.cover,
                 )),
           ),
