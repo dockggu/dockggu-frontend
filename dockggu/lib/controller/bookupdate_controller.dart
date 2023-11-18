@@ -10,7 +10,7 @@ class BookUpdateController extends GetxController {
   var updateSuccess = false.obs;
   // ...
 
-  Future<void> updateBookPage(String bookertonId, String bookReadPage) async {
+  Future<void> updateBookPage(int? bookertonId, String bookReadPage) async {
     final String apiUrl = 'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/api/bookerton/updatePage'; // API 엔드포인트를 여기에 입력
     final Map<String, String> headers = {
       'Content-Type': 'application/json',

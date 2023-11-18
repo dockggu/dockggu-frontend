@@ -3,17 +3,25 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'profile_widget.dart';
 
 class BookWidget extends StatelessWidget {
-  const BookWidget({super.key});
+  final String? bookImgPath;
+  const BookWidget({
+    super.key,
+    this.bookImgPath,
+  });
 
   @override
   Widget build(BuildContext context) {
+    String encodedUrl = '$bookImgPath';
+
+// URL 디코딩
+    String decodedUrl = Uri.decodeFull(encodedUrl);
     return Container(
       width: MediaQuery.of(context).size.width * 0.3,
       margin: EdgeInsets.only(top: 20),
       height: 150,
       child: Center(
-        child: Image.asset(
-          'assets/book.png',
+        child: Image.network(
+          decodedUrl,
           height: 100,
           width: 80,
         ),
@@ -33,6 +41,8 @@ class ProgressWidget extends StatelessWidget {
   final int? bookReadPage;
   final String? bookImgName;
   final String? bookImgPath;
+  final String? userNickname;
+  final String? userProfileImgPath;
 
   const ProgressWidget({
     super.key,
@@ -46,6 +56,8 @@ class ProgressWidget extends StatelessWidget {
     this.bookReadPage,
     this.bookImgName,
     this.bookImgPath,
+    this.userNickname,
+    this.userProfileImgPath
   });
 
   @override
@@ -54,7 +66,7 @@ class ProgressWidget extends StatelessWidget {
       if (totalPage == 0) {
         return 0.0;
       }
-      return (readPage / totalPage) * 100.0;
+      return (readPage / totalPage);
     }
 
     double pagePercent = getPagePercent(bookReadPage ?? 0, bookTotalPage ?? 0);
@@ -70,10 +82,10 @@ class ProgressWidget extends StatelessWidget {
             child: FractionallySizedBox(
               child: ProfileWidget(
                 thumbPath:
-                    'https://images.mypetlife.co.kr/content/uploads/2023/01/03112035/bay._.curry_thumnail.png',
+                    'https://$userProfileImgPath',
                 size: 40,
                 type: ProfileType.TYPE3,
-                nickname: "$userId",
+                nickname: "$userNickname",
               ),
             ),
             alignment: FractionalOffset(pagePercent, 1 - pagePercent),
@@ -81,13 +93,13 @@ class ProgressWidget extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          // LinearPercentIndicator(
-          //   percent: pagePercent,
-          //   lineHeight: 10,
-          //   barRadius: Radius.circular(10),
-          //   progressColor: Color(0xffFFC100),
-          //   backgroundColor: Color(0xffBBBBBB),
-          // ),
+          LinearPercentIndicator(
+            percent: pagePercent,
+            lineHeight: 10,
+            barRadius: Radius.circular(10),
+            progressColor: Color(0xffFFC100),
+            backgroundColor: Color(0xffBBBBBB),
+          ),
         ],
       ),
     );
@@ -127,7 +139,7 @@ class PercentWidget extends StatelessWidget {
     }
 
     double pagePercent = getPagePercent(bookReadPage ?? 0, bookTotalPage ?? 0);
-     int percenttoInt = pagePercent.toInt();
+    int percenttoInt = pagePercent.toInt();
     return Container(
       padding: EdgeInsets.fromLTRB(10, 50, 0, 0),
       alignment: Alignment.centerLeft,
