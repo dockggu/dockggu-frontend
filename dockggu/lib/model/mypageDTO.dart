@@ -5,7 +5,8 @@ class PartyInfoResponseDto {
   PartyInfoResponseDto({required this.partyInfoList});
 
   factory PartyInfoResponseDto.fromJson(List<dynamic> json) {
-    List<PartyInfoItem> partyInfoList = json.map((item) => PartyInfoItem.fromJson(item)).toList();
+    List<PartyInfoItem> partyInfoList =
+        json.map((item) => PartyInfoItem.fromJson(item)).toList();
     return PartyInfoResponseDto(partyInfoList: partyInfoList);
   }
 }
@@ -61,7 +62,8 @@ class ApiResponse {
   final String message;
   final Data data;
 
-  ApiResponse({required this.result, required this.message, required this.data});
+  ApiResponse(
+      {required this.result, required this.message, required this.data});
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) {
     return ApiResponse(
@@ -77,7 +79,10 @@ class Data {
   final dynamic awardDto;
   final List<dynamic> mybookDtoList;
 
-  Data({required this.userDto, required this.awardDto, required this.mybookDtoList});
+  Data(
+      {required this.userDto,
+      required this.awardDto,
+      required this.mybookDtoList});
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
@@ -98,16 +103,18 @@ class UserDto {
   final String? userProfileImgPath;
 
   UserDto({
-     this.userId,
+    this.userId,
     this.userEmail,
     this.userKakaoEmail,
-     this.userNickname,
-     this.userAward,
+    this.userNickname,
+    this.userAward,
     this.userProfileImgName,
     this.userProfileImgPath,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) {
+ 
+
     return UserDto(
       userId: json['userId'],
       userEmail: json['userEmail'],
@@ -121,68 +128,6 @@ class UserDto {
 }
 
 
-
-// class UserProfileResponseDto {
-//   final UserDto userDto;
-//   final List<MybookDto> mybookDtoList;
-
-//   UserProfileResponseDto({required this.userDto, required this.mybookDtoList});
-
-//   factory UserProfileResponseDto.fromJson(Map<String, dynamic> json) {
-//     final userDto = UserDto.fromJson(json['userDto']);
-//     final mybookDtoList = (json['mybookDtoList'] as List)
-//         .map((item) => MybookDto.fromJson(item))
-//         .toList();
-//     return UserProfileResponseDto(userDto: userDto, mybookDtoList: mybookDtoList);
-//   }
-// }
-
-// class UserDto {
-//   final int userId;
-//   final String userEmail;
-//   final String userKakaoEmail;
-//   final String userNickname;
-//   final String userAward;
-//   final String userProfileImgName;
-//   final String userProfileImgPath;
-
-//   UserDto({
-//     required this.userId,
-//     required this.userEmail,
-//     required this.userKakaoEmail,
-//     required this.userNickname,
-//     required this.userAward,
-//     required this.userProfileImgName,
-//     required this.userProfileImgPath,
-//   });
-
-//   factory UserDto.fromJson(Map<String, dynamic> json) {
-//     return UserDto(
-//       userId: json['userId'],
-//       userEmail: json['userEmail'],
-//       userKakaoEmail: json['userKakaoEmail'],
-//       userNickname: json['userNickname'],
-//       userAward: json['userAward'],
-//       userProfileImgName: json['userProfileImgName'],
-//       userProfileImgPath: json['userProfileImgPath'],
-//     );
-//   }
-// }
-
-
-
-// // 메달 증가 요청
-// class UptoMedal {
-//   final List<String> userIdList;
-
-//   UptoMedal({required this.userIdList});
-
-//   Map<String, dynamic> toJson() {
-//     return {
-//       'userIdList': userIdList,
-//     };
-//   }
-// }
 
 //회원가입
 class SignUpDTO {
@@ -216,6 +161,7 @@ class SignUpDTO {
     };
   }
 }
+
 class LoginDTO {
   final String userEmail;
   final String userPassword;

@@ -36,7 +36,6 @@ class BookertonController extends GetxController {
         bookertonList.value = (bookertonData as List)
             .map((data) => BookathonDTO.fromJson(data as Map<String, dynamic>))
             .toList();
-        print(bookertonList);
 
         update();
       } else {

@@ -117,7 +117,7 @@ class _SignUpState extends State<SignUp> {
             child: TextField(
               controller: controller.inputPw,
               decoration: InputDecoration(
-                  hintText: '비밀번호', contentPadding: EdgeInsets.zero),
+                  hintText: '비밀번호 6자리 이상', contentPadding: EdgeInsets.zero),
             ),
           ),
           SizedBox(

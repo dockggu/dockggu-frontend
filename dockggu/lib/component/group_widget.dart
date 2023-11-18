@@ -14,7 +14,7 @@ class GroupList extends StatelessWidget {
   int maxnum;
   int currentNum;
   String category;
-  // String partyProfileImgPath;
+  String partyProfileImgPath;
   GroupList({
     super.key,
     required this.teamName,
@@ -22,7 +22,7 @@ class GroupList extends StatelessWidget {
     required this.maxnum,
     required this.currentNum,
     required this.category,
-    // required this.partyProfileImgPath
+    required this.partyProfileImgPath
   });
 
   var controller = Get.put(HomeContoller());
@@ -43,13 +43,13 @@ class GroupList extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 15),
                 child: ProfileWidget(
                   thumbPath:
-                      'https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg',
+                      'https://$partyProfileImgPath',
                   type: ProfileType.TYPE1,
                 ),
               ),
               Container(
                 // color: Colors.black,
-                width: 200,
+                width: 250,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -82,10 +82,8 @@ class GroupList extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                width: 28,
-              ),
-              SvgPicture.asset("assets/heart.svg")
+        
+              // SvgPicture.asset("assets/heart.svg")
             ],
           ),
         ),
@@ -139,13 +137,13 @@ class GroupList2 extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 15),
                 child: ProfileWidget(
                   thumbPath:
-                      'https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg',
+                      'https://$partyProfileImgPath',
                   type: ProfileType.TYPE1,
                 ),
               ),
               Container(
                 // color: Colors.black,
-                width: 200,
+                width: 250,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -178,10 +176,10 @@ class GroupList2 extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                width: 28,
-              ),
-              SvgPicture.asset("assets/heart.svg")
+              // SizedBox(
+              //   width: 28,
+              // ),
+              // SvgPicture.asset("assets/heart.svg")
             ],
           ),
         ),

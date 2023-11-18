@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../component/toast_message.dart';
 import '../repogistory/main_repo.dart';
 
 class MakePartyController extends GetxController {
@@ -20,11 +21,19 @@ class MakePartyController extends GetxController {
   Future<void> makeParty() async {
     // print(image.value);
     
-    await MainRepo.makeParty(image.value!, inputPartyName.text,
+    try{
+ await MainRepo.makeParty(image.value!, inputPartyName.text,
         inputPartyInfo.text, categorycode.value, int.parse(inputMaxMembers.text));
     Get.find<HomeContoller>().initCategory();
     Get.put(TeamController());
     Get.find<TeamController>().isMembers();
+
+    }catch(e){
+      ToastMessage().showToast("인원 수는 숫자로 입력해주세요.");
+
+
+    }
+   
 
   }
 }

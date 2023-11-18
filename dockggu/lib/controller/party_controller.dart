@@ -6,8 +6,9 @@ import 'package:http/http.dart' as http;
 import '../repogistory/main_repo.dart';
 
 class PartyController extends GetxController {
-  final _partyList = <PartyResponseDto>[].obs;
-  List<PartyResponseDto> get partyList => _partyList;
+  var partyList = <PartyResponseDto>[].obs;
+
+  // List<PartyResponseDto> get partyList => partyList;
 
   Future<void> fetchPartyList() async {
     final baseUrl =
@@ -29,11 +30,11 @@ class PartyController extends GetxController {
         final List<dynamic>? partyData = jsonData['data'];
 
         if (partyData != null) {
-          _partyList.value =
+          partyList.value =
               partyData.map((data) => PartyResponseDto.fromJson(data)).toList();
         } else {
           // "data" 필드가 null인 경우 빈 목록으로 처리
-          _partyList.value = [];
+          partyList.value = [];
         }
 
         update();

@@ -29,7 +29,6 @@ class MainRepo {
     );
     final responseJson =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-    print(responseJson);
     return UserDto.fromJson(responseJson['data']['userDto']);
   }
 
@@ -49,15 +48,12 @@ class MainRepo {
     );
     final responseJson =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-    print(responseJson);
 
     for (int i = 0; i < responseJson['data']['mybookDtoList'].length; i++) {
       bookList
           .add(MyBookDto.fromJson(responseJson['data']['mybookDtoList'][i]));
-      print(bookList[i].bookName);
     }
 
-    print(bookList);
     return bookList;
   }
 
@@ -82,7 +78,6 @@ class MainRepo {
       },
     );
 
-    print(response.body);
   }
 
   // 모임 멤버 불러오기
@@ -157,7 +152,6 @@ class MainRepo {
             contentType: MediaType('image', 'jpg')),
       );
 
-      print(request.files[0].contentType);
 
       final response = await request.send();
 
@@ -195,8 +189,7 @@ class MainRepo {
         'Accept-Charset': 'utf-8',
       },
     );
-    print(json.encode(thondata));
-    print(response.body);
+
   }
 
 
@@ -214,7 +207,8 @@ class MainRepo {
         'Accept-Charset': 'utf-8',
       },
     );
-    print(json.encode(data));
-    print(response.body);
+
+    
+
   }
 }

@@ -17,16 +17,19 @@ class SignUpController extends GetxController {
   final Rx<File?> image = Rx<File?>(null);
 
   Future<void> signUp(BuildContext context) async {
-    if (inputPw.text == inputRePw.text) {
+    if (inputPw.text == inputRePw.text && inputPw.text.length >=6) {
       var signupData = SignUpDTO(
           userEmail: inputEmail.text,
           userPassword: inputPw.text,
           userPasswordCheck: inputRePw.text,
           userNickname: inputName.text);
-      UserRepo.signUp(signupData,image.value!);
+      UserRepo.signUp(signupData, image.value!);
+      Navigator.pop(context);
       Navigator.pop(context);
     } else {
       ToastMessage().showToast("비밀번호를 확인해주세요.");
+            Navigator.pop(context);
+
     }
   }
 
@@ -34,6 +37,6 @@ class SignUpController extends GetxController {
     var signupData =
         LoginDTO(userEmail: loginEmail.text, userPassword: loginPw.text);
 
-    UserRepo.gologin(signupData,context);
+    UserRepo.gologin(signupData, context);
   }
 }

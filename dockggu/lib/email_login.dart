@@ -4,16 +4,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 
-class EmailLogin extends StatelessWidget {
-   EmailLogin({super.key});
+class EmailLogin extends StatefulWidget {
+  EmailLogin({super.key});
 
-void unfocusKeyboard() {
+  @override
+  State<EmailLogin> createState() => _EmailLoginState();
+}
+
+class _EmailLoginState extends State<EmailLogin> {
+  void unfocusKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
-var controller = Get.put(SignUpController());
+
+  @override
+  void initState() {
+    _loadSavedId();
+    super.initState();
+  }
+
+  String save_id = "";
+
+  _loadSavedId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      controller.loginEmail.text = prefs.getString('saved_id') ?? "";
+    });
+  }
+
+  _saveId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('saved_id', id);
+  }
+
+  var controller = Get.put(SignUpController());
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -45,7 +73,6 @@ var controller = Get.put(SignUpController());
                           Text(
                             '📧 이메일로 로그인하기',
                             style: TextStyle(
-                              
                                 fontSize: 21, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -56,7 +83,6 @@ var controller = Get.put(SignUpController());
                             height: 40,
                             child: TextField(
                               controller: controller.loginEmail,
-                            
                               decoration: InputDecoration(
                                   hintText: 'Email',
                                   contentPadding: EdgeInsets.zero),
@@ -82,8 +108,9 @@ var controller = Get.put(SignUpController());
                               alignment: Alignment.center,
                               child: YellowButton(
                                   ontap: () {
+                                    _saveId(controller.loginEmail.text);
+
                                     controller.login(context);
-                                  
                                   },
                                   buttonText: '로그인 하기',
                                   buttonWidth: 350))
