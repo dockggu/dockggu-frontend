@@ -142,12 +142,12 @@ class MyBookDto {
 // 북커톤 책 페이지 수 업데이트하기
 
 class BookUpdateModel {
-  final String bookertonId;
-  final String bookReadPage;
+  final int? bookertonId;
+  final String? bookReadPage;
 
   BookUpdateModel({
-    required this.bookertonId,
-    required this.bookReadPage,
+    this.bookertonId,
+    this.bookReadPage,
   });
 
   Map<String, dynamic> toJson() {

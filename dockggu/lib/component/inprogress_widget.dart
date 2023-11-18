@@ -113,7 +113,7 @@ class InProgressWidget extends StatelessWidget {
       height: 40,
       child: Center(
         child: Text(
-          '참여중',
+          '진행중',
           style: TextStyle(
               color: Color(0xffFFFFFF),
               fontSize: 16,

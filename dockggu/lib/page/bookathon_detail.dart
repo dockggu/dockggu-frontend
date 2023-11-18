@@ -51,7 +51,9 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
           children: [
             Row(
               children: [
-                const BookWidget(),
+                BookWidget(
+                  bookImgPath: myBookController.myBookList[index].bookImgPath,
+                ),
                 ProgressWidget(
                   bookId: myBookController.myBookList[index].bookId,
                   userId: myBookController.myBookList[index].userId,
@@ -65,6 +67,8 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
                   bookReadPage: myBookController.myBookList[index].bookReadPage,
                   bookImgName: myBookController.myBookList[index].bookImgName,
                   bookImgPath: myBookController.myBookList[index].bookImgPath,
+                  userNickname: myBookController.userList[index].userNickname,
+                  userProfileImgPath: myBookController.userList[index].userProfileImgPath,
                 ),
                 PercentWidget(
                   bookId: myBookController.myBookList[index].bookId,
@@ -132,7 +136,8 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
                     showModalBottomSheet(
                       context: context,
                       builder: (context) {
-                        return const PageInput();
+                        return PageInput(
+                            currentBookertonId: widget.currentBookertonId);
                       },
                       backgroundColor: Colors.transparent,
                     );
@@ -177,14 +182,14 @@ class _PageInputState extends State<PageInput> {
   final TextEditingController pageController = TextEditingController();
 
   // Define a variable to hold the string representation of currentBookertonId
-  late String currentBookertonIdString;
+  int? currentBookertonId;
 
   @override
   void initState() {
     super.initState();
 
     // Convert int? to String and assign it to the variable
-    currentBookertonIdString = widget.currentBookertonId?.toString() ?? "";
+    currentBookertonId = widget.currentBookertonId ?? 0;
   }
 
   Widget _header() {
@@ -242,6 +247,7 @@ class _PageInputState extends State<PageInput> {
 
   @override
   Widget build(BuildContext context) {
+    print("currentBookertonIdString: $currentBookertonId");
     return Container(
       child: Column(
         children: [
@@ -273,7 +279,7 @@ class _PageInputState extends State<PageInput> {
               ),
               onPressed: () {
                 String pageCount = pageController.text;
-                controller.updateBookPage(currentBookertonIdString, pageCount);
+                controller.updateBookPage(currentBookertonId, pageCount);
                 showModalBottomSheet(
                   context: context,
                   builder: (context) {
@@ -346,7 +352,9 @@ class _CurrentProgressState extends State<CurrentProgress> {
     int readPage = myBookController.myBookList[0].bookReadPage ?? 0;
     int totalPage = myBookController.myBookList[0].bookTotalPage ?? 1;
 
-    double percentage = (readPage / totalPage) * 100;
+    double percentage = (readPage / totalPage);
+    double percentage2 = (readPage / totalPage) * 100;
+    int intPercentage2 = percentage2.toInt();
     int intPercentage = percentage.toInt();
 
     return Container(
@@ -355,7 +363,7 @@ class _CurrentProgressState extends State<CurrentProgress> {
         lineWidth: 12.0,
         percent: percentage,
         center: Text(
-          "$intPercentage%",
+          "$intPercentage2%",
           style: const TextStyle(
             fontSize: 24,
             color: Color(0xff000000),
@@ -390,3 +398,7 @@ class _CurrentProgressState extends State<CurrentProgress> {
     );
   }
 }
+
+// index의 역할 파악하고 readPage, totalPage를 불러올 때도 해당 Index를 참조하여 불러올 수 있도록 코드를 수정해주자.
+// post가 제대로 작동하지 않는 것 같음.
+// bookimage를 띄우는 방법을 알아보자.
