@@ -15,12 +15,12 @@ class Mypage1 extends StatefulWidget {
 class _Mypage1State extends State<Mypage1> {
   var controller = Get.put(HomeContoller());
   List<int> medalList = [];
-  List<String> imageList = [
-    'assets/book.png',
-    'assets/book.png',
-    'assets/book.png',
-    'assets/book.png',
-  ];
+  // List<String> imageList = [
+  //   'assets/book.png',
+  //   'assets/book.png',
+  //   'assets/book.png',
+  //   'assets/book.png',
+  // ];
 
   @override
   Widget _header() {
@@ -88,7 +88,7 @@ class _Mypage1State extends State<Mypage1> {
             child: Center(
                 child: ProfileWidget(
               thumbPath:
-                  'https://images.mypetlife.co.kr/content/uploads/2023/01/03112035/bay._.curry_thumnail.png',
+                  'https://${controller.currentUser.value.userProfileImgPath}',
               size: 75,
               type: ProfileType.TYPE4,
               nickname: "kancho",
@@ -183,7 +183,7 @@ class _Mypage1State extends State<Mypage1> {
             child: Center(
               child: Column(
                   children: [
-                    // Image.asset(imageList[index]),
+                    Image.network(controller.myBookList[index].bookImgPath!),
                     const SizedBox(
                       height: 10,
                     ),

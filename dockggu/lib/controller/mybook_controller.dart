@@ -36,7 +36,6 @@ class MyBookController extends GetxController {
         _myBookList.value = (myBookData as List)
             .map((data) => MyBookDto.fromJson(data as Map<String, dynamic>))
             .toList();
-        print(_myBookList);
 
         for (MyBookDto book in _myBookList) {
           _bookReadPages[book.bookertonId!] = book.bookReadPage ?? 0;

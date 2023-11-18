@@ -258,10 +258,11 @@ class Home extends GetView<HomeContoller> {
                         Get.put(TeamController());
                         Get.find<TeamController>().currentTeam.value =
                             controller.paryList[index];
-                        await Get.find<TeamController>().getPartyMember();
-                        await Get.find<TeamController>().isMembers();
+                        // await Get.find<TeamController>().getPartyMember();
 
-                        await Get.find<TeamController>().getBookathonList();
+                        // // await Get.find<TeamController>().isMembers();
+
+                        // await Get.find<TeamController>().getBookathonList();
 
                         Get.to(TabView())?.then((result) {
                           // 이곳에서 돌아왔을 때 처리할 로직
@@ -284,6 +285,8 @@ class Home extends GetView<HomeContoller> {
                               controller.paryList.value[index].partyUserMaxnum!,
                           currentNum:
                               controller.paryList.value[index].partyUserNum!,
+                          partyProfileImgPath:
+                              controller.paryList.value[index].partyProfileImgPath!,
                           category:
                               controller.paryList.value[index].partyCategory!)),
                     ))

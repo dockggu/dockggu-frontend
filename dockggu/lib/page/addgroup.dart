@@ -331,8 +331,9 @@ class _AddGroupState extends State<AddGroup> {
                                     if (controller.image.value != null) {
                                       await controller.makeParty();
 
+                                      // Navigator.pop(context);
                                       Navigator.pop(context);
-                                      Navigator.pop(context);
+                                      Get.back();
                                     }
                                   },
                                   nobtn: () {

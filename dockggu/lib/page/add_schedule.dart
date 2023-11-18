@@ -232,11 +232,11 @@ class _AddScaduleState extends State<AddScadule> {
                                   notext: "취소",
                                   okbtn: () async {
                                     await controller.addThon();
+                                    Navigator.pop(context);
                                   },
                                   nobtn: () {
                                     Navigator.pop(context);
                                   }));
-
                         },
                         buttonText: '일정 추가',
                         buttonWidth: 100)

@@ -32,9 +32,14 @@ class ParticipateThon extends StatelessWidget {
                   "📚 북커톤 참여하기 ",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w200),
                 ),
-                Text(
-                  "x",
-                  style: TextStyle(fontSize: 22),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "x",
+                    style: TextStyle(fontSize: 22),
+                  ),
                 )
               ],
             ),

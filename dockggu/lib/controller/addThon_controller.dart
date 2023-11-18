@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../component/toast_message.dart';
 import '../model/partyinfoDTO.dart';
 
 class AddThonController extends GetxController {
@@ -17,15 +18,28 @@ class AddThonController extends GetxController {
   ));
 
   Future<void> addThon() async {
-    await MainRepo.addThon(
+    try {
+      var parseNum = int.parse(inputMaxMembers.text);
+
+      await MainRepo.addThon(
         currentTeam.value.partyId!,
         inputThonName.text,
         DateFormat("yyyyMMdd").format(dateRange.value.start),
         DateFormat("yyyyMMdd").format(dateRange.value.end),
-        int.parse(inputMaxMembers.text));
-        Get.find<TeamController>().getBookathonList();
-        Get.find<BookertonController>().fetchBookertonData(currentTeam.value.partyId!, 0);
-        Get.put(BookertonController());
-        Navigator.pop(Get.context!);
+        parseNum
+        );
+    Get.find<TeamController>().getBookathonList();
+    Get.find<BookertonController>()
+        .fetchBookertonData(currentTeam.value.partyId!, 0);
+    Get.put(BookertonController());
+    Navigator.pop(Get.context!);
+
+    } catch (e) {
+
+      ToastMessage().showToast("인원 수는 숫자로 입력해주세요.");
+
+      
+    }
+    
   }
 }

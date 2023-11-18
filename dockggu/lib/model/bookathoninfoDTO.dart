@@ -18,7 +18,7 @@ class PartyBookertonRequest {
 // 해당 파티에서 진행한 모든 북커톤 가져오기 응답
 
 class BookathonDTO {
-    final int? partyId;
+  final int? partyId;
 
   final int? bookertonId;
   final int? userId;
@@ -32,15 +32,15 @@ class BookathonDTO {
 
   BookathonDTO({
     this.bookertonId,
-     this.partyId,
-     this.userId,
-     this.bookertonName,
-     this.bookertonStartDate,
-     this.bookertonEndDate,
-     this.bookertonUserNum,
-     this.bookertonUserMaxnum,
-     this.bookertonStatus,
-     this.bookertonCreationTime,
+    this.partyId,
+    this.userId,
+    this.bookertonName,
+    this.bookertonStartDate,
+    this.bookertonEndDate,
+    this.bookertonUserNum,
+    this.bookertonUserMaxnum,
+    this.bookertonStatus,
+    this.bookertonCreationTime,
   });
 
   factory BookathonDTO.fromJson(Map<String, dynamic> json) {
@@ -122,6 +122,8 @@ class MyBookDto {
   });
 
   factory MyBookDto.fromJson(Map<String, dynamic> json) {
+    String replacedString = json['bookImgPath'].replaceAll("%3A%2F%2F", "://").replaceAll("%2F","/");
+    print("바뀐거${replacedString}");
     return MyBookDto(
       bookId: json['bookId'],
       userId: json['userId'],
@@ -132,11 +134,10 @@ class MyBookDto {
       bookTotalPage: json['bookTotalPage'],
       bookReadPage: json['bookReadPage'],
       bookImgName: json['bookImgName'],
-      bookImgPath: json['bookImgPath'],
+      bookImgPath: replacedString,
     );
   }
 }
-
 
 // 북커톤 책 페이지 수 업데이트하기
 
@@ -156,6 +157,7 @@ class BookUpdateModel {
     };
   }
 }
+
 class Book {
   final String? title;
   final String? author;
@@ -166,13 +168,13 @@ class Book {
   final String? publisher;
 
   Book({
-     this.title,
-     this.author,
-     this.pubDate,
-     this.cover,
-     this.categoryId,
-     this.categoryName,
-     this.publisher,
+    this.title,
+    this.author,
+    this.pubDate,
+    this.cover,
+    this.categoryId,
+    this.categoryName,
+    this.publisher,
   });
 
   factory Book.fromJson(Map<String, dynamic> json) {

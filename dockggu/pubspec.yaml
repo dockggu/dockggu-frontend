@@ -24,6 +24,7 @@ dependencies:
   kakao_flutter_sdk: ^1.6.1
   kakao_flutter_sdk_user: ^1.6.1
   percent_indicator: ^4.2.3
+  shared_preferences: ^2.2.2
   step_progress_indicator: ^1.0.2
   url_launcher: ^6.2.1
   webview_flutter: ^4.4.1
