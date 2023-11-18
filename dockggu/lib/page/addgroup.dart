@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dockggu/component/input_widget.dart';
 import 'package:dockggu/component/select_category.dart';
+import 'package:dockggu/component/twobtn_dialog.dart';
 import 'package:dockggu/component/yellow_button.dart';
 import 'package:dockggu/controller/makeParty_controller.dart';
 import 'package:dockggu/repogistory/main_repo.dart';
@@ -62,8 +63,8 @@ class _AddGroupState extends State<AddGroup> {
                 offset: const Offset(0, 1), // changes position of shadow
               ),
             ], borderRadius: BorderRadius.circular(5), color: Colors.white),
-            child:  Padding(
-              padding:  const EdgeInsets.only(left: 10.0),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
               child: TextField(
                 controller: controller.inputPartyName, // 나중에 주석 풀기
                 decoration: const InputDecoration(
@@ -320,13 +321,23 @@ class _AddGroupState extends State<AddGroup> {
                     ),
                     YellowButton(
                         ontap: () async {
-                        
-                          if(controller.image.value != null){
-                          controller.makeParty();
+                          showDialog(
+                              context: context,
+                              builder: (context) => TwobtnDialog(
+                                  content: "생성하시겠습니까?",
+                                  yestext: "생성",
+                                  notext: "취소",
+                                  okbtn: () async {
+                                    if (controller.image.value != null) {
+                                      await controller.makeParty();
 
-                          Navigator.pop(context);
-
-                          }
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  nobtn: () {
+                                    Navigator.pop(context);
+                                  }));
                         },
                         buttonText: '만들기',
                         buttonWidth: 100)

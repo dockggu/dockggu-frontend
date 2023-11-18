@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
+import 'component/twobtn_dialog.dart';
 import 'controller/signup_controller.dart';
 
 class SignUp extends StatefulWidget {
@@ -19,12 +20,13 @@ class SignUp extends StatefulWidget {
   @override
   State<SignUp> createState() => _SignUpState();
 }
+
 final picker = ImagePicker();
 
 class _SignUpState extends State<SignUp> {
   WebViewController? _webViewController;
   var controller = Get.put(SignUpController());
- Future getImage(ImageSource imageSource) async {
+  Future getImage(ImageSource imageSource) async {
     final image = await picker.pickImage(source: imageSource);
 
     setState(() {
@@ -39,6 +41,7 @@ class _SignUpState extends State<SignUp> {
       }
     });
   }
+
   Widget _header() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -128,20 +131,26 @@ class _SignUpState extends State<SignUp> {
               decoration: InputDecoration(
                   hintText: '비밀번호 확인', contentPadding: EdgeInsets.zero),
             ),
-            
-          ),SizedBox(height: 40,),_selectImage()
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          _selectImage()
         ],
       ),
     );
   }
 
-Widget _selectImage() {
+  Widget _selectImage() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           '프로필 사진',
-          style: TextStyle(color: Color.fromARGB(255, 112, 111, 111),fontSize: 16,fontWeight: FontWeight.w300),
+          style: TextStyle(
+              color: Color.fromARGB(255, 112, 111, 111),
+              fontSize: 16,
+              fontWeight: FontWeight.w300),
         ),
         const SizedBox(
           height: 12,
@@ -172,11 +181,11 @@ Widget _selectImage() {
                       )
                     else
                       Container(
-                        width: 100,height: 100,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50)),
                         child: Image.file(
-                          
-                          
                           File(controller.image.value!.path),
                           height: 90,
                           fit: BoxFit.fill,
@@ -190,7 +199,6 @@ Widget _selectImage() {
       ],
     );
   }
-
 
   Widget _loginselect() {
     return Column(
@@ -301,15 +309,27 @@ Widget _selectImage() {
               height: 40,
             ),
             _inputList(),
- 
+
             SizedBox(
               height: 35,
             ),
             Align(
                 alignment: Alignment.center,
                 child: YellowButton(
-                    ontap: () {
-                      controller.signUp(context);
+                    ontap: () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) => TwobtnDialog(
+                              content: "가입하시겠습니까?",
+                              yestext: "가입",
+                              notext: "취소",
+                              okbtn: () async {
+                                controller.signUp(context);
+                              },
+                              nobtn: () {
+                                Navigator.pop(context);
+                              }));
+
                       // fetchData();
                       // getUserInf();
                       // initiateKakaoSignUp();

@@ -13,7 +13,6 @@ import '../model/partyinfoDTO.dart';
 var tttt = "";
 var token = "";
 
-
 class MainRepo {
 // 본인 누군지 가져오는 함수
   static Future<UserDto> getCurrentUser() async {
@@ -199,6 +198,7 @@ class MainRepo {
     print(json.encode(thondata));
     print(response.body);
   }
+
 
   static Future<void> participateThon(ParicipateBookathon data) async {
     // var party = {"partyId": thisparty};

@@ -8,6 +8,8 @@ import '../controller/team_controller.dart';
 
 class JoinPopup extends StatelessWidget {
   String groupName;
+
+
   final Function()? okbtn;
 
   JoinPopup({super.key, required this.groupName, required this.okbtn});
