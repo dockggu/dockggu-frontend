@@ -34,8 +34,9 @@ class CompletedWidget extends StatelessWidget {
     DateTime endDate = DateTime.parse(bookertonEndDate ?? '');
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('MM/dd (E)', 'ko_KR').format(startDate);
+    var a = bookertonName;
     return Text(
-      '$formattedDate',
+      '$a',
       style: TextStyle(
           fontSize: 16, color: Color(0xff000000), fontWeight: FontWeight.bold),
     );
@@ -61,8 +62,19 @@ class CompletedWidget extends StatelessWidget {
   }
 
   Widget _progress() {
+    DateTime now = DateTime.now();
+    DateTime startDate = DateTime.parse(bookertonStartDate ?? '');
+    DateTime endDate = DateTime.parse(bookertonEndDate ?? '');
+    String formattedStartDate = DateFormat('MM/dd', 'ko_KR').format(startDate);
+    String formattedEndDate = DateFormat('MM/dd', 'ko_KR').format(endDate);
+    double progress = (now.difference(startDate).inMilliseconds /
+            endDate.difference(startDate).inMilliseconds) *
+        100;
+    String formattedProgress = progress.toStringAsFixed(2);
+    var a = now.difference(startDate);
+    var b = endDate.difference(startDate);
     return Text(
-      'progress',
+      '진행률: 100%',
       style: TextStyle(
         fontSize: 14,
         color: Color(0xff000000),
@@ -77,7 +89,7 @@ class CompletedWidget extends StatelessWidget {
       height: 40,
       child: Center(
         child: Text(
-          '참여완료',
+          '종료',
           style: TextStyle(
               color: Colors.grey, fontSize: 16, fontWeight: FontWeight.w600),
         ),

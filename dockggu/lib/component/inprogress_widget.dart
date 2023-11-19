@@ -47,24 +47,6 @@ class _InProgressWidgetState extends State<InProgressWidget> {
   final MyBookController myBookController = Get.put(MyBookController());
   var controller = Get.put(HomeContoller());
 
-  @override
-  void initState() {
-    super.initState();
-    // 위젯이 처음으로 트리에 삽입될 때 데이터를 가져옵니다.
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
-    final bookertonId2 = widget.bookertonId;
-
-    // if (bookertonId2 != null) {
-    //   await myBookController.fetchMyBookData(bookertonId2);
-    //   if (mounted) {
-    //     setState(() {});
-    //   }
-    // }
-  }
-
   Widget _header() {
     DateTime startDate = DateTime.parse(widget.bookertonStartDate ?? '');
     DateTime endDate = DateTime.parse(widget.bookertonEndDate ?? '');
@@ -117,20 +99,30 @@ class _InProgressWidgetState extends State<InProgressWidget> {
     );
   }
 
-Widget _progress() {
-  int? bookReadPage = myBookController.getBookReadPage(widget.bookertonId ?? 2);
-  int? bookTotalPage = myBookController.getBookTotalPage(widget.bookertonId ?? 1);
+  Widget _progress() {
+    DateTime now = DateTime.now();
+    DateTime startDate = DateTime.parse(widget.bookertonStartDate ?? '');
+    DateTime endDate = DateTime.parse(widget.bookertonEndDate ?? '');
+    String formattedStartDate = DateFormat('MM/dd', 'ko_KR').format(startDate);
+    String formattedEndDate = DateFormat('MM/dd', 'ko_KR').format(endDate);
+    double progress = (now.difference(startDate).inMilliseconds / endDate.difference(startDate).inMilliseconds) * 100;
+    String formattedProgress = progress.toStringAsFixed(2);
+    var a = now.difference(startDate);
+    var b = endDate.difference(startDate);
+    // int? bookReadPage = myBookController.getBookReadPage(widget.bookertonId ?? 2);
+    // int? bookTotalPage = myBookController.getBookTotalPage(widget.bookertonId ?? 1);
 
-  double progressPercentage = (bookReadPage ?? 0) / (bookTotalPage ?? 1) * 100;
-  return Text(
-    '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
-    style: TextStyle(
-      fontSize: 14,
-      color: Color(0xff000000),
-      fontWeight: FontWeight.normal,
-    ),
-  );
-}
+    // double progressPercentage = (bookReadPage ?? 0) / (bookTotalPage ?? 1) * 100;
+    return Text(
+      // '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
+      '진행률: $formattedProgress%',
+      style: TextStyle(
+        fontSize: 14,
+        color: Color(0xff000000),
+        fontWeight: FontWeight.normal,
+      ),
+    );
+  }
 
   Widget _state() {
     return Container(
@@ -202,7 +194,8 @@ Widget _progress() {
         onTap: () {
           Get.to(BookatghonDetail(currentBookertonId: widget.bookertonId));
           Get.put(BookUpdateController());
-          Get.find<BookUpdateController>().bookathonId.value = widget.bookertonId!;
+          Get.find<BookUpdateController>().bookathonId.value =
+              widget.bookertonId!;
         },
         child: _inprogressWidget());
   }

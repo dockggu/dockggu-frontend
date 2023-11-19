@@ -133,35 +133,52 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
             Positioned(
               right: 10,
               bottom: 100,
-              child: ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return PageInput(
-                          currentBookertonId: widget.currentBookertonId);
+              child: Obx(() {
+                // 로그인한 사용자의 userId
+                var loggedInUserId = controller.currentUser.value.userId;
+
+                // 로그인한 사용자의 userId와 일치하는 도서들의 리스트
+                var matchingBooks = myBookController.myBookList
+                    .where((book) => book.userId == loggedInUserId)
+                    .toList();
+
+                // 로그인한 사용자의 userId와 일치하는 도서가 하나 이상인 경우에만 버튼을 표시
+                if (matchingBooks.isNotEmpty) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return PageInput(
+                            currentBookertonId: widget.currentBookertonId,
+                          );
+                        },
+                        backgroundColor: Colors.transparent,
+                      );
                     },
-                    backgroundColor: Colors.transparent,
+                    child: const Text(
+                      '📝',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xffFFD66C),
+                      ),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        const CircleBorder(),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        const EdgeInsets.all(16.0),
+                      ),
+                    ),
                   );
-                },
-                child: const Text(
-                  '📝',
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    const Color(0xffFFD66C),
-                  ),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                    const CircleBorder(),
-                  ),
-                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    const EdgeInsets.all(16.0),
-                  ),
-                ),
-              ),
+                } else {
+                  // 일치하는 도서가 없을 경우 빈 컨테이너 반환
+                  return Container();
+                }
+              }),
             ),
           ],
         );
@@ -281,10 +298,9 @@ class _PageInputState extends State<PageInput> {
                 ),
               ),
               onPressed: () {
-
                 // myBookController
                 //     .fetchMyBookData(widget.currentBookertonId ?? 0);
-                
+
                 String pageCount = pageController.text;
                 controller.updateBookPage(currentBookertonId, pageCount);
 
@@ -299,9 +315,6 @@ class _PageInputState extends State<PageInput> {
                   },
                   backgroundColor: Colors.transparent,
                 );
-
-
-
               },
               child: const Text(
                 '확인',
