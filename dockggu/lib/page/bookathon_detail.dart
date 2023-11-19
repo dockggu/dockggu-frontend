@@ -1,4 +1,5 @@
 import 'package:dockggu/component/appbar_widget.dart';
+import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/controller/team_controller.dart';
 import 'package:dockggu/model/mypageDTO.dart';
 import 'package:dockggu/repogistory/main_repo.dart';
@@ -68,7 +69,8 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
                   bookImgName: myBookController.myBookList[index].bookImgName,
                   bookImgPath: myBookController.myBookList[index].bookImgPath,
                   userNickname: myBookController.userList[index].userNickname,
-                  userProfileImgPath: myBookController.userList[index].userProfileImgPath,
+                  userProfileImgPath:
+                      myBookController.userList[index].userProfileImgPath,
                 ),
                 PercentWidget(
                   bookId: myBookController.myBookList[index].bookId,
@@ -112,59 +114,58 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.currentBookertonId);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBarWidget(
           appBar: AppBar(), title: controller.currentTeam.value.partyName!),
-      body: GetBuilder<MyBookController>(
-        builder: (myBookController) {
-          if (myBookController.myBookList.isEmpty) {
-            return const Center(
-              child: Text('북커톤에 참여한 유저가 없습니다.'),
-            );
-          }
-          return Stack(
-            children: [
-              ListView(
-                children: [_header(), _progressList()],
-              ),
-              Positioned(
-                right: 10,
-                bottom: 100,
-                child: ElevatedButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return PageInput(
-                            currentBookertonId: widget.currentBookertonId);
-                      },
-                      backgroundColor: Colors.transparent,
-                    );
-                  },
-                  child: const Text(
-                    '📝',
-                    style: TextStyle(
-                      fontSize: 25,
-                    ),
+      body: Obx(() {
+        if (myBookController.myBookList.isEmpty) {
+          return const Center(
+            child: Text('북커톤에 참여한 유저가 없습니다.'),
+          );
+        }
+        return Stack(
+          children: [
+            ListView(
+              children: [_header(), _progressList()],
+            ),
+            Positioned(
+              right: 10,
+              bottom: 100,
+              child: ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return PageInput(
+                          currentBookertonId: widget.currentBookertonId);
+                    },
+                    backgroundColor: Colors.transparent,
+                  );
+                },
+                child: const Text(
+                  '📝',
+                  style: TextStyle(
+                    fontSize: 25,
                   ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color(0xffFFD66C),
-                    ),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      const CircleBorder(),
-                    ),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.all(16.0),
-                    ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color(0xffFFD66C),
+                  ),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    const CircleBorder(),
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    const EdgeInsets.all(16.0),
                   ),
                 ),
               ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }
@@ -180,6 +181,7 @@ class PageInput extends StatefulWidget {
 class _PageInputState extends State<PageInput> {
   final BookUpdateController controller = Get.put(BookUpdateController());
   final TextEditingController pageController = TextEditingController();
+  final MyBookController myBookController = Get.put(MyBookController());
 
   // Define a variable to hold the string representation of currentBookertonId
   int? currentBookertonId;
@@ -278,12 +280,17 @@ class _PageInputState extends State<PageInput> {
                 ),
               ),
               onPressed: () {
+                myBookController
+                    .fetchMyBookData(widget.currentBookertonId ?? 0);
                 String pageCount = pageController.text;
                 controller.updateBookPage(currentBookertonId, pageCount);
+                myBookController
+                    .fetchMyBookData(widget.currentBookertonId ?? 0);
                 showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return const CurrentProgress();
+                    return CurrentProgress(
+                        currentBookertonId: widget.currentBookertonId);
                   },
                   backgroundColor: Colors.transparent,
                 );
@@ -311,7 +318,8 @@ class _PageInputState extends State<PageInput> {
 }
 
 class CurrentProgress extends StatefulWidget {
-  const CurrentProgress({Key? key}) : super(key: key);
+  final int? currentBookertonId;
+  const CurrentProgress({Key? key, this.currentBookertonId}) : super(key: key);
 
   @override
   State<CurrentProgress> createState() => _CurrentProgressState();
@@ -319,6 +327,15 @@ class CurrentProgress extends StatefulWidget {
 
 class _CurrentProgressState extends State<CurrentProgress> {
   final MyBookController myBookController = Get.put(MyBookController());
+  var controller = Get.put(HomeContoller());
+  int? currentBookertonId;
+
+  @override
+  void initState() {
+    super.initState();
+    currentBookertonId = widget.currentBookertonId ?? 0;
+    myBookController.fetchMyBookData(widget.currentBookertonId ?? 0);
+  }
 
   _header() {
     return Padding(
@@ -349,30 +366,46 @@ class _CurrentProgressState extends State<CurrentProgress> {
   }
 
   _progressCircle() {
-    int readPage = myBookController.myBookList[0].bookReadPage ?? 0;
-    int totalPage = myBookController.myBookList[0].bookTotalPage ?? 1;
-
-    double percentage = (readPage / totalPage);
-    double percentage2 = (readPage / totalPage) * 100;
-    int intPercentage2 = percentage2.toInt();
-    int intPercentage = percentage.toInt();
-
     return Container(
-      child: CircularPercentIndicator(
-        radius: 65.0,
-        lineWidth: 12.0,
-        percent: percentage,
-        center: Text(
-          "$intPercentage2%",
-          style: const TextStyle(
-            fontSize: 24,
-            color: Color(0xff000000),
-            fontWeight: FontWeight.bold,
+      child: Obx(() {
+        // 로그인한 사용자의 userId
+        var loggedInUserId = controller.currentUser.value.userId;
+
+        // 로그인한 사용자와 동일한 userId를 가진 도서의 index를 찾습니다.
+        var userBookIndex = myBookController.myBookList
+            .indexWhere((book) => book.userId == loggedInUserId);
+
+        // 만약 해당 사용자의 도서가 없다면 기본값 0으로 설정합니다.
+        if (userBookIndex == -1) {
+          userBookIndex = 0;
+        }
+
+        int readPage =
+            myBookController.myBookList[userBookIndex].bookReadPage ?? 0;
+        int totalPage =
+            myBookController.myBookList[userBookIndex].bookTotalPage ?? 1;
+
+        double percentage = (readPage / totalPage);
+        double percentage2 = (readPage / totalPage) * 100;
+        int intPercentage2 = percentage2.toInt();
+        int intPercentage = percentage.toInt();
+
+        return CircularPercentIndicator(
+          radius: 65.0,
+          lineWidth: 12.0,
+          percent: percentage,
+          center: Text(
+            "$intPercentage2%",
+            style: const TextStyle(
+              fontSize: 24,
+              color: Color(0xff000000),
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        backgroundColor: const Color(0xffBBBBBB),
-        progressColor: const Color(0xffFFD66C),
-      ),
+          backgroundColor: const Color(0xffBBBBBB),
+          progressColor: const Color(0xffFFD66C),
+        );
+      }),
     );
   }
 
@@ -398,7 +431,3 @@ class _CurrentProgressState extends State<CurrentProgress> {
     );
   }
 }
-
-// index의 역할 파악하고 readPage, totalPage를 불러올 때도 해당 Index를 참조하여 불러올 수 있도록 코드를 수정해주자.
-// post가 제대로 작동하지 않는 것 같음.
-// bookimage를 띄우는 방법을 알아보자.

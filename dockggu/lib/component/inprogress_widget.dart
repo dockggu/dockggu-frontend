@@ -1,10 +1,11 @@
+import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/controller/mybook_controller.dart';
 import 'package:dockggu/page/bookathon_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class InProgressWidget extends StatelessWidget {
+class InProgressWidget extends StatefulWidget {
   final int? currentUserId;
   final int? bookertonId;
   final int? partyId;
@@ -35,20 +36,46 @@ class InProgressWidget extends StatelessWidget {
     // this.bookReadPage,
     // this.bookTotalPage
   });
+
+  @override
+  State<InProgressWidget> createState() => _InProgressWidgetState();
+}
+
+class _InProgressWidgetState extends State<InProgressWidget> {
   final MyBookController myBookController = Get.put(MyBookController());
+  var controller = Get.put(HomeContoller());
+
+  @override
+  void initState() {
+    super.initState();
+    // 위젯이 처음으로 트리에 삽입될 때 데이터를 가져옵니다.
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final bookertonId2 = widget.bookertonId;
+
+    if (bookertonId2 != null) {
+      await myBookController.fetchMyBookData(bookertonId2);
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
 
   Widget _header() {
-    DateTime startDate = DateTime.parse(bookertonStartDate ?? '');
-    DateTime endDate = DateTime.parse(bookertonEndDate ?? '');
+    DateTime startDate = DateTime.parse(widget.bookertonStartDate ?? '');
+    DateTime endDate = DateTime.parse(widget.bookertonEndDate ?? '');
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('MM/dd (E)', 'ko_KR').format(startDate);
     Duration difference = endDate.difference(now);
     int dDay = endDate.isBefore(now) ? 0 : difference.inDays;
+    var a = widget.bookertonName;
 
     return Row(
       children: [
         Text(
-          '$formattedDate',
+          '$a',
           style: TextStyle(
               fontSize: 16,
               color: Color(0xff000000),
@@ -70,8 +97,8 @@ class InProgressWidget extends StatelessWidget {
   }
 
   Widget _duration() {
-    DateTime startDate = DateTime.parse(bookertonStartDate ?? '');
-    DateTime endDate = DateTime.parse(bookertonEndDate ?? '');
+    DateTime startDate = DateTime.parse(widget.bookertonStartDate ?? '');
+    DateTime endDate = DateTime.parse(widget.bookertonEndDate ?? '');
     String formattedStartDate = DateFormat('MM/dd', 'ko_KR').format(startDate);
     String formattedEndDate = DateFormat('MM/dd', 'ko_KR').format(endDate);
 
@@ -88,24 +115,20 @@ class InProgressWidget extends StatelessWidget {
     );
   }
 
-  Widget _progress() {
-    int? bookReadPage = myBookController.getBookReadPage(bookertonId ?? 2);
-    int? bookTotalPage = myBookController.getBookTotalPage(bookertonId ?? 1);
+Widget _progress() {
+  int? bookReadPage = myBookController.getBookReadPage(widget.bookertonId ?? 2);
+  int? bookTotalPage = myBookController.getBookTotalPage(widget.bookertonId ?? 1);
 
-    // double progressPercentage = bookTotalPage! > 0 ? (bookReadPage! / bookTotalPage) * 100 : 0;
-    double progressPercentage =
-        (bookReadPage ?? 0) / (bookTotalPage ?? 1) * 100;
-    return Text(
-      // '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
-      '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
-      // '독서 진행률: $bookertonId%',
-      style: TextStyle(
-        fontSize: 14,
-        color: Color(0xff000000),
-        fontWeight: FontWeight.normal,
-      ),
-    );
-  }
+  double progressPercentage = (bookReadPage ?? 0) / (bookTotalPage ?? 1) * 100;
+  return Text(
+    '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
+    style: TextStyle(
+      fontSize: 14,
+      color: Color(0xff000000),
+      fontWeight: FontWeight.normal,
+    ),
+  );
+}
 
   Widget _state() {
     return Container(
@@ -175,7 +198,7 @@ class InProgressWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Get.to(BookatghonDetail(currentBookertonId: bookertonId));
+          Get.to(BookatghonDetail(currentBookertonId: widget.bookertonId));
         },
         child: _inprogressWidget());
   }

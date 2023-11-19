@@ -34,6 +34,7 @@ class BookUpdateController extends GetxController {
         updateSuccess.value = true;
         print('책 페이지 업데이트 성공.');
         // 성공한 경우 추가 작업 수행
+        update();
       } else {
         updateSuccess.value = false;
         print('책 페이지 업데이트 실패. 상태 코드: ${response.statusCode}');
