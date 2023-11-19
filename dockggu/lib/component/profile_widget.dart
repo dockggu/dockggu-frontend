@@ -72,7 +72,10 @@ class ProfileWidget extends StatelessWidget {
       children: [
         Text(
           '$nickname',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+        ),
+        SizedBox(
+          height: 1,
         ),
         Container(
           decoration:

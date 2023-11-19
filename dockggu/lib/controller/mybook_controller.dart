@@ -1,3 +1,4 @@
+import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/model/bookertonUserDTO.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
@@ -6,6 +7,7 @@ import '../model/bookathoninfoDTO.dart';
 import '../repogistory/main_repo.dart';
 
 class MyBookController extends GetxController {
+  var controller = Get.put(HomeContoller());
   final _myBookList = <MyBookDto>[].obs;
   List<MyBookDto> get myBookList => _myBookList;
 
