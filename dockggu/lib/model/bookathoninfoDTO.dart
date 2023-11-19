@@ -18,17 +18,17 @@ class PartyBookertonRequest {
 // 해당 파티에서 진행한 모든 북커톤 가져오기 응답
 
 class BookathonDTO {
-  final int? partyId;
-
-  final int? bookertonId;
-  final int? userId;
-  final String? bookertonName;
-  final String? bookertonStartDate;
-  final String? bookertonEndDate;
-  final int? bookertonUserNum;
-  final int? bookertonUserMaxnum;
-  final String? bookertonStatus;
-  final String? bookertonCreationTime;
+   int? partyId;
+   int? bookertonId;
+   int? userId;
+   String? bookertonName;
+   String? bookertonStartDate;
+   String? bookertonEndDate;
+   int? bookertonUserNum;
+   int? bookertonUserMaxnum;
+   String? bookertonStatus;
+   String? bookertonCreationTime;
+   bool? isProgress; // New variable
 
   BookathonDTO({
     this.bookertonId,
@@ -41,6 +41,7 @@ class BookathonDTO {
     this.bookertonUserMaxnum,
     this.bookertonStatus,
     this.bookertonCreationTime,
+    this.isProgress, // New variable
   });
 
   factory BookathonDTO.fromJson(Map<String, dynamic> json) {
@@ -55,6 +56,7 @@ class BookathonDTO {
       bookertonUserMaxnum: json['bookertonUserMaxnum'],
       bookertonStatus: json['bookertonStatus'],
       bookertonCreationTime: json['bookertonCreationTime'],
+      isProgress: json['isProgress'], // Assuming you have a field named 'isProgress' in your JSON
     );
   }
 }

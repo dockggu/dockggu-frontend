@@ -103,7 +103,7 @@ class _AddScaduleState extends State<AddScadule> {
                 children: [
                   Expanded(
                       child: Text(
-                    "${_range.start.year.toString()}-${_range.start.month.toString().padLeft(2, '0')}-${_range.start.day.toString().padLeft(2, '0')} - ${_range.end.year.toString()}-${_range.end.month.toString().padLeft(2, '0')}-${_range.end.day.toString().padLeft(2, '0')} ",
+                    "${controller.dateRange.value.start.year.toString()}-${_range.start.month.toString().padLeft(2, '0')}-${controller.dateRange.value.start.day.toString().padLeft(2, '0')} - ${controller.dateRange.value.end.year.toString()}-${controller.dateRange.value.end.month.toString().padLeft(2, '0')}-${controller.dateRange.value.end.day.toString().padLeft(2, '0')} ",
                   )),
                   GestureDetector(
                       onTap: () {

@@ -39,7 +39,7 @@ class _Mypage1State extends State<Mypage1> {
 
   Widget _profile(BuildContext context) {
     return Container(
-      height: 120,
+      height: MediaQuery.of(context).size.height*0.18,
       margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -141,7 +141,7 @@ class _Mypage1State extends State<Mypage1> {
     return Container(
       padding: const EdgeInsets.only(top: 5),
       width: MediaQuery.of(context).size.width * 0.50,
-      height: MediaQuery.of(context).size.height * 0.090,
+      height: MediaQuery.of(context).size.height * 0.10,
       child: _medal(),
     );
   }
@@ -263,7 +263,7 @@ class _Mypage1State extends State<Mypage1> {
       // ),
       body: SingleChildScrollView(
         child: Column(
-          children: [SizedBox(height: 80,),_header(), _profile(context), _center(), _gridView()],
+          children: [SizedBox(height: MediaQuery.of(context).size.height*0.1,),_header(), _profile(context), _center(), _gridView()],
         ),
       ),
     );

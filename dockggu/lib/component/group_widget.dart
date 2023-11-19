@@ -49,7 +49,8 @@ class GroupList extends StatelessWidget {
               ),
               Container(
                 // color: Colors.black,
-                width: 250,
+                // width: 250,
+                width: MediaQuery.of(context).size.width*0.63,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -143,7 +144,9 @@ class GroupList2 extends StatelessWidget {
               ),
               Container(
                 // color: Colors.black,
-                width: 250,
+                // width: 250,
+                                width: MediaQuery.of(context).size.width*0.63,
+
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

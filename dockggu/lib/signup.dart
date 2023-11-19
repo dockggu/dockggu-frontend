@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -298,52 +297,62 @@ class _SignUpState extends State<SignUp> {
     return GestureDetector(
       onTap: unfocusKeyboard,
       child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 150,
-            ),
-            _header(),
-            SizedBox(
-              height: 40,
-            ),
-            _inputList(),
-
-            SizedBox(
-              height: 35,
-            ),
-            Align(
-                alignment: Alignment.center,
-                child: YellowButton(
-                    ontap: () async {
-                      showDialog(
-                          context: context,
-                          builder: (context) => TwobtnDialog(
-                              content: "가입하시겠습니까?",
-                              yestext: "가입",
-                              notext: "취소",
-                              okbtn: () async {
-                                controller.signUp(context);
-                              },
-                              nobtn: () {
-                                Navigator.pop(context);
-                              }));
-
-                      // fetchData();
-                      // getUserInf();
-                      // initiateKakaoSignUp();
-
-                      // Navigator.push(
-                      //         context, MaterialPageRoute(builder: (_) => App()));
-                    },
-                    buttonText: '가입하기',
-                    buttonWidth: 300)),
-            SizedBox(
-              height: 40,
-            ),
-            // _loginselect()
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 100,
+              ),
+              _header(),
+              SizedBox(
+                height: 40,
+              ),
+              _inputList(),
+        
+              SizedBox(
+                height: 35,
+              ),
+              Align(
+                  alignment: Alignment.center,
+                  child: YellowButton(
+                      ontap: () async {
+                        showDialog(
+                            context: context,
+                            builder: (context) => TwobtnDialog(
+                                content: "가입하시겠습니까?",
+                                yestext: "가입",
+                                notext: "취소",
+                                okbtn: () async {
+                                  controller.signUp(context);
+                                },
+                                nobtn: () {
+                                  Navigator.pop(context);
+                                }));
+        
+                        // fetchData();
+                        // getUserInf();
+                        // initiateKakaoSignUp();
+        
+                        // Navigator.push(
+                        //         context, MaterialPageRoute(builder: (_) => App()));
+                      },
+                      buttonText: '가입하기',
+                      buttonWidth: 300)),SizedBox(height: 12,),
+                      Align(
+                  alignment: Alignment.center,
+                  child: YellowButton(
+                      ontap: () async {
+                        Navigator.pop(context);
+                      },
+                      buttonText: '뒤로가기',
+                      buttonWidth: 300)),
+              SizedBox(
+                height: 40,
+              ),
+              // _loginselect()
+            ],
+          ),
         ),
       ),
     );

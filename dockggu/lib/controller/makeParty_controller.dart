@@ -24,9 +24,10 @@ class MakePartyController extends GetxController {
     try{
  await MainRepo.makeParty(image.value!, inputPartyName.text,
         inputPartyInfo.text, categorycode.value, int.parse(inputMaxMembers.text));
+
     Get.find<HomeContoller>().initCategory();
-    Get.put(TeamController());
-    Get.find<TeamController>().isMembers();
+    // Get.put(TeamController());
+    // Get.find<TeamController>().isMembers();
 
     }catch(e){
       ToastMessage().showToast("인원 수는 숫자로 입력해주세요.");

@@ -47,6 +47,8 @@ class _EmailLoginState extends State<EmailLogin> {
     return GestureDetector(
       onTap: unfocusKeyboard,
       child: Scaffold(
+        	resizeToAvoidBottomInset: false,
+
         backgroundColor: Color(0xffFFD66C),
         body: Stack(
           children: [
@@ -113,6 +115,15 @@ class _EmailLoginState extends State<EmailLogin> {
                                     controller.login(context);
                                   },
                                   buttonText: '로그인 하기',
+                                  buttonWidth: 350)),
+SizedBox(height: 12,),
+                                  Align(
+                              alignment: Alignment.center,
+                              child: YellowButton(
+                                  ontap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  buttonText: '뒤로가기',
                                   buttonWidth: 350))
                         ]),
                   ),
