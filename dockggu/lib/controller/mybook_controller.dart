@@ -8,6 +8,7 @@ import '../repogistory/main_repo.dart';
 
 class MyBookController extends GetxController {
   var controller = Get.put(HomeContoller());
+
   final _myBookList = <MyBookDto>[].obs;
   List<MyBookDto> get myBookList => _myBookList;
 
@@ -16,6 +17,7 @@ class MyBookController extends GetxController {
 
   final Map<int, int> _bookReadPages = {};
   final Map<int, int> _bookTotalPages = {};
+
 
   int? getBookReadPage(int bookertonId) => _bookReadPages[bookertonId];
   int? getBookTotalPage(int bookertonId) => _bookTotalPages[bookertonId];
@@ -38,6 +40,8 @@ class MyBookController extends GetxController {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
         final myBookData = jsonData['data']['mybookDtoList'];
 
+        print(myBookData);
+
         _myBookList.value = (myBookData as List)
             .map((data) => MyBookDto.fromJson(data as Map<String, dynamic>))
             .toList();
@@ -53,6 +57,8 @@ class MyBookController extends GetxController {
           _bookTotalPages[book.bookertonId!] = book.bookTotalPage ?? 0;
         }
 
+      print("언더바${_myBookList[0].bookReadPage}");
+      print("${myBookList[0].bookReadPage}");
         update();
       } else {
         throw Exception('Failed to load data');

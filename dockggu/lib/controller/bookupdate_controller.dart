@@ -5,9 +5,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import '../repogistory/main_repo.dart';
+import 'mybook_controller.dart';
 
 class BookUpdateController extends GetxController {
   var updateSuccess = false.obs;
+  RxInt bookathonId=0.obs;
   // ...
 
   Future<void> updateBookPage(int? bookertonId, String bookReadPage) async {
@@ -33,6 +35,9 @@ class BookUpdateController extends GetxController {
       if (response.statusCode == 200) {
         updateSuccess.value = true;
         print('책 페이지 업데이트 성공.');
+        print("{북커톤아이디 가져왔나>$bookathonId}");
+        Get.find<MyBookController>().fetchMyBookData(bookathonId.value);
+
         // 성공한 경우 추가 작업 수행
         update();
       } else {

@@ -251,6 +251,7 @@ class _PageInputState extends State<PageInput> {
   Widget build(BuildContext context) {
     print("currentBookertonIdString: $currentBookertonId");
     return Container(
+      // ignore: sort_child_properties_last
       child: Column(
         children: [
           _header(),
@@ -265,7 +266,7 @@ class _PageInputState extends State<PageInput> {
           const SizedBox(
             height: 20,
           ),
-          Container(
+          SizedBox(
             width: 90,
             height: 45,
             child: ElevatedButton(
@@ -280,12 +281,16 @@ class _PageInputState extends State<PageInput> {
                 ),
               ),
               onPressed: () {
-                myBookController
-                    .fetchMyBookData(widget.currentBookertonId ?? 0);
+
+                // myBookController
+                //     .fetchMyBookData(widget.currentBookertonId ?? 0);
+                
                 String pageCount = pageController.text;
                 controller.updateBookPage(currentBookertonId, pageCount);
-                myBookController
-                    .fetchMyBookData(widget.currentBookertonId ?? 0);
+
+                // myBookController
+                //     .fetchMyBookData(widget.currentBookertonId ?? 0);
+
                 showModalBottomSheet(
                   context: context,
                   builder: (context) {
@@ -294,6 +299,9 @@ class _PageInputState extends State<PageInput> {
                   },
                   backgroundColor: Colors.transparent,
                 );
+
+
+
               },
               child: const Text(
                 '확인',
@@ -334,7 +342,7 @@ class _CurrentProgressState extends State<CurrentProgress> {
   void initState() {
     super.initState();
     currentBookertonId = widget.currentBookertonId ?? 0;
-    myBookController.fetchMyBookData(widget.currentBookertonId ?? 0);
+    // myBookController.fetchMyBookData(widget.currentBookertonId ?? 0);
   }
 
   _header() {
