@@ -19,6 +19,7 @@ class InProgressWidget extends StatefulWidget {
   final int? bookertonUserMaxnum;
   final String? bookertonStatus;
   final String? bookertonCreationTime;
+  final bool isProgress;
   // final int? bookTotalPage;
   // final int? bookReadPage;
 
@@ -35,6 +36,7 @@ class InProgressWidget extends StatefulWidget {
     this.bookertonUserMaxnum,
     this.bookertonStatus,
     this.bookertonCreationTime,
+    required this.isProgress
     // this.bookReadPage,
     // this.bookTotalPage
   });
@@ -68,14 +70,14 @@ class _InProgressWidgetState extends State<InProgressWidget> {
         SizedBox(
           width: 10,
         ),
-        Text(
-          'D-$dDay',
-          style: TextStyle(
-            fontSize: 16,
-            color: Color(0xffFF0404),
-            fontWeight: FontWeight.normal,
-          ),
-        ),
+        // Text(
+        //   'D-$dDay',
+        //   style: TextStyle(
+        //     fontSize: 16,
+        //     color: Color(0xffFF0404),
+        //     fontWeight: FontWeight.normal,
+        //   ),
+        // ),
       ],
     );
   }
@@ -109,6 +111,10 @@ class _InProgressWidgetState extends State<InProgressWidget> {
     String formattedProgress = progress.toStringAsFixed(2);
     var a = now.difference(startDate);
     var b = endDate.difference(startDate);
+
+
+
+    
     // int? bookReadPage = myBookController.getBookReadPage(widget.bookertonId ?? 2);
     // int? bookTotalPage = myBookController.getBookTotalPage(widget.bookertonId ?? 1);
 
@@ -125,7 +131,9 @@ class _InProgressWidgetState extends State<InProgressWidget> {
   }
 
   Widget _state() {
-    return Container(
+
+    if(widget.isProgress){
+      return Container(
       width: 80,
       height: 40,
       child: Center(
@@ -142,6 +150,26 @@ class _InProgressWidgetState extends State<InProgressWidget> {
         color: Color(0xffFFD66C),
       ),
     );
+    }else{
+ return Container(
+      width: 80,
+      height: 40,
+      child: Center(
+        child: Text(
+          '참여가능',
+          style: TextStyle(
+              color: Color(0xffFFFFFF),
+              fontSize: 16,
+              fontWeight: FontWeight.w600),
+        ),
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Color(0xffFFD66C),
+      ),
+    );
+    }
+   
   }
 
   Widget _inprogressWidget() {
@@ -196,6 +224,8 @@ class _InProgressWidgetState extends State<InProgressWidget> {
           Get.put(BookUpdateController());
           Get.find<BookUpdateController>().bookathonId.value =
               widget.bookertonId!;
+              Get.put(MyBookController());
+              Get.find<MyBookController>().isProgress.value = widget.isProgress;
         },
         child: _inprogressWidget());
   }

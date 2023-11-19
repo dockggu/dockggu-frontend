@@ -341,7 +341,8 @@ class _AddGroupState extends State<AddGroup> {
                                   }));
                         },
                         buttonText: '만들기',
-                        buttonWidth: 100)
+                        buttonWidth: 100),
+                        SizedBox(height: 50,)
                   ],
                 ),
               ),

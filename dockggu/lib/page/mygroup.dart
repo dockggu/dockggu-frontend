@@ -96,7 +96,7 @@ class _MyGroupState extends State<MyGroup> {
       body: SingleChildScrollView(
         child: Column(
 
-          children: [SizedBox(height: 80,),_header(), _groupList()],
+          children: [SizedBox(height: MediaQuery.of(context).size.height*0.1,),_header(), _groupList()],
         ),
       ),
     );

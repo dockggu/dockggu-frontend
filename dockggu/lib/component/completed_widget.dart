@@ -141,7 +141,7 @@ class CompletedWidget extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                width: 90,
+                width: MediaQuery.of(context).size.width*0.2,
               ),
               _banner(),
             ],

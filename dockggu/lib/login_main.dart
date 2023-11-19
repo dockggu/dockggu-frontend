@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
 import 'page/home.dart';
@@ -20,19 +19,19 @@ class LoginMain extends StatefulWidget {
 }
 
 class _LoginMainState extends State<LoginMain> {
-  Widget _introtext() {
+  Widget _introtext(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(
-          height: 150,
+         SizedBox(
+          height: MediaQuery.of(context).size.height*0.18,
         ),
         SvgPicture.asset(
           'assets/login_pic.svg',
           width: 200,
-          height: 200,
+          height: MediaQuery.of(context).size.height*0.23,
         ),
-        const SizedBox(
-          height: 60,
+         SizedBox(
+          height: MediaQuery.of(context).size.height*0.045,
         ),
         const Text(
           '지금 독꾸와 함께',
@@ -62,27 +61,7 @@ class _LoginMainState extends State<LoginMain> {
     );
   }
 
-  // Future<void> initiateKakaoSignUp() async {
-  //   // 카카오 로그인
-  //   final clientId = '155bd25b5b420714ad17441b610b274e';
-  //   final redirectUri =
-  //       'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/api/oauth/kakao';
 
-  //   final url = Uri.https(
-  //     'kauth.kakao.com',
-  //     '/oauth/authorize',
-  //     {
-  //       'client_id': clientId,
-  //       'redirect_uri': redirectUri,
-  //       'response_type': 'code',
-
-  //     },
-
-  //   );
-
-  //   launchUrl(Uri.parse(url.toString()));
-
-  // }
 
   Widget _loginselect() {
     return Column(
@@ -106,89 +85,8 @@ class _LoginMainState extends State<LoginMain> {
             ),
           ],
         ),
-        SizedBox(
-          height: 30,
-        ),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 60),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //     children: [
-        //       GestureDetector(
-        //         onTap: () {
-        //           Navigator.push(
-        //               context, MaterialPageRoute(builder: (_) => App()));
-        //         },
-        //         child: SvgPicture.asset(
-        //           'assets/apple_login.svg',
-        //           // width: 200,
-        //           // height: 200,
-        //         ),
-        //       ),
-        //       GestureDetector(
-        //         onTap: () {
-        //           Navigator.push(
-        //               context, MaterialPageRoute(builder: (_) => SignUp()));
-        //         },
-        //         child: GestureDetector(
-        //           onTap: () async {
-        //             var redirecturi =
-        //                 "http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/api/oauth/kakao";
-        //             if (await isKakaoTalkInstalled()) {
-        //               try {
-        //                 await UserApi.instance.loginWithKakaoTalk();
-        //                 print('카카오톡으로 로그인 성공');
-        //               } catch (error) {
-        //                 print('카카오톡으로 로그인 실패 $error');
 
-        //                 // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-        //                 // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-        //                 if (error is PlatformException &&
-        //                     error.code == 'CANCELED') {
-        //                   return;
-        //                 }
-        //                 // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
-        //                 try {
-        //                   var ddd =
-        //                       await UserApi.instance.loginWithKakaoAccount();
-        //                   print(ddd);
-        //                   print('카카오계정으로 로그인 성공');
-        //                 } catch (error) {
-        //                   print('카카오계정으로 로그인 실패 $error');
-        //                 }
-        //               }
-        //             } else {
-        //               try {
-        //                 var ddd =
-        //                     await UserApi.instance.loginWithKakaoAccount();
-        //                 print("여긴가${ddd}");
-        //                 // Navigator.push(
-        //                 //     context, MaterialPageRoute(builder: (_) => App()));
-
-        //                 print('카카오계정으로 로그인 성공');
-        //               } catch (error) {
-        //                 print('카카오계정으로 로그인 실패 $error');
-        //               }
-        //             }
-        //           },
-        //           child: SvgPicture.asset(
-        //             'assets/kakao_login.svg',
-        //             // width: 200,
-        //             // height: 200,
-        //           ),
-        //         ),
-        //       ),
-        //       SvgPicture.asset(
-        //         'assets/google_login.svg',
-        //         // width: 200,
-        //         // height: 200,
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        const SizedBox(
-          height: 20,
-        ),
+        SizedBox(height: MediaQuery.of(context).size.height*0.05,),
         GestureDetector(
           onTap: () {
             Navigator.push(
@@ -231,9 +129,9 @@ class _LoginMainState extends State<LoginMain> {
         body: Center(
             child: Column(
       children: [
-        _introtext(),
-        const SizedBox(
-          height: 50,
+        _introtext(context),
+         SizedBox(
+          height: MediaQuery.of(context).size.height*0.055,
         ),
         _loginselect()
       ],

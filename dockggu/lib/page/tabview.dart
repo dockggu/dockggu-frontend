@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:dockggu/component/appbar_widget.dart';
 import 'package:dockggu/controller/bookerton_controller.dart';
 import 'package:dockggu/controller/home_controller.dart';
@@ -87,8 +89,7 @@ class _TabViewState extends State<TabView> {
                   bookertonController.bookertonList[index].bookertonStatus,
               bookertonCreationTime: bookertonController
                   .bookertonList[index].bookertonCreationTime,
-              // bookTotalPage: myBookController.myBookList[index].bookTotalPage,
-              // bookReadPage: myBookController.myBookList[index].bookReadPage,
+              isProgress: bookertonController.bookertonList[index].isProgress,
             );
           return CompletedWidget(
             partyId: bookertonController.bookertonList[index].partyId,
@@ -126,8 +127,7 @@ class _TabViewState extends State<TabView> {
             _tabbarWidget(),
             Expanded(
               child: TabBarView(
-                      physics: NeverScrollableScrollPhysics(),
-
+                physics: NeverScrollableScrollPhysics(),
                 children: [
                   _groupHome(),
                   _bookathonList(),

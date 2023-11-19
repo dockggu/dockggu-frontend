@@ -25,6 +25,8 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
   final MyBookController myBookController = Get.put(MyBookController());
   var controller = Get.put(TeamController());
 
+  // isProgress 로 책 업데이트 버튼 조절해야함
+
   @override
   void initState() {
     super.initState();
@@ -143,7 +145,7 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
                     .toList();
 
                 // 로그인한 사용자의 userId와 일치하는 도서가 하나 이상인 경우에만 버튼을 표시
-                if (matchingBooks.isNotEmpty) {
+                if (matchingBooks.isNotEmpty && myBookController.isProgress.value) {
                   return ElevatedButton(
                     onPressed: () {
                       showModalBottomSheet(
@@ -266,7 +268,7 @@ class _PageInputState extends State<PageInput> {
 
   @override
   Widget build(BuildContext context) {
-    print("currentBookertonIdString: $currentBookertonId");
+
     return Container(
       // ignore: sort_child_properties_last
       child: Column(
@@ -283,6 +285,7 @@ class _PageInputState extends State<PageInput> {
           const SizedBox(
             height: 20,
           ),
+
           SizedBox(
             width: 90,
             height: 45,
