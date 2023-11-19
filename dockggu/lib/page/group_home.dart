@@ -142,7 +142,7 @@ class GroupHome extends GetView<TeamController> {
                           else
                             Text(
                                 '날짜 : ${DateFormat("MM / dd").format(DateTime.parse(controller.ongoingthonList.value.bookertonStartDate!))} ~ ${DateFormat("MM / dd").format(DateTime.parse(controller.ongoingthonList.value.bookertonEndDate!))}'),
-                          Obx(()=>Text(
+                          Obx(() => Text(
                               '참여 인원 : ${controller.ongoingthonList.value.bookertonUserNum ?? 0} / ${controller.ongoingthonList.value.bookertonUserMaxnum ?? 0}'))
                         ],
                       ),
@@ -207,8 +207,8 @@ class GroupHome extends GetView<TeamController> {
                   ...List.generate(
                       controller.partyMembers.length,
                       (index) => Padding(
-                        padding: const EdgeInsets.only(right:7.0),
-                        child: ProfileWidget(
+                            padding: const EdgeInsets.only(right: 7.0),
+                            child: ProfileWidget(
                               thumbPath:
                                   controller.partyMembers[index].fileUrl!,
                               size: 50,
@@ -216,7 +216,7 @@ class GroupHome extends GetView<TeamController> {
                               nickname:
                                   controller.partyMembers[index].userNickname,
                             ),
-                      ))
+                          ))
                 ],
               ),
             )
@@ -228,7 +228,7 @@ class GroupHome extends GetView<TeamController> {
 
   @override
   Widget build(BuildContext context) {
-                      print(controller.isRegister.value);
+    print(controller.isRegister.value);
 
     return Scaffold(
       body: SingleChildScrollView(

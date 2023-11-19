@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../controller/bookupdate_controller.dart';
+
 class InProgressWidget extends StatefulWidget {
   final int? currentUserId;
   final int? bookertonId;
@@ -55,12 +57,12 @@ class _InProgressWidgetState extends State<InProgressWidget> {
   Future<void> fetchData() async {
     final bookertonId2 = widget.bookertonId;
 
-    if (bookertonId2 != null) {
-      await myBookController.fetchMyBookData(bookertonId2);
-      if (mounted) {
-        setState(() {});
-      }
-    }
+    // if (bookertonId2 != null) {
+    //   await myBookController.fetchMyBookData(bookertonId2);
+    //   if (mounted) {
+    //     setState(() {});
+    //   }
+    // }
   }
 
   Widget _header() {
@@ -199,6 +201,8 @@ Widget _progress() {
     return GestureDetector(
         onTap: () {
           Get.to(BookatghonDetail(currentBookertonId: widget.bookertonId));
+          Get.put(BookUpdateController());
+          Get.find<BookUpdateController>().bookathonId.value = widget.bookertonId!;
         },
         child: _inprogressWidget());
   }
