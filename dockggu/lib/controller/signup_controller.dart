@@ -6,6 +6,8 @@ import 'package:dockggu/repogistory/user_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../component/twobtn_dialog.dart';
+
 class SignUpController extends GetxController {
   TextEditingController inputName = TextEditingController();
   TextEditingController inputEmail = TextEditingController();
@@ -24,9 +26,10 @@ class SignUpController extends GetxController {
             userPassword: inputPw.text,
             userPasswordCheck: inputRePw.text,
             userNickname: inputName.text);
-        UserRepo.signUp(signupData, image.value!);
+        UserRepo.signUp(signupData, image.value!,context);
         Navigator.pop(context);
         Navigator.pop(context);
+        
       } else {
         ToastMessage().showToast("이름은 5자 이하로 작성해주세요.");
         Navigator.pop(context);

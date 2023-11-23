@@ -2,9 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:dockggu/component/response_popup.dart';
+import 'package:dockggu/component/twobtn_dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+import '../controller/home_controller.dart';
 import '../model/bookathoninfoDTO.dart';
 import '../model/makebookathonDTO.dart';
 import '../model/mypageDTO.dart';
@@ -157,6 +162,7 @@ class MainRepo {
         print('response.statusCode = ${response.statusCode}');
 
         print('파티 생성 성공');
+        
       } else {
         print('파티 업로드 실패: ${response.reasonPhrase}');
       }
@@ -187,6 +193,17 @@ class MainRepo {
         'Accept-Charset': 'utf-8',
       },
     );
+    if (response.statusCode == 200) {
+      showDialog(
+          context: Get.context!,
+          builder: (context) => ResponsePopup(
+                content: "북커톤이 생성되었습니다.",
+                yestext: "확인",
+                okbtn: () async {
+                  Navigator.pop(context);
+                },
+              ));
+    }
   }
 
   static Future<void> participateThon(ParicipateBookathon data) async {
@@ -203,6 +220,17 @@ class MainRepo {
         'Accept-Charset': 'utf-8',
       },
     );
+    if (response.statusCode == 200) {
+      showDialog(
+          context: Get.context!,
+          builder: (context) => ResponsePopup(
+                content: "북커톤에 참여하였습니다!",
+                yestext: "확인",
+                okbtn: () async {
+                  Navigator.pop(context);
+                },
+              ));
+    }
   }
 
   static Future<void> partyreport(int partyId) async {
@@ -219,12 +247,10 @@ class MainRepo {
         'Accept-Charset': 'utf-8',
       },
     );
-
-
   }
 
-  static Future<void> blockMember(int partyId,int userId) async {
-    var party = {"partyId": partyId,"userId":userId};
+  static Future<void> blockMember(int partyId, int userId) async {
+    var party = {"partyId": partyId, "userId": userId};
     const path = '/api/party/kick';
 
     final response = await http.post(
@@ -237,10 +263,76 @@ class MainRepo {
         'Accept-Charset': 'utf-8',
       },
     );
-
-
   }
 
+  static Future<void> deleteParty(int partyId, int partyMaster) async {
+    var path = '/api/party/delete?partyId=$partyId&partyMaster=$partyMaster';
 
+    try {
+      final response = await http.post(
+        Uri.parse(
+            'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path'),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'Bearer $token',
+          'Accept-Charset': 'utf-8',
+        },
+      );
 
+      if (response.statusCode == 200) {
+        print("삭제 성공");
+        // Navigator.pop(Get.context!);
+        Get.find<HomeContoller>().initCategory();
+       
+
+      
+      } else {}
+    } catch (error) {
+      print('오류가 발생했습니다: $error');
+    }
+  }
+
+  static Future<void> updateParty(int partyId,File imageFile, String partyName,
+      String partyIntro, String partyCategory, int partyUserMaxnum) async {
+    var path = '/api/party/update';
+
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+            'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path'),
+      );
+      request.headers['Authorization'] = 'Bearer $token';
+
+      request.fields['partyName'] = partyName;
+      request.fields['partyIntro'] = partyIntro;
+      request.fields['partyCategory'] = partyCategory;
+      request.fields['partyUserMaxnum'] = partyUserMaxnum.toString();
+
+      request.files.add(
+        await http.MultipartFile.fromPath('imgFile', imageFile.path,
+            contentType: MediaType('image', 'jpg')),
+      );
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('response.statusCode = ${response.statusCode}');
+
+        print('파티 생성 성공');
+        showDialog(
+            context: Get.context!,
+            builder: (context) => ResponsePopup(
+                content: "모임이 수정되었습니다.",
+                yestext: "확인",
+                okbtn: () async {
+                  Navigator.pop(context);
+                }));
+      } else {
+        print('파티 업로드 실패: ${response.reasonPhrase}');
+      }
+    } catch (error) {
+      print('오류 발생: $error');
+    }
+  }
 }

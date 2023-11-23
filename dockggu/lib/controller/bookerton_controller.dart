@@ -8,8 +8,8 @@ class BookertonController extends GetxController {
   // final _bookertonList = <BookathonDTO>[].obs;
   // List<BookathonDTO> get bookertonList => _bookertonList;
 
-  RxList bookertonList = [].obs;
-
+  RxList<BookathonDTO> bookertonList = RxList();
+  Rx<BookathonDTO> currentThon = BookathonDTO().obs;
 
   // void onInit() async {
   //   await fetchBookertonData(1, 1);
@@ -47,6 +47,7 @@ class BookertonController extends GetxController {
       }else{
          inputbookathon.isProgress = false;
       bookertonList.add(inputbookathon);
+      currentThon(inputbookathon);
       }
 
       print("durl${inputbookathon.isProgress}");

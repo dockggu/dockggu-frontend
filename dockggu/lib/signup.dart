@@ -115,6 +115,7 @@ class _SignUpState extends State<SignUp> {
             width: 250,
             height: 40,
             child: TextField(
+              obscureText: true,
               controller: controller.inputPw,
               decoration: InputDecoration(
                   hintText: '비밀번호 6자리 이상', contentPadding: EdgeInsets.zero),
@@ -127,6 +128,7 @@ class _SignUpState extends State<SignUp> {
             width: 250,
             height: 40,
             child: TextField(
+              obscureText: true,
               controller: controller.inputRePw,
               decoration: InputDecoration(
                   hintText: '비밀번호 확인', contentPadding: EdgeInsets.zero),

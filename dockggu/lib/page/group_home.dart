@@ -13,13 +13,14 @@ import 'package:intl/intl.dart';
 
 import '../component/participate_thon.dart';
 import '../component/select_widget.dart';
+import '../controller/bookerton_controller.dart';
 import '../controller/home_controller.dart';
 import '../controller/team_controller.dart';
 
 class GroupHome extends GetView<TeamController> {
   GroupHome({super.key});
   var controller = Get.put(TeamController());
-
+  var bookathoncontroller = Get.put(BookertonController());
   Widget _groupInf() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,6 +72,7 @@ class GroupHome extends GetView<TeamController> {
   }
 
   Widget _groupSchedule(BuildContext context) {
+    // print(bookathoncontroller.bookertonList.first.isProgress);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 23),
       child: Obx(() => Column(
@@ -117,8 +119,9 @@ class GroupHome extends GetView<TeamController> {
                           Row(
                             children: [
                               Text(
-                                controller
-                                        .ongoingthonList.value.bookertonName ??
+                              
+                                bookathoncontroller
+                                        .currentThon.value.bookertonName ??
                                     "진행중인 북커톤이 없습니다.",
                                 style: const TextStyle(
                                     color: Colors.black,
@@ -137,24 +140,30 @@ class GroupHome extends GetView<TeamController> {
                           const SizedBox(
                             height: 10,
                           ),
-                          if (controller
-                                  .ongoingthonList.value.bookertonStartDate ==
+                          if (bookathoncontroller
+                                        .currentThon.value.bookertonStartDate ==
                               null)
                             Text("")
                           else
                             Text(
-                                '날짜 : ${DateFormat("MM / dd").format(DateTime.parse(controller.ongoingthonList.value.bookertonStartDate!))} ~ ${DateFormat("MM / dd").format(DateTime.parse(controller.ongoingthonList.value.bookertonEndDate!))}'),
+                                '날짜 : ${DateFormat("MM / dd").format(DateTime.parse(bookathoncontroller
+                                        .currentThon.value.bookertonStartDate!))} ~ ${DateFormat("MM / dd").format(DateTime.parse(bookathoncontroller
+                                        .currentThon.value.bookertonEndDate!))}'),
                           Obx(() => Text(
-                              '참여 인원 : ${controller.ongoingthonList.value.bookertonUserNum ?? 0} / ${controller.ongoingthonList.value.bookertonUserMaxnum ?? 0}'))
+                              '참여 인원 : ${bookathoncontroller
+                                        .currentThon.value.bookertonUserNum ?? 0} / ${bookathoncontroller
+                                        .currentThon.value.bookertonUserMaxnum ?? 0}'))
                         ],
                       ),
-                      if (controller.ongoingthonList.value.bookertonStartDate !=
+                      if (bookathoncontroller
+                                        .currentThon.value.bookertonStartDate !=
                           null)
                         Obx(() {
                           if (controller.isRegister.value == true) {
-                            if (controller
-                                    .ongoingthonList.value.bookertonUserNum! >=
-                                controller.ongoingthonList.value
+                            if (bookathoncontroller
+                                        .currentThon.value.bookertonUserNum! >=
+                                bookathoncontroller
+                                        .currentThon.value
                                     .bookertonUserMaxnum!) {
                               return YellowButton(
                                 ontap: () {},

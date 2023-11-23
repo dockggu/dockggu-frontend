@@ -89,7 +89,7 @@ class _TabViewState extends State<TabView> {
                   bookertonController.bookertonList[index].bookertonStatus,
               bookertonCreationTime: bookertonController
                   .bookertonList[index].bookertonCreationTime,
-              isProgress: bookertonController.bookertonList[index].isProgress,
+              isProgress: bookertonController.bookertonList[index].isProgress!,
             );
           return CompletedWidget(
             partyId: bookertonController.bookertonList[index].partyId,

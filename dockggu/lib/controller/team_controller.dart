@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dockggu/component/toast_message.dart';
 import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/model/bookathoninfoDTO.dart';
@@ -27,17 +29,30 @@ class TeamController extends GetxController {
   var selectBook = ParicipateBookathon().obs;
 
   TextEditingController inputPage = TextEditingController();
+//update
+  final Rx<File?> image = Rx<File?>(null);
+
+  var category = "".obs;
+  var categorycode = "".obs;
+  TextEditingController inputPartyName = TextEditingController();
+  TextEditingController inputPartyInfo = TextEditingController();
+  TextEditingController inputMaxMembers = TextEditingController();
 
   void onInit() async {
     currentUser.value = await MainRepo.getCurrentUser();
     await getPartyMember();
     await getBookathonList();
+    categorycode.value = currentTeam.value.partyCategory!;
+    inputPartyName.text = currentTeam.value.partyName!;
+    inputMaxMembers.text = currentTeam.value.partyUserMaxnum.toString();
+    inputPartyInfo.text = currentTeam.value.partyIntro!;
   }
 
   Future<void> isMembers() async {
     isRegister.value = false;
     for (PartyMembersDTO i in partyMembers) {
-      if (currentUser.value.userId == i.userId || currentTeam.value.partyMaster == currentUser.value.userId) {
+      if (currentUser.value.userId == i.userId ||
+          currentTeam.value.partyMaster == currentUser.value.userId) {
         isRegister.value = true;
       } else {}
     }
@@ -73,5 +88,10 @@ class TeamController extends GetxController {
         ongoingthonList(data);
       }
     }
+  }
+
+  Future<void> updateparty() async {
+    MainRepo.updateParty(currentTeam.value.partyId!,image.value!, inputPartyName.text,
+        inputPartyInfo.text, categorycode.value, int.parse(inputMaxMembers.text));
   }
 }
