@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dockggu/component/toast_message.dart';
 import 'package:dockggu/component/yellow_button.dart';
 import 'package:dockggu/email_login.dart';
 import 'package:flutter/material.dart';
@@ -292,6 +293,8 @@ class _SignUpState extends State<SignUp> {
     print(responseJson);
   }
 
+  String selectedOption = 'Option 1';
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -309,7 +312,51 @@ class _SignUpState extends State<SignUp> {
                 height: 40,
               ),
               _inputList(),
-        
+              SizedBox(
+                height: 50,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                child: Text(
+                    "본 서비스 이용 약관에 따라, 불쾌한 콘텐츠나 악의적인 사용자는 용납되지 않으며, 해당 행위에 대한 조치가 취해질 수 있음에 동의합니다."),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: RadioListTile(
+                        title: Text(
+                          '동의',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        value: '동의',
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value as String;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: RadioListTile(
+                        title: Text('동의하지 않음', style: TextStyle(fontSize: 14)),
+                        value: '동의하지 않음',
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value as String;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
               SizedBox(
                 height: 35,
               ),
@@ -324,22 +371,30 @@ class _SignUpState extends State<SignUp> {
                                 yestext: "가입",
                                 notext: "취소",
                                 okbtn: () async {
-                                  controller.signUp(context);
+                                  if (selectedOption == "동의") {
+                                    controller.signUp(context);
+                                  } else {
+                                    ToastMessage().showToast("약관에 동의해주세요.");
+                                    Navigator.pop(context);
+                                  }
                                 },
                                 nobtn: () {
                                   Navigator.pop(context);
                                 }));
-        
+
                         // fetchData();
                         // getUserInf();
                         // initiateKakaoSignUp();
-        
+
                         // Navigator.push(
                         //         context, MaterialPageRoute(builder: (_) => App()));
                       },
                       buttonText: '가입하기',
-                      buttonWidth: 300)),SizedBox(height: 12,),
-                      Align(
+                      buttonWidth: 300)),
+              SizedBox(
+                height: 12,
+              ),
+              Align(
                   alignment: Alignment.center,
                   child: YellowButton(
                       ontap: () async {

@@ -1,9 +1,15 @@
+import 'package:dockggu/login_main.dart';
+import 'package:dockggu/repogistory/user_repo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../component/medalinfo.dart';
 import '../component/mypage_widget.dart';
 import '../component/profile_widget.dart';
+import '../component/twobtn_dialog.dart';
 import '../controller/home_controller.dart';
+import '../controller/nav_controller.dart';
 
 class Mypage1 extends StatefulWidget {
   Mypage1({super.key});
@@ -23,23 +29,92 @@ class _Mypage1State extends State<Mypage1> {
   // ];
 
   @override
-  Widget _header() {
+  Widget _header(BuildContext context) {
     print(controller.medalList);
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Text(
-        '마이페이지',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 23,
-        ),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.1, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            '마이페이지',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+            ),
+          ),
+          Row(
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => TwobtnDialog(
+                            content: "로그아웃하시겠습니까?",
+                            yestext: "네",
+                            notext: "취소",
+                            okbtn: () async {
+                              Get.find<BottomNavController>().pageIndex.value =
+                                  0;
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginMain()),
+                                (route) => false,
+                              );
+                            },
+                            nobtn: () {
+                              Navigator.pop(context);
+                            }));
+                  },
+                  child: Icon(Icons.logout_rounded)),
+              GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => TwobtnDialog(
+                            content: "계정을 정말 삭제하시겠습니까?",
+                            yestext: "네",
+                            notext: "취소",
+                            okbtn: () async {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => TwobtnDialog(
+                                      content:
+                                          " 회원 탈퇴 시 계정 및 모임 정보가 삭제되어 \n 복구가 불가합니다.\n\n 정말 삭제하시겠습니까?",
+                                      yestext: "삭제",
+                                      notext: "취소",
+                                      okbtn: () async {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        await UserRepo.deleteUser(context);
+                                        Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginMain()),
+                                          (route) => false,
+                                        );
+                                      },
+                                      nobtn: () {
+                                        Navigator.pop(context);
+                                      }));
+                            },
+                            nobtn: () {
+                              Navigator.pop(context);
+                            }));
+                  },
+                  child: SvgPicture.asset("assets/remove_user.svg")),
+            ],
+          )
+        ],
       ),
     );
   }
 
   Widget _profile(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height*0.18,
+      height: MediaQuery.of(context).size.height * 0.18,
       margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -158,55 +233,52 @@ class _Mypage1State extends State<Mypage1> {
           color: Color(0xff999999),
         ),
         onTap: () {
-          showDialog(context: context, builder: (context) => _medal());
+          showDialog(context: context, builder: (context) => MedalInfo());
         },
       ),
     );
   }
 
   Widget _gridView() {
-    return Obx(()=>GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: controller.myBookList.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 0.9
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        print(index);
-        return Container(
-          
-            padding: const EdgeInsets.all(8),
-            child: Center(
-              child: Column(
-                  children: [
-                    Image.network(controller.myBookList[index].bookImgPath!),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      controller.myBookList[index].bookName ?? "",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                    ),
-                    Expanded(
-                      child: Text(
-                        controller.myBookList[index].bookAuthor ?? "",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color(0xff9D9D9D),
-                        ),
+    return Obx(() => GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: controller.myBookList.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 0.9),
+          itemBuilder: (BuildContext context, int index) {
+            print(index);
+            return Container(
+                padding: const EdgeInsets.all(8),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Image.network(controller.myBookList[index].bookImgPath!),
+                      const SizedBox(
+                        height: 10,
                       ),
-                    )
-                  ],
-                ),
-              
-            ));
-      },
-    ));
+                      Text(
+                        controller.myBookList[index].bookName ?? "",
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.w600),
+                      ),
+                      Expanded(
+                        child: Text(
+                          controller.myBookList[index].bookAuthor ?? "",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xff9D9D9D),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ));
+          },
+        ));
   }
 
   Widget _medal() {
@@ -263,7 +335,15 @@ class _Mypage1State extends State<Mypage1> {
       // ),
       body: SingleChildScrollView(
         child: Column(
-          children: [SizedBox(height: MediaQuery.of(context).size.height*0.1,),_header(), _profile(context), _center(), _gridView()],
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
+            ),
+            _header(context),
+            _profile(context),
+            _center(),
+            _gridView()
+          ],
         ),
       ),
     );

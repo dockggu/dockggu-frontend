@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dockggu/component/toast_message.dart';
 import 'package:dockggu/controller/home_controller.dart';
+import 'package:dockggu/login_main.dart';
 import 'package:dockggu/model/mypageDTO.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -122,4 +123,36 @@ class UserRepo {
       ToastMessage().showToast("아이디와 비밀번호를 확인해주세요.");
     }
   }
+
+static Future<void> deleteUser(BuildContext context) async {
+    const path = '/api/mypage/userDelete';
+ 
+    final url = Uri.parse(
+        'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'Bearer $token',
+          'Accept-Charset': 'utf-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print("삭제성공");
+        
+
+      } else {
+        print("요청 실패: ${response.statusCode}");
+        ToastMessage().showToast("삭제에 실패하였습니다.");
+      }
+    } catch (e) {
+
+    }
+  }
+
+
+
 }
