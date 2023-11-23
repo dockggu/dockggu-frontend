@@ -77,7 +77,6 @@ class MainRepo {
         'Accept-Charset': 'utf-8',
       },
     );
-
   }
 
   // 모임 멤버 불러오기
@@ -152,7 +151,6 @@ class MainRepo {
             contentType: MediaType('image', 'jpg')),
       );
 
-
       final response = await request.send();
 
       if (response.statusCode == 200) {
@@ -189,9 +187,7 @@ class MainRepo {
         'Accept-Charset': 'utf-8',
       },
     );
-
   }
-
 
   static Future<void> participateThon(ParicipateBookathon data) async {
     // var party = {"partyId": thisparty};
@@ -207,8 +203,44 @@ class MainRepo {
         'Accept-Charset': 'utf-8',
       },
     );
+  }
 
-    
+  static Future<void> partyreport(int partyId) async {
+    var party = {"partyId": partyId};
+    const path = '/api/party/report';
+
+    final response = await http.post(
+      Uri.parse(
+          'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path'),
+      body: json.encode(party),
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': 'Bearer $token',
+        'Accept-Charset': 'utf-8',
+      },
+    );
+
 
   }
+
+  static Future<void> blockMember(int partyId,int userId) async {
+    var party = {"partyId": partyId,"userId":userId};
+    const path = '/api/party/kick';
+
+    final response = await http.post(
+      Uri.parse(
+          'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path'),
+      body: json.encode(party),
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': 'Bearer $token',
+        'Accept-Charset': 'utf-8',
+      },
+    );
+
+
+  }
+
+
+
 }

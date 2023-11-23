@@ -132,7 +132,7 @@ class HomeContoller extends GetxController {
     initList.value = itemsmap.keys.toList();
 
     QueryData searchTeam =
-        QueryData(categories: initList, partyName: "", page: "0");
+        QueryData(categories: initList, partyName: searchKeyword.text ?? "", page: "0");
     paryList.clear();
 
     const path = 'api/party/search';
@@ -158,34 +158,42 @@ class HomeContoller extends GetxController {
   }
 
   Future<void> changedCategory() async {
-    QueryData searchTeam = QueryData(
-        categories: clickedlist,
-        partyName: searchKeyword.text ?? "",
-        page: "0");
-    paryList.clear();
 
-    const path = 'api/party/search';
-    final response = await http.post(
-      Uri.parse(
-          'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/$path'),
-      body: json.encode(searchTeam.toMap()),
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': 'Bearer $token',
-        'Accept-Charset': 'utf-8',
-      },
-    );
-    final responseJson =
-        jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+    if (clickedlist.every((element) => element == "")&& searchKeyword.text =="") {
+      initCategory();
+    } else {
+if(searchKeyword.text ==""){
+      QueryData searchTeam = QueryData(
+          categories: clickedlist,
+          partyName: "",
+          page: "0");
+      paryList.clear();
 
+      const path = 'api/party/search';
+      final response = await http.post(
+        Uri.parse(
+            'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080/$path'),
+        body: json.encode(searchTeam.toMap()),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'Bearer $token',
+          'Accept-Charset': 'utf-8',
+        },
+      );
+      final responseJson =
+          jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
 // jsonDecode(source)
 
-    if (responseJson['data'].length > 0) {
-      for (int i = 0; i < responseJson['data'].length; i++) {
-        paryList.add(PartyResponseDto.fromJson(responseJson['data'][i]));
-      }
-      searchKeyword.clear();
-    } else {}
+      if (responseJson['data'].length > 0) {
+        for (int i = 0; i < responseJson['data'].length; i++) {
+          paryList.add(PartyResponseDto.fromJson(responseJson['data'][i]));
+        }
+      } else {}
+    }else{
+      await initCategory();
+
+    }
+    }
   }
 }

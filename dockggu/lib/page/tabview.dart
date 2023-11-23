@@ -121,6 +121,7 @@ class _TabViewState extends State<TabView> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBarWidget(
+          targetId: controller.currentTeam.value.partyId!,
             appBar: AppBar(), title: controller.currentTeam.value.partyName!),
         body: Column(
           children: [

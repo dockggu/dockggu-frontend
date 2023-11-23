@@ -120,6 +120,7 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBarWidget(
+        targetId: controller.currentTeam.value.partyId!,
           appBar: AppBar(), title: controller.currentTeam.value.partyName!),
       body: Obx(() {
         if (myBookController.myBookList.isEmpty) {

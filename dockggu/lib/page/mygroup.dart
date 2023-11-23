@@ -24,7 +24,8 @@ class _MyGroupState extends State<MyGroup> {
 
   Widget _header() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.1, vertical: 10),
       child: Text(
         '내 모임',
         style: TextStyle(
@@ -44,34 +45,35 @@ class _MyGroupState extends State<MyGroup> {
         ...List.generate(
             partyController.partyList.length,
             (index) => GestureDetector(
-              onTap: () async {
-                        Get.put(TeamController());
-                        Get.find<TeamController>().currentTeam.value =
-                            partyController.partyList[index];
-                        await Get.find<TeamController>().getPartyMember();
-                        await Get.find<TeamController>().isMembers();
+                  onTap: () async {
+                    Get.put(TeamController());
+                    Get.find<TeamController>().currentTeam.value =
+                        partyController.partyList[index];
+                    await Get.find<TeamController>().getPartyMember();
+                    await Get.find<TeamController>().isMembers();
 
-                        await Get.find<TeamController>().getBookathonList();
+                    await Get.find<TeamController>().getBookathonList();
 
-                        Get.to(TabView())?.then((result) {
-                          // 이곳에서 돌아왔을 때 처리할 로직
-                          if (result == null) {
-                            Get.delete<TeamController>();
-                            // 반환된 데이터를 사용
-                            print('ㅁㅇㄹㅁㄴ');
-                          } else {
-                            Get.delete<TeamController>();
-                          }
-                        });
+                    Get.to(TabView())?.then((result) {
+                      // 이곳에서 돌아왔을 때 처리할 로직
+                      if (result == null) {
+                        Get.delete<TeamController>();
+                        // 반환된 데이터를 사용
+                        print('ㅁㅇㄹㅁㄴ');
+                      } else {
+                        Get.delete<TeamController>();
+                      }
+                    });
 
-                        Get.to(TabView());
-                      },
-              child: GroupList2(
+                    Get.to(TabView());
+                  },
+                  child: GroupList2(
                     partyId: partyController.partyList[index].partyId,
                     partyName: partyController.partyList[index].partyName,
                     partyIntro: partyController.partyList[index].partyIntro,
                     partyMaster: partyController.partyList[index].partyMaster,
-                    partyCategory: partyController.partyList[index].partyCategory,
+                    partyCategory:
+                        partyController.partyList[index].partyCategory,
                     partyUserNum: partyController.partyList[index].partyUserNum,
                     partyUserMaxnum:
                         partyController.partyList[index].partyUserMaxnum,
@@ -83,7 +85,7 @@ class _MyGroupState extends State<MyGroup> {
                     partyProfileImgPath:
                         partyController.partyList[index].partyProfileImgPath,
                   ),
-            ))
+                ))
       ],
     );
   }
@@ -92,11 +94,28 @@ class _MyGroupState extends State<MyGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-  
       body: SingleChildScrollView(
         child: Column(
-
-          children: [SizedBox(height: MediaQuery.of(context).size.height*0.1,),_header(), _groupList()],
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
+            ),
+            _header(),
+            if (partyController.partyList.length > 0) _groupList()
+            else Column(
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height*0.3,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text("가입한 모임이 없습니다.",style: TextStyle(fontSize: 18,color: Colors.grey),),
+                  ],
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

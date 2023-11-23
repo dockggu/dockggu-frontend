@@ -46,7 +46,7 @@ class ParticipateThon extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Text('이닛님이 읽을 책'),
+            Text('${controller.currentUser.value.userNickname}님이 읽을 책'),
             SizedBox(
               height: 10,
             ),

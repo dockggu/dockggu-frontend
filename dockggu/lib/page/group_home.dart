@@ -1,6 +1,7 @@
 import 'package:dockggu/component/category_widget.dart';
 import 'package:dockggu/component/join_popup.dart';
 import 'package:dockggu/component/profile_widget.dart';
+import 'package:dockggu/component/twobtn_dialog.dart';
 import 'package:dockggu/component/yellow_button.dart';
 import 'package:dockggu/controller/addThon_controller.dart';
 import 'package:dockggu/model/partyinfoDTO.dart';
@@ -11,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../component/participate_thon.dart';
+import '../component/select_widget.dart';
 import '../controller/home_controller.dart';
 import '../controller/team_controller.dart';
 
@@ -186,7 +188,7 @@ class GroupHome extends GetView<TeamController> {
     );
   }
 
-  Widget _memberList() {
+  Widget _memberList(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 23),
       child: Container(
@@ -208,13 +210,51 @@ class GroupHome extends GetView<TeamController> {
                       controller.partyMembers.length,
                       (index) => Padding(
                             padding: const EdgeInsets.only(right: 7.0),
-                            child: ProfileWidget(
-                              thumbPath:
-                                  controller.partyMembers[index].fileUrl!,
-                              size: 50,
-                              type: ProfileType.TYPE2,
-                              nickname:
-                                  controller.partyMembers[index].userNickname,
+                            child: GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => SelectPopup(
+                                        title: "강퇴",
+                                        reportfunc: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  TwobtnDialog(
+                                                      content:
+                                                          "정말 ${controller.partyMembers[index].userNickname}님을 강퇴하시겠습니까?",
+                                                      yestext: "강퇴",
+                                                      notext: "취소",
+                                                      okbtn: () {
+                                                        MainRepo.blockMember(
+                                                            controller
+                                                                .currentTeam
+                                                                .value
+                                                                .partyId!,
+                                                            controller
+                                                                .partyMembers[
+                                                                    index]
+                                                                .userId!);
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      nobtn: () {
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                      }));
+                                        },
+                                        blockfunc: () {
+                                          Navigator.pop(context);
+                                        }));
+                              },
+                              child: ProfileWidget(
+                                thumbPath:
+                                    controller.partyMembers[index].fileUrl!,
+                                size: 50,
+                                type: ProfileType.TYPE2,
+                                nickname:
+                                    controller.partyMembers[index].userNickname,
+                              ),
                             ),
                           ))
                 ],
@@ -265,7 +305,7 @@ class GroupHome extends GetView<TeamController> {
               const SizedBox(
                 height: 30,
               ),
-              _memberList(),
+              _memberList(context),
               const SizedBox(
                 height: 30,
               ),
