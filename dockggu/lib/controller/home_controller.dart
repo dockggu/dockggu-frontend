@@ -151,6 +151,8 @@ class HomeContoller extends GetxController {
 // jsonDecode(source)
 
     if (responseJson['data'].length > 0) {
+            paryList.clear();
+
       for (int i = 0; i < responseJson['data'].length; i++) {
         paryList.add(PartyResponseDto.fromJson(responseJson['data'][i]));
       }
@@ -158,6 +160,7 @@ class HomeContoller extends GetxController {
   }
 
   Future<void> changedCategory() async {
+      paryList.clear();
 
     if (clickedlist.every((element) => element == "")&& searchKeyword.text =="") {
       initCategory();
@@ -167,7 +170,6 @@ if(searchKeyword.text ==""){
           categories: clickedlist,
           partyName: "",
           page: "0");
-      paryList.clear();
 
       const path = 'api/party/search';
       final response = await http.post(

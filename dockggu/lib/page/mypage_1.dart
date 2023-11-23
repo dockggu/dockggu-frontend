@@ -85,9 +85,9 @@ class _Mypage1State extends State<Mypage1> {
                                       yestext: "삭제",
                                       notext: "취소",
                                       okbtn: () async {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
                                         await UserRepo.deleteUser(context);
+                                        Navigator.pop(context);
+
                                         Navigator.of(context)
                                             .pushAndRemoveUntil(
                                           MaterialPageRoute(
@@ -164,35 +164,35 @@ class _Mypage1State extends State<Mypage1> {
                 child: ProfileWidget(
               thumbPath:
                   'https://${controller.currentUser.value.userProfileImgPath}',
-              size: 75,
+              size: 80,
               type: ProfileType.TYPE4,
               nickname: "kancho",
             )),
           ),
         ),
-        Positioned(
-          left: 60,
-          top: 45,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Icon(
-              Icons.settings,
-              size: 18,
-              color: Colors.black,
-            ),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
-                Colors.white,
-              ),
-              shape: MaterialStateProperty.all<OutlinedBorder>(
-                const CircleBorder(),
-              ),
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                const EdgeInsets.all(5),
-              ),
-            ),
-          ),
-        ),
+        // Positioned(
+        //   left: 60,
+        //   top: 45,
+        //   child: ElevatedButton(
+        //     onPressed: () {},
+        //     child: const Icon(
+        //       Icons.settings,
+        //       size: 18,
+        //       color: Colors.black,
+        //     ),
+        //     style: ButtonStyle(
+        //       backgroundColor: MaterialStateProperty.all<Color>(
+        //         Colors.white,
+        //       ),
+        //       shape: MaterialStateProperty.all<OutlinedBorder>(
+        //         const CircleBorder(),
+        //       ),
+        //       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+        //         const EdgeInsets.all(5),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

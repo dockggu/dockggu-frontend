@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dockggu/component/response_popup.dart';
 import 'package:dockggu/component/toast_message.dart';
 import 'package:dockggu/controller/home_controller.dart';
 import 'package:dockggu/login_main.dart';
@@ -11,11 +12,12 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 import '../app.dart';
+import '../component/twobtn_dialog.dart';
 import '../controller/team_controller.dart';
 import 'main_repo.dart';
 
 class UserRepo {
-  static Future<void> signUp(SignUpDTO signupdata, File imageFile) async {
+  static Future<void> signUp(SignUpDTO signupdata, File imageFile,BuildContext context) async {
     const path = '/api/auth/signUp';
 
     final url = Uri.parse(
@@ -48,6 +50,16 @@ class UserRepo {
         print('response.statusCode = ${response.statusCode}');
 
         print('회원가입 성공');
+
+        showDialog(
+            context: context,
+            builder: (context) => ResponsePopup(
+                  content: "회원가입 완료하였습니다.",
+                  yestext: "확인",
+                  okbtn: () async {
+                    Navigator.pop(context);
+                  },
+                ));
       } else {
         print('회원가입 실패: ${response.reasonPhrase}');
       }
@@ -124,9 +136,9 @@ class UserRepo {
     }
   }
 
-static Future<void> deleteUser(BuildContext context) async {
+  static Future<void> deleteUser(BuildContext context) async {
     const path = '/api/mypage/userDelete';
- 
+
     final url = Uri.parse(
         'http://ec2-51-20-35-25.eu-north-1.compute.amazonaws.com:8080$path');
 
@@ -142,17 +154,10 @@ static Future<void> deleteUser(BuildContext context) async {
 
       if (response.statusCode == 200) {
         print("삭제성공");
-        
-
       } else {
         print("요청 실패: ${response.statusCode}");
         ToastMessage().showToast("삭제에 실패하였습니다.");
       }
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
-
-
-
 }
