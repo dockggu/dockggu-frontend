@@ -270,72 +270,78 @@ class _PageInputState extends State<PageInput> {
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      // ignore: sort_child_properties_last
-      child: Column(
-        children: [
-          _header(),
-          const SizedBox(
-            height: 20,
-          ),
-          _explain(),
-          const SizedBox(
-            height: 10,
-          ),
-          _input(),
-          const SizedBox(
-            height: 20,
-          ),
+    return GestureDetector(
+      onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
 
-          SizedBox(
-            width: 90,
-            height: 45,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: const MaterialStatePropertyAll(
-                  Color(0xffffFFD66C),
-                ),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+      },
+      child: Container(
+        // ignore: sort_child_properties_last
+        child: Column(
+          children: [
+            _header(),
+            const SizedBox(
+              height: 20,
+            ),
+            _explain(),
+            const SizedBox(
+              height: 10,
+            ),
+            _input(),
+            const SizedBox(
+              height: 20,
+            ),
+        
+            SizedBox(
+              width: 90,
+              height: 45,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: const MaterialStatePropertyAll(
+                    Color(0xffffFFD66C),
+                  ),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
-              ),
-              onPressed: () {
-                // myBookController
-                //     .fetchMyBookData(widget.currentBookertonId ?? 0);
-
-                String pageCount = pageController.text;
-                controller.updateBookPage(currentBookertonId, pageCount);
-
-                // myBookController
-                //     .fetchMyBookData(widget.currentBookertonId ?? 0);
-
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return CurrentProgress(
-                        currentBookertonId: widget.currentBookertonId);
-                  },
-                  backgroundColor: Colors.transparent,
-                );
-              },
-              child: const Text(
-                '확인',
-                style: TextStyle(
-                    color: Color(0xffFFFFFF),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
+                onPressed: () {
+                  // myBookController
+                  //     .fetchMyBookData(widget.currentBookertonId ?? 0);
+        
+                  String pageCount = pageController.text;
+                  controller.updateBookPage(currentBookertonId, pageCount);
+        
+                  // myBookController
+                  //     .fetchMyBookData(widget.currentBookertonId ?? 0);
+        
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return CurrentProgress(
+                          currentBookertonId: widget.currentBookertonId);
+                    },
+                    backgroundColor: Colors.transparent,
+                  );
+                },
+                child: const Text(
+                  '확인',
+                  style: TextStyle(
+                      color: Color(0xffFFFFFF),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ),
+          ],
+        ),
+        height: MediaQuery.of(context).size.height*0.7,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(24),
           ),
-        ],
-      ),
-      height: 300,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
         ),
       ),
     );

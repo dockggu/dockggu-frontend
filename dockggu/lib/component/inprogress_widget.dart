@@ -102,7 +102,7 @@ class _InProgressWidgetState extends State<InProgressWidget> {
   }
 
   Widget _progress() {
-    DateTime now = DateTime.now();
+    DateTime now = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
     DateTime startDate = DateTime.parse(widget.bookertonStartDate ?? '');
     DateTime endDate = DateTime.parse(widget.bookertonEndDate ?? '');
     String formattedStartDate = DateFormat('MM/dd', 'ko_KR').format(startDate);
@@ -112,22 +112,52 @@ class _InProgressWidgetState extends State<InProgressWidget> {
     var a = now.difference(startDate);
     var b = endDate.difference(startDate);
 
+    String formattedDate = DateFormat('MM/dd (E)', 'ko_KR').format(startDate);
 
+
+    // Duration difference = startDate.difference(now);
+    // int dDay = startDate.isBefore(now) ? difference.inDays : 0;
+    // int dDay = int.parse(
+    //     startDate.difference(now).inDays.toString())+1;
+    Duration difference = startDate.difference(now);
 
     
     // int? bookReadPage = myBookController.getBookReadPage(widget.bookertonId ?? 2);
     // int? bookTotalPage = myBookController.getBookTotalPage(widget.bookertonId ?? 1);
 
     // double progressPercentage = (bookReadPage ?? 0) / (bookTotalPage ?? 1) * 100;
+print(difference.inDays);
+    // return Text(
+    //   // '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
+    //   '${difference.inDays} 후 시작',
+    //   style: TextStyle  (
+    //     fontSize: 14,
+    //     color: Color(0xff000000),
+    //     fontWeight: FontWeight.normal,
+    //   ),
+    // );
+    if(difference.inDays >0){
     return Text(
       // '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
-      '진행률: $formattedProgress%',
+      '${difference.inDays}일 후 시작',
+      style: TextStyle(
+        fontSize: 14,
+        color: Color(0xff000000),
+        fontWeight: FontWeight.normal,
+      ),
+    );}else if(difference.inDays<0){
+      return SizedBox();
+    }else{
+      return Text(
+      // '독서 진행률: ${progressPercentage.toStringAsFixed(0)}%',
+      'D-Day',
       style: TextStyle(
         fontSize: 14,
         color: Color(0xff000000),
         fontWeight: FontWeight.normal,
       ),
     );
+    }
   }
 
   Widget _state() {
