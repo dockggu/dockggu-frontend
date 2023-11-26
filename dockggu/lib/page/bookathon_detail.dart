@@ -271,12 +271,13 @@ class _PageInputState extends State<PageInput> {
 
   @override
   Widget build(BuildContext context) {
-    print("currentBookertonIdString: $currentBookertonId");
-    return SingleChildScrollView(
-      // Use SingleChildScrollView to allow scrolling
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+
+
+    return GestureDetector(
+      onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
+
+      },
       child: Container(
         // ignore: sort_child_properties_last
         child: Column(
@@ -308,6 +309,7 @@ class _PageInputState extends State<PageInput> {
                   ),
                 ),
                 onPressed: () {
+
                   String pageCount = pageController.text;
                   var Index = myBookController.myBookList.indexWhere(
                     (book) => book.bookertonId == currentBookertonId,
@@ -348,6 +350,7 @@ class _PageInputState extends State<PageInput> {
                       isScrollControlled: true,
                     );
                   }
+
                 },
                 child: const Text(
                   '확인',
@@ -360,7 +363,8 @@ class _PageInputState extends State<PageInput> {
             ),
           ],
         ),
-        height: 300,
+
+        height: MediaQuery.of(context).size.height*0.7,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
