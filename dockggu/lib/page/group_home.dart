@@ -221,7 +221,9 @@ class GroupHome extends GetView<TeamController> {
                             padding: const EdgeInsets.only(right: 7.0),
                             child: GestureDetector(
                               onTap: () {
-                                showDialog(
+
+                                if (controller.currentTeam.value.partyMaster ==
+                  controller.currentUser.value.userId){showDialog(
                                     context: context,
                                     builder: (context) => SelectPopup(
                                         title: "강퇴",
@@ -254,7 +256,8 @@ class GroupHome extends GetView<TeamController> {
                                         },
                                         blockfunc: () {
                                           Navigator.pop(context);
-                                        }));
+                                        }));}
+                                
                               },
                               child: ProfileWidget(
                                 thumbPath:
