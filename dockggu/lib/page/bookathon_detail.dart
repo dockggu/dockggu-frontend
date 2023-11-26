@@ -120,8 +120,9 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBarWidget(
-        targetId: controller.currentTeam.value.partyId!,
-          appBar: AppBar(), title: controller.currentTeam.value.partyName!),
+          targetId: controller.currentTeam.value.partyId!,
+          appBar: AppBar(),
+          title: controller.currentTeam.value.partyName!),
       body: Obx(() {
         if (myBookController.myBookList.isEmpty) {
           return const Center(
@@ -146,7 +147,8 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
                     .toList();
 
                 // 로그인한 사용자의 userId와 일치하는 도서가 하나 이상인 경우에만 버튼을 표시
-                if (matchingBooks.isNotEmpty && myBookController.isProgress.value) {
+                if (matchingBooks.isNotEmpty &&
+                    myBookController.isProgress.value) {
                   return ElevatedButton(
                     onPressed: () {
                       showModalBottomSheet(
@@ -270,6 +272,7 @@ class _PageInputState extends State<PageInput> {
   @override
   Widget build(BuildContext context) {
 
+
     return GestureDetector(
       onTap: (){
             FocusManager.instance.primaryFocus?.unfocus();
@@ -291,7 +294,6 @@ class _PageInputState extends State<PageInput> {
             const SizedBox(
               height: 20,
             ),
-        
             SizedBox(
               width: 90,
               height: 45,
@@ -307,23 +309,48 @@ class _PageInputState extends State<PageInput> {
                   ),
                 ),
                 onPressed: () {
-                  // myBookController
-                  //     .fetchMyBookData(widget.currentBookertonId ?? 0);
-        
+
                   String pageCount = pageController.text;
-                  controller.updateBookPage(currentBookertonId, pageCount);
-        
-                  // myBookController
-                  //     .fetchMyBookData(widget.currentBookertonId ?? 0);
-        
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return CurrentProgress(
-                          currentBookertonId: widget.currentBookertonId);
-                    },
-                    backgroundColor: Colors.transparent,
+                  var Index = myBookController.myBookList.indexWhere(
+                    (book) => book.bookertonId == currentBookertonId,
                   );
+
+                  int totalPage =
+                      myBookController.myBookList[Index].bookTotalPage ?? 0;
+                  int enteredPage = int.tryParse(pageCount) ?? 0;
+
+                  if (enteredPage > totalPage) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('경고'),
+                          content: Text('총 페이지 수 이하의 페이지를 입력해주세요.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return;
+                  } else {
+                    controller.updateBookPage(currentBookertonId, pageCount);
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return CurrentProgress(
+                            currentBookertonId: widget.currentBookertonId);
+                      },
+                      backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
+                    );
+                  }
+
                 },
                 child: const Text(
                   '확인',
@@ -336,6 +363,7 @@ class _PageInputState extends State<PageInput> {
             ),
           ],
         ),
+
         height: MediaQuery.of(context).size.height*0.7,
         decoration: const BoxDecoration(
           color: Colors.white,
