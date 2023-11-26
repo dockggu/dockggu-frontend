@@ -122,7 +122,7 @@ class GroupHome extends GetView<TeamController> {
                               
                                 bookathoncontroller
                                         .currentThon.value.bookertonName ??
-                                    "진행중인 북커톤이 없습니다.",
+                                    "현재 참여 가능한 북커톤이 없습니다.",
                                 style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 15,
