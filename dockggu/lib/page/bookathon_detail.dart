@@ -51,66 +51,82 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
     return Column(
       children: List.generate(
         myBookController.myBookList.length,
-        (index) => Column(
-          children: [
-            Row(
-              children: [
-                BookWidget(
-                  bookImgPath: myBookController.myBookList[index].bookImgPath,
-                ),
-                ProgressWidget(
-                  bookId: myBookController.myBookList[index].bookId,
-                  userId: myBookController.myBookList[index].userId,
-                  bookertonId: myBookController.myBookList[index].bookertonId,
-                  bookName: myBookController.myBookList[index].bookName,
-                  bookAuthor: myBookController.myBookList[index].bookAuthor,
-                  bookPublisher:
-                      myBookController.myBookList[index].bookPublisher,
-                  bookTotalPage:
-                      myBookController.myBookList[index].bookTotalPage,
-                  bookReadPage: myBookController.myBookList[index].bookReadPage,
-                  bookImgName: myBookController.myBookList[index].bookImgName,
-                  bookImgPath: myBookController.myBookList[index].bookImgPath,
-                  userNickname: myBookController.userList[index].userNickname,
-                  userProfileImgPath:
-                      myBookController.userList[index].userProfileImgPath,
-                ),
-                PercentWidget(
-                  bookId: myBookController.myBookList[index].bookId,
-                  userId: myBookController.myBookList[index].userId,
-                  bookertonId: myBookController.myBookList[index].bookertonId,
-                  bookName: myBookController.myBookList[index].bookName,
-                  bookAuthor: myBookController.myBookList[index].bookAuthor,
-                  bookPublisher:
-                      myBookController.myBookList[index].bookPublisher,
-                  bookTotalPage:
-                      myBookController.myBookList[index].bookTotalPage,
-                  bookReadPage: myBookController.myBookList[index].bookReadPage,
-                  bookImgName: myBookController.myBookList[index].bookImgName,
-                  bookImgPath: myBookController.myBookList[index].bookImgPath,
-                )
-              ],
-            ),
-            TitleWidget(
-              bookId: myBookController.myBookList[index].bookId,
-              userId: myBookController.myBookList[index].userId,
-              bookertonId: myBookController.myBookList[index].bookertonId,
-              bookName: myBookController.myBookList[index].bookName,
-              bookAuthor: myBookController.myBookList[index].bookAuthor,
-              bookPublisher: myBookController.myBookList[index].bookPublisher,
-              bookTotalPage: myBookController.myBookList[index].bookTotalPage,
-              bookReadPage: myBookController.myBookList[index].bookReadPage,
-              bookImgName: myBookController.myBookList[index].bookImgName,
-              bookImgPath: myBookController.myBookList[index].bookImgPath,
-            ),
-            const Divider(
-              indent: 20,
-              endIndent: 20,
-              color: Color(0xffFFD66C),
-              thickness: 1,
-            ),
-          ],
-        ),
+        (index) {
+          var userId = myBookController.myBookList[index].userId;
+          var userName = myBookController.userList
+              .firstWhere(
+                (user) => user.userId == userId,
+              )
+              .userNickname;
+          var userProfileImgPath = myBookController.userList
+              .firstWhere(
+                (user) => user.userId == userId,
+              )
+              .userProfileImgPath;
+
+          return Column(
+            children: [
+              Row(
+                children: [
+                  BookWidget(
+                    bookImgPath: myBookController.myBookList[index].bookImgPath,
+                  ),
+                  ProgressWidget(
+                    bookId: myBookController.myBookList[index].bookId,
+                    userId: myBookController.myBookList[index].userId,
+                    bookertonId: myBookController.myBookList[index].bookertonId,
+                    bookName: myBookController.myBookList[index].bookName,
+                    bookAuthor: myBookController.myBookList[index].bookAuthor,
+                    bookPublisher:
+                        myBookController.myBookList[index].bookPublisher,
+                    bookTotalPage:
+                        myBookController.myBookList[index].bookTotalPage,
+                    bookReadPage:
+                        myBookController.myBookList[index].bookReadPage,
+                    bookImgName: myBookController.myBookList[index].bookImgName,
+                    bookImgPath: myBookController.myBookList[index].bookImgPath,
+                    userNickname: userName,
+                    userProfileImgPath:
+                        userProfileImgPath,
+                  ),
+                  PercentWidget(
+                    bookId: myBookController.myBookList[index].bookId,
+                    userId: myBookController.myBookList[index].userId,
+                    bookertonId: myBookController.myBookList[index].bookertonId,
+                    bookName: myBookController.myBookList[index].bookName,
+                    bookAuthor: myBookController.myBookList[index].bookAuthor,
+                    bookPublisher:
+                        myBookController.myBookList[index].bookPublisher,
+                    bookTotalPage:
+                        myBookController.myBookList[index].bookTotalPage,
+                    bookReadPage:
+                        myBookController.myBookList[index].bookReadPage,
+                    bookImgName: myBookController.myBookList[index].bookImgName,
+                    bookImgPath: myBookController.myBookList[index].bookImgPath,
+                  )
+                ],
+              ),
+              TitleWidget(
+                bookId: myBookController.myBookList[index].bookId,
+                userId: myBookController.myBookList[index].userId,
+                bookertonId: myBookController.myBookList[index].bookertonId,
+                bookName: myBookController.myBookList[index].bookName,
+                bookAuthor: myBookController.myBookList[index].bookAuthor,
+                bookPublisher: myBookController.myBookList[index].bookPublisher,
+                bookTotalPage: myBookController.myBookList[index].bookTotalPage,
+                bookReadPage: myBookController.myBookList[index].bookReadPage,
+                bookImgName: myBookController.myBookList[index].bookImgName,
+                bookImgPath: myBookController.myBookList[index].bookImgPath,
+              ),
+              const Divider(
+                indent: 20,
+                endIndent: 20,
+                color: Color(0xffFFD66C),
+                thickness: 1,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -148,12 +164,13 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
                     .toList();
 
                 // 로그인한 사용자의 userId와 일치하는 도서가 하나 이상인 경우에만 버튼을 표시
-                if (matchingBooks.isNotEmpty &&
-                    myBookController.isProgress.value) {
+                // &&myBookController.isProgress.value
+                if (matchingBooks.isNotEmpty) {
                   return ElevatedButton(
                     onPressed: () {
                       showModalBottomSheet(
                         context: context,
+                        isScrollControlled: true,
                         builder: (context) {
                           return PageInput(
                             currentBookertonId: widget.currentBookertonId,
@@ -202,9 +219,10 @@ class PageInput extends StatefulWidget {
 }
 
 class _PageInputState extends State<PageInput> {
-  final BookUpdateController controller = Get.put(BookUpdateController());
+  final BookUpdateController updateController = Get.put(BookUpdateController());
   final TextEditingController pageController = TextEditingController();
   final MyBookController myBookController = Get.put(MyBookController());
+  var controller = Get.put(HomeContoller());
 
   // Define a variable to hold the string representation of currentBookertonId
   int? currentBookertonId;
@@ -272,6 +290,7 @@ class _PageInputState extends State<PageInput> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -308,23 +327,57 @@ class _PageInputState extends State<PageInput> {
                 ),
                 onPressed: () {
                   String pageCount = pageController.text;
-                  var Index = myBookController.myBookList.indexWhere(
-                    (book) => book.bookertonId == currentBookertonId,
-                  );
+                  var loggedInUserId = controller.currentUser.value.userId;
+                  var userBookIndex = myBookController.myBookList
+                      .indexWhere((book) => book.userId == loggedInUserId);
+                  var whatUserBookIndex =
+                      myBookController.myBookList[0].bookName;
+                  var whatUserBookNickName =
+                      myBookController.userList[0].userNickname;
+                  var whatUserBookTotalPage =
+                      myBookController.myBookList[0].bookertonId;
+                  print('인덱스는:$userBookIndex');
+                  print('인덱스의 userId는:$whatUserBookIndex');
+                  print('userId는:$loggedInUserId');
+                  print('userNickName은:$whatUserBookNickName');
+                  print('TotalPage는:$whatUserBookTotalPage');
+                  //userNickName, userProfile의 index 내용물이 다른 것 같음
 
-                  // int totalPage =
-                  //     myBookController.myBookList[Index].bookTotalPage ?? 0;
-                  // int enteredPage = int.tryParse(pageCount) ?? 0;
-                  controller.updateBookPage(currentBookertonId, pageCount);
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return CurrentProgress(
-                          currentBookertonId: widget.currentBookertonId);
-                    },
-                    backgroundColor: Colors.transparent,
-                    isScrollControlled: true,
-                  );
+                  int totalPage = myBookController
+                          .myBookList[userBookIndex].bookTotalPage ??
+                      0;
+                  int enteredPage = int.tryParse(pageCount) ?? 0;
+                  if (enteredPage > totalPage) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('경고'),
+                          content: Text('총 페이지 수 이하의 페이지를 입력해주세요.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return;
+                  } else {
+                    updateController.updateBookPage(
+                        currentBookertonId, pageCount);
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return CurrentProgress(
+                            currentBookertonId: widget.currentBookertonId);
+                      },
+                      backgroundColor: Colors.transparent,
+                    );
+                  }
                 },
                 child: const Text(
                   '확인',
@@ -338,7 +391,8 @@ class _PageInputState extends State<PageInput> {
           ],
         ),
 
-        height: MediaQuery.of(context).size.height * 0.7,
+        height: MediaQuery.of(context).size.height * 1.1 / 3 + bottomInset,
+        padding: EdgeInsets.only(bottom: bottomInset),
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
@@ -367,7 +421,6 @@ class _CurrentProgressState extends State<CurrentProgress> {
   void initState() {
     super.initState();
     currentBookertonId = widget.currentBookertonId ?? 0;
-    // myBookController.fetchMyBookData(widget.currentBookertonId ?? 0);
   }
 
   _header() {
