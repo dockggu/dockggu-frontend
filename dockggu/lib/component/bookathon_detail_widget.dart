@@ -93,7 +93,14 @@ class ProgressWidget extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
+          if(pagePercent>1)
           LinearPercentIndicator(
+            percent: 1.0,
+            lineHeight: 10,
+            barRadius: Radius.circular(10),
+            progressColor: Color(0xffFFC100),
+            backgroundColor: Color(0xffBBBBBB),
+          )else LinearPercentIndicator(
             percent: pagePercent,
             lineHeight: 10,
             barRadius: Radius.circular(10),

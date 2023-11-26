@@ -10,6 +10,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../component/profile_widget.dart';
 import '../component/bookathon_detail_widget.dart';
+import '../component/response_popup.dart';
 import '../controller/bookupdate_controller.dart';
 import '../controller/mybook_controller.dart';
 
@@ -271,12 +272,9 @@ class _PageInputState extends State<PageInput> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return GestureDetector(
-      onTap: (){
-            FocusManager.instance.primaryFocus?.unfocus();
-
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Container(
         // ignore: sort_child_properties_last
@@ -309,48 +307,24 @@ class _PageInputState extends State<PageInput> {
                   ),
                 ),
                 onPressed: () {
-
                   String pageCount = pageController.text;
                   var Index = myBookController.myBookList.indexWhere(
                     (book) => book.bookertonId == currentBookertonId,
                   );
 
-                  int totalPage =
-                      myBookController.myBookList[Index].bookTotalPage ?? 0;
-                  int enteredPage = int.tryParse(pageCount) ?? 0;
-
-                  if (enteredPage > totalPage) {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('경고'),
-                          content: Text('총 페이지 수 이하의 페이지를 입력해주세요.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('OK'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                    return;
-                  } else {
-                    controller.updateBookPage(currentBookertonId, pageCount);
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return CurrentProgress(
-                            currentBookertonId: widget.currentBookertonId);
-                      },
-                      backgroundColor: Colors.transparent,
-                      isScrollControlled: true,
-                    );
-                  }
-
+                  // int totalPage =
+                  //     myBookController.myBookList[Index].bookTotalPage ?? 0;
+                  // int enteredPage = int.tryParse(pageCount) ?? 0;
+                  controller.updateBookPage(currentBookertonId, pageCount);
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return CurrentProgress(
+                          currentBookertonId: widget.currentBookertonId);
+                    },
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                  );
                 },
                 child: const Text(
                   '확인',
@@ -364,7 +338,7 @@ class _PageInputState extends State<PageInput> {
           ],
         ),
 
-        height: MediaQuery.of(context).size.height*0.7,
+        height: MediaQuery.of(context).size.height * 0.7,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
@@ -449,21 +423,39 @@ class _CurrentProgressState extends State<CurrentProgress> {
         int intPercentage2 = percentage2.toInt();
         int intPercentage = percentage.toInt();
 
-        return CircularPercentIndicator(
-          radius: 65.0,
-          lineWidth: 12.0,
-          percent: percentage,
-          center: Text(
-            "$intPercentage2%",
-            style: const TextStyle(
-              fontSize: 24,
-              color: Color(0xff000000),
-              fontWeight: FontWeight.bold,
+        if (percentage > 1) {
+          return CircularPercentIndicator(
+            radius: 65.0,
+            lineWidth: 12.0,
+            percent: 1,
+            center: Text(
+              "100%",
+              style: const TextStyle(
+                fontSize: 24,
+                color: Color(0xff000000),
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          backgroundColor: const Color(0xffBBBBBB),
-          progressColor: const Color(0xffFFD66C),
-        );
+            backgroundColor: const Color(0xffBBBBBB),
+            progressColor: const Color(0xffFFD66C),
+          );
+        } else {
+          return CircularPercentIndicator(
+            radius: 65.0,
+            lineWidth: 12.0,
+            percent: percentage,
+            center: Text(
+              "$intPercentage2%",
+              style: const TextStyle(
+                fontSize: 24,
+                color: Color(0xff000000),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            backgroundColor: const Color(0xffBBBBBB),
+            progressColor: const Color(0xffFFD66C),
+          );
+        }
       }),
     );
   }
