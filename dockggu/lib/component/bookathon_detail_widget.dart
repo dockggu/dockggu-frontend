@@ -188,7 +188,7 @@ class TitleWidget extends StatelessWidget {
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
-          height: 20,
+          height: 35,
           child: Text(
             '$bookName',
             style: TextStyle(

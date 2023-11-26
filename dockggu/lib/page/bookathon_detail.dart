@@ -120,8 +120,9 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBarWidget(
-        targetId: controller.currentTeam.value.partyId!,
-          appBar: AppBar(), title: controller.currentTeam.value.partyName!),
+          targetId: controller.currentTeam.value.partyId!,
+          appBar: AppBar(),
+          title: controller.currentTeam.value.partyName!),
       body: Obx(() {
         if (myBookController.myBookList.isEmpty) {
           return const Center(
@@ -146,7 +147,8 @@ class _BookatghonDetailState extends State<BookatghonDetail> {
                     .toList();
 
                 // 로그인한 사용자의 userId와 일치하는 도서가 하나 이상인 경우에만 버튼을 표시
-                if (matchingBooks.isNotEmpty && myBookController.isProgress.value) {
+                if (matchingBooks.isNotEmpty &&
+                    myBookController.isProgress.value) {
                   return ElevatedButton(
                     onPressed: () {
                       showModalBottomSheet(
@@ -269,73 +271,101 @@ class _PageInputState extends State<PageInput> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Container(
-      // ignore: sort_child_properties_last
-      child: Column(
-        children: [
-          _header(),
-          const SizedBox(
-            height: 20,
-          ),
-          _explain(),
-          const SizedBox(
-            height: 10,
-          ),
-          _input(),
-          const SizedBox(
-            height: 20,
-          ),
-
-          SizedBox(
-            width: 90,
-            height: 45,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: const MaterialStatePropertyAll(
-                  Color(0xffffFFD66C),
-                ),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+    print("currentBookertonIdString: $currentBookertonId");
+    return SingleChildScrollView(
+      // Use SingleChildScrollView to allow scrolling
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: Container(
+        // ignore: sort_child_properties_last
+        child: Column(
+          children: [
+            _header(),
+            const SizedBox(
+              height: 20,
+            ),
+            _explain(),
+            const SizedBox(
+              height: 10,
+            ),
+            _input(),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: 90,
+              height: 45,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: const MaterialStatePropertyAll(
+                    Color(0xffffFFD66C),
+                  ),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
-              ),
-              onPressed: () {
-                // myBookController
-                //     .fetchMyBookData(widget.currentBookertonId ?? 0);
+                onPressed: () {
+                  String pageCount = pageController.text;
+                  var Index = myBookController.myBookList.indexWhere(
+                    (book) => book.bookertonId == currentBookertonId,
+                  );
 
-                String pageCount = pageController.text;
-                controller.updateBookPage(currentBookertonId, pageCount);
+                  int totalPage =
+                      myBookController.myBookList[Index].bookTotalPage ?? 0;
+                  int enteredPage = int.tryParse(pageCount) ?? 0;
 
-                // myBookController
-                //     .fetchMyBookData(widget.currentBookertonId ?? 0);
-
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return CurrentProgress(
-                        currentBookertonId: widget.currentBookertonId);
-                  },
-                  backgroundColor: Colors.transparent,
-                );
-              },
-              child: const Text(
-                '확인',
-                style: TextStyle(
-                    color: Color(0xffFFFFFF),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
+                  if (enteredPage > totalPage) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('경고'),
+                          content: Text('총 페이지 수 이하의 페이지를 입력해주세요.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return;
+                  } else {
+                    controller.updateBookPage(currentBookertonId, pageCount);
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return CurrentProgress(
+                            currentBookertonId: widget.currentBookertonId);
+                      },
+                      backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
+                    );
+                  }
+                },
+                child: const Text(
+                  '확인',
+                  style: TextStyle(
+                      color: Color(0xffFFFFFF),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ),
+          ],
+        ),
+        height: 300,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(24),
           ),
-        ],
-      ),
-      height: 300,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
         ),
       ),
     );
